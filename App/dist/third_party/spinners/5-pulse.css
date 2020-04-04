@@ -1,0 +1,32 @@
+/*
+ *  Usage:
+ *
+      <div class="sk-spinner sk-spinner-pulse"></div>
+ *
+ */
+.sk-spinner-pulse ***REMOVED***
+  width: 40px;
+  height: 40px;
+  margin: 40px auto;
+  background-color: #333;
+  border-radius: 100%;
+  -webkit-animation: sk-pulseScaleOut 1s infinite ease-in-out;
+          animation: sk-pulseScaleOut 1s infinite ease-in-out; ***REMOVED***
+
+@-webkit-keyframes sk-pulseScaleOut ***REMOVED***
+  0% ***REMOVED***
+    -webkit-transform: scale(0);
+            transform: scale(0); ***REMOVED***
+  100% ***REMOVED***
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 0; ***REMOVED*** ***REMOVED***
+
+@keyframes sk-pulseScaleOut ***REMOVED***
+  0% ***REMOVED***
+    -webkit-transform: scale(0);
+            transform: scale(0); ***REMOVED***
+  100% ***REMOVED***
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 0; ***REMOVED*** ***REMOVED***

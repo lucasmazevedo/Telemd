@@ -1,0 +1,85 @@
+/*
+ *  Usage:
+ *
+      <div class="sk-folding-cube">
+        <div class="sk-cube1 sk-cube"></div>
+        <div class="sk-cube2 sk-cube"></div>
+        <div class="sk-cube4 sk-cube"></div>
+        <div class="sk-cube3 sk-cube"></div>
+      </div>
+ *
+ */
+.sk-folding-cube ***REMOVED***
+  margin: 40px auto;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  -webkit-transform: rotateZ(45deg);
+          transform: rotateZ(45deg); ***REMOVED***
+  .sk-folding-cube .sk-cube ***REMOVED***
+    float: left;
+    width: 50%;
+    height: 50%;
+    position: relative;
+    -webkit-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+            transform: scale(1.1); ***REMOVED***
+  .sk-folding-cube .sk-cube:before ***REMOVED***
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #333;
+    -webkit-animation: sk-foldCubeAngle 2.4s infinite linear both;
+            animation: sk-foldCubeAngle 2.4s infinite linear both;
+    -webkit-transform-origin: 100% 100%;
+        -ms-transform-origin: 100% 100%;
+            transform-origin: 100% 100%; ***REMOVED***
+  .sk-folding-cube .sk-cube2 ***REMOVED***
+    -webkit-transform: scale(1.1) rotateZ(90deg);
+            transform: scale(1.1) rotateZ(90deg); ***REMOVED***
+  .sk-folding-cube .sk-cube3 ***REMOVED***
+    -webkit-transform: scale(1.1) rotateZ(180deg);
+            transform: scale(1.1) rotateZ(180deg); ***REMOVED***
+  .sk-folding-cube .sk-cube4 ***REMOVED***
+    -webkit-transform: scale(1.1) rotateZ(270deg);
+            transform: scale(1.1) rotateZ(270deg); ***REMOVED***
+  .sk-folding-cube .sk-cube2:before ***REMOVED***
+    -webkit-animation-delay: 0.3s;
+            animation-delay: 0.3s; ***REMOVED***
+  .sk-folding-cube .sk-cube3:before ***REMOVED***
+    -webkit-animation-delay: 0.6s;
+            animation-delay: 0.6s; ***REMOVED***
+  .sk-folding-cube .sk-cube4:before ***REMOVED***
+    -webkit-animation-delay: 0.9s;
+            animation-delay: 0.9s; ***REMOVED***
+
+@-webkit-keyframes sk-foldCubeAngle ***REMOVED***
+  0%, 10% ***REMOVED***
+    -webkit-transform: perspective(140px) rotateX(-180deg);
+            transform: perspective(140px) rotateX(-180deg);
+    opacity: 0; ***REMOVED***
+  25%, 75% ***REMOVED***
+    -webkit-transform: perspective(140px) rotateX(0deg);
+            transform: perspective(140px) rotateX(0deg);
+    opacity: 1; ***REMOVED***
+  90%, 100% ***REMOVED***
+    -webkit-transform: perspective(140px) rotateY(180deg);
+            transform: perspective(140px) rotateY(180deg);
+    opacity: 0; ***REMOVED*** ***REMOVED***
+
+@keyframes sk-foldCubeAngle ***REMOVED***
+  0%, 10% ***REMOVED***
+    -webkit-transform: perspective(140px) rotateX(-180deg);
+            transform: perspective(140px) rotateX(-180deg);
+    opacity: 0; ***REMOVED***
+  25%, 75% ***REMOVED***
+    -webkit-transform: perspective(140px) rotateX(0deg);
+            transform: perspective(140px) rotateX(0deg);
+    opacity: 1; ***REMOVED***
+  90%, 100% ***REMOVED***
+    -webkit-transform: perspective(140px) rotateY(180deg);
+            transform: perspective(140px) rotateY(180deg);
+    opacity: 0; ***REMOVED*** ***REMOVED***

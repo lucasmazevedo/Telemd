@@ -1,0 +1,7 @@
+***REMOVED***
+  /* Visit https://firebase.google.com/docs/database/security to learn more about security rules. */
+  "rules": ***REMOVED***
+    ".read": true,
+    ".write": false
+***REMOVED***
+***REMOVED***

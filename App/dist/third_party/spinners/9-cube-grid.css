@@ -1,0 +1,76 @@
+/*
+ *  Usage:
+ *
+      <div class="sk-cube-grid">
+        <div class="sk-cube sk-cube1"></div>
+        <div class="sk-cube sk-cube2"></div>
+        <div class="sk-cube sk-cube3"></div>
+        <div class="sk-cube sk-cube4"></div>
+        <div class="sk-cube sk-cube5"></div>
+        <div class="sk-cube sk-cube6"></div>
+        <div class="sk-cube sk-cube7"></div>
+        <div class="sk-cube sk-cube8"></div>
+        <div class="sk-cube sk-cube9"></div>
+      </div>
+ *
+ */
+.sk-cube-grid ***REMOVED***
+  width: 40px;
+  height: 40px;
+  margin: 40px auto;
+  /*
+   * Spinner positions
+   * 1 2 3
+   * 4 5 6
+   * 7 8 9
+   */ ***REMOVED***
+  .sk-cube-grid .sk-cube ***REMOVED***
+    width: 33.33%;
+    height: 33.33%;
+    background-color: #333;
+    float: left;
+    -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out; ***REMOVED***
+  .sk-cube-grid .sk-cube1 ***REMOVED***
+    -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s; ***REMOVED***
+  .sk-cube-grid .sk-cube2 ***REMOVED***
+    -webkit-animation-delay: 0.3s;
+            animation-delay: 0.3s; ***REMOVED***
+  .sk-cube-grid .sk-cube3 ***REMOVED***
+    -webkit-animation-delay: 0.4s;
+            animation-delay: 0.4s; ***REMOVED***
+  .sk-cube-grid .sk-cube4 ***REMOVED***
+    -webkit-animation-delay: 0.1s;
+            animation-delay: 0.1s; ***REMOVED***
+  .sk-cube-grid .sk-cube5 ***REMOVED***
+    -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s; ***REMOVED***
+  .sk-cube-grid .sk-cube6 ***REMOVED***
+    -webkit-animation-delay: 0.3s;
+            animation-delay: 0.3s; ***REMOVED***
+  .sk-cube-grid .sk-cube7 ***REMOVED***
+    -webkit-animation-delay: 0.0s;
+            animation-delay: 0.0s; ***REMOVED***
+  .sk-cube-grid .sk-cube8 ***REMOVED***
+    -webkit-animation-delay: 0.1s;
+            animation-delay: 0.1s; ***REMOVED***
+  .sk-cube-grid .sk-cube9 ***REMOVED***
+    -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s; ***REMOVED***
+
+@-webkit-keyframes sk-cubeGridScaleDelay ***REMOVED***
+  0%, 70%, 100% ***REMOVED***
+    -webkit-transform: scale3D(1, 1, 1);
+            transform: scale3D(1, 1, 1); ***REMOVED***
+  35% ***REMOVED***
+    -webkit-transform: scale3D(0, 0, 1);
+            transform: scale3D(0, 0, 1); ***REMOVED*** ***REMOVED***
+
+@keyframes sk-cubeGridScaleDelay ***REMOVED***
+  0%, 70%, 100% ***REMOVED***
+    -webkit-transform: scale3D(1, 1, 1);
+            transform: scale3D(1, 1, 1); ***REMOVED***
+  35% ***REMOVED***
+    -webkit-transform: scale3D(0, 0, 1);
+            transform: scale3D(0, 0, 1); ***REMOVED*** ***REMOVED***

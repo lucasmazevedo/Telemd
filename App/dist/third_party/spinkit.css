@@ -1,0 +1,770 @@
+/*
+ *  Usage:
+ *
+      <div class="sk-rotating-plane"></div>
+ *
+ */
+.sk-rotating-plane ***REMOVED***
+  width: 40px;
+  height: 40px;
+  background-color: #333;
+  margin: 40px auto;
+  -webkit-animation: sk-rotatePlane 1.2s infinite ease-in-out;
+          animation: sk-rotatePlane 1.2s infinite ease-in-out; ***REMOVED***
+
+@-webkit-keyframes sk-rotatePlane ***REMOVED***
+  0% ***REMOVED***
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+            transform: perspective(120px) rotateX(0deg) rotateY(0deg); ***REMOVED***
+  50% ***REMOVED***
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+            transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg); ***REMOVED***
+  100% ***REMOVED***
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+            transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg); ***REMOVED*** ***REMOVED***
+
+@keyframes sk-rotatePlane ***REMOVED***
+  0% ***REMOVED***
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+            transform: perspective(120px) rotateX(0deg) rotateY(0deg); ***REMOVED***
+  50% ***REMOVED***
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+            transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg); ***REMOVED***
+  100% ***REMOVED***
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+            transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg); ***REMOVED*** ***REMOVED***
+
+/*
+ *  Usage:
+ *
+      <div class="sk-double-bounce">
+        <div class="sk-child sk-double-bounce1"></div>
+        <div class="sk-child sk-double-bounce2"></div>
+      </div>
+ *
+ */
+.sk-double-bounce ***REMOVED***
+  width: 40px;
+  height: 40px;
+  position: relative;
+  margin: 40px auto; ***REMOVED***
+  .sk-double-bounce .sk-child ***REMOVED***
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #333;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-animation: sk-doubleBounce 2s infinite ease-in-out;
+            animation: sk-doubleBounce 2s infinite ease-in-out; ***REMOVED***
+  .sk-double-bounce .sk-double-bounce2 ***REMOVED***
+    -webkit-animation-delay: -1.0s;
+            animation-delay: -1.0s; ***REMOVED***
+
+@-webkit-keyframes sk-doubleBounce ***REMOVED***
+  0%, 100% ***REMOVED***
+    -webkit-transform: scale(0);
+            transform: scale(0); ***REMOVED***
+  50% ***REMOVED***
+    -webkit-transform: scale(1);
+            transform: scale(1); ***REMOVED*** ***REMOVED***
+
+@keyframes sk-doubleBounce ***REMOVED***
+  0%, 100% ***REMOVED***
+    -webkit-transform: scale(0);
+            transform: scale(0); ***REMOVED***
+  50% ***REMOVED***
+    -webkit-transform: scale(1);
+            transform: scale(1); ***REMOVED*** ***REMOVED***
+
+/*
+ *  Usage:
+ *
+      <div class="sk-wave">
+        <div class="sk-rect sk-rect1"></div>
+        <div class="sk-rect sk-rect2"></div>
+        <div class="sk-rect sk-rect3"></div>
+        <div class="sk-rect sk-rect4"></div>
+        <div class="sk-rect sk-rect5"></div>
+      </div>
+ *
+ */
+.sk-wave ***REMOVED***
+  margin: 40px auto;
+  width: 50px;
+  height: 40px;
+  text-align: center;
+  font-size: 10px; ***REMOVED***
+  .sk-wave .sk-rect ***REMOVED***
+    background-color: #333;
+    height: 100%;
+    width: 6px;
+    display: inline-block;
+    -webkit-animation: sk-waveStretchDelay 1.2s infinite ease-in-out;
+            animation: sk-waveStretchDelay 1.2s infinite ease-in-out; ***REMOVED***
+  .sk-wave .sk-rect1 ***REMOVED***
+    -webkit-animation-delay: -1.2s;
+            animation-delay: -1.2s; ***REMOVED***
+  .sk-wave .sk-rect2 ***REMOVED***
+    -webkit-animation-delay: -1.1s;
+            animation-delay: -1.1s; ***REMOVED***
+  .sk-wave .sk-rect3 ***REMOVED***
+    -webkit-animation-delay: -1s;
+            animation-delay: -1s; ***REMOVED***
+  .sk-wave .sk-rect4 ***REMOVED***
+    -webkit-animation-delay: -0.9s;
+            animation-delay: -0.9s; ***REMOVED***
+  .sk-wave .sk-rect5 ***REMOVED***
+    -webkit-animation-delay: -0.8s;
+            animation-delay: -0.8s; ***REMOVED***
+
+@-webkit-keyframes sk-waveStretchDelay ***REMOVED***
+  0%, 40%, 100% ***REMOVED***
+    -webkit-transform: scaleY(0.4);
+            transform: scaleY(0.4); ***REMOVED***
+  20% ***REMOVED***
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1); ***REMOVED*** ***REMOVED***
+
+@keyframes sk-waveStretchDelay ***REMOVED***
+  0%, 40%, 100% ***REMOVED***
+    -webkit-transform: scaleY(0.4);
+            transform: scaleY(0.4); ***REMOVED***
+  20% ***REMOVED***
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1); ***REMOVED*** ***REMOVED***
+
+/*
+ *  Usage:
+ *
+      <div class="sk-wandering-cubes">
+        <div class="sk-cube sk-cube1"></div>
+        <div class="sk-cube sk-cube2"></div>
+      </div>
+ *
+ */
+.sk-wandering-cubes ***REMOVED***
+  margin: 40px auto;
+  width: 40px;
+  height: 40px;
+  position: relative; ***REMOVED***
+  .sk-wandering-cubes .sk-cube ***REMOVED***
+    background-color: #333;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-animation: sk-wanderingCube 1.8s ease-in-out -1.8s infinite both;
+            animation: sk-wanderingCube 1.8s ease-in-out -1.8s infinite both; ***REMOVED***
+  .sk-wandering-cubes .sk-cube2 ***REMOVED***
+    -webkit-animation-delay: -0.9s;
+            animation-delay: -0.9s; ***REMOVED***
+
+@-webkit-keyframes sk-wanderingCube ***REMOVED***
+  0% ***REMOVED***
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); ***REMOVED***
+  25% ***REMOVED***
+    -webkit-transform: translateX(30px) rotate(-90deg) scale(0.5);
+            transform: translateX(30px) rotate(-90deg) scale(0.5); ***REMOVED***
+  50% ***REMOVED***
+    /* Hack to make FF rotate in the right direction */
+    -webkit-transform: translateX(30px) translateY(30px) rotate(-179deg);
+            transform: translateX(30px) translateY(30px) rotate(-179deg); ***REMOVED***
+  50.1% ***REMOVED***
+    -webkit-transform: translateX(30px) translateY(30px) rotate(-180deg);
+            transform: translateX(30px) translateY(30px) rotate(-180deg); ***REMOVED***
+  75% ***REMOVED***
+    -webkit-transform: translateX(0) translateY(30px) rotate(-270deg) scale(0.5);
+            transform: translateX(0) translateY(30px) rotate(-270deg) scale(0.5); ***REMOVED***
+  100% ***REMOVED***
+    -webkit-transform: rotate(-360deg);
+            transform: rotate(-360deg); ***REMOVED*** ***REMOVED***
+
+@keyframes sk-wanderingCube ***REMOVED***
+  0% ***REMOVED***
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); ***REMOVED***
+  25% ***REMOVED***
+    -webkit-transform: translateX(30px) rotate(-90deg) scale(0.5);
+            transform: translateX(30px) rotate(-90deg) scale(0.5); ***REMOVED***
+  50% ***REMOVED***
+    /* Hack to make FF rotate in the right direction */
+    -webkit-transform: translateX(30px) translateY(30px) rotate(-179deg);
+            transform: translateX(30px) translateY(30px) rotate(-179deg); ***REMOVED***
+  50.1% ***REMOVED***
+    -webkit-transform: translateX(30px) translateY(30px) rotate(-180deg);
+            transform: translateX(30px) translateY(30px) rotate(-180deg); ***REMOVED***
+  75% ***REMOVED***
+    -webkit-transform: translateX(0) translateY(30px) rotate(-270deg) scale(0.5);
+            transform: translateX(0) translateY(30px) rotate(-270deg) scale(0.5); ***REMOVED***
+  100% ***REMOVED***
+    -webkit-transform: rotate(-360deg);
+            transform: rotate(-360deg); ***REMOVED*** ***REMOVED***
+
+/*
+ *  Usage:
+ *
+      <div class="sk-spinner sk-spinner-pulse"></div>
+ *
+ */
+.sk-spinner-pulse ***REMOVED***
+  width: 40px;
+  height: 40px;
+  margin: 40px auto;
+  background-color: #333;
+  border-radius: 100%;
+  -webkit-animation: sk-pulseScaleOut 1s infinite ease-in-out;
+          animation: sk-pulseScaleOut 1s infinite ease-in-out; ***REMOVED***
+
+@-webkit-keyframes sk-pulseScaleOut ***REMOVED***
+  0% ***REMOVED***
+    -webkit-transform: scale(0);
+            transform: scale(0); ***REMOVED***
+  100% ***REMOVED***
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 0; ***REMOVED*** ***REMOVED***
+
+@keyframes sk-pulseScaleOut ***REMOVED***
+  0% ***REMOVED***
+    -webkit-transform: scale(0);
+            transform: scale(0); ***REMOVED***
+  100% ***REMOVED***
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 0; ***REMOVED*** ***REMOVED***
+
+/*
+ *  Usage:
+ *
+      <div class="sk-chasing-dots">
+        <div class="sk-child sk-dot1"></div>
+        <div class="sk-child sk-dot2"></div>
+      </div>
+ *
+ */
+.sk-chasing-dots ***REMOVED***
+  margin: 40px auto;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  text-align: center;
+  -webkit-animation: sk-chasingDotsRotate 2s infinite linear;
+          animation: sk-chasingDotsRotate 2s infinite linear; ***REMOVED***
+  .sk-chasing-dots .sk-child ***REMOVED***
+    width: 60%;
+    height: 60%;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    background-color: #333;
+    border-radius: 100%;
+    -webkit-animation: sk-chasingDotsBounce 2s infinite ease-in-out;
+            animation: sk-chasingDotsBounce 2s infinite ease-in-out; ***REMOVED***
+  .sk-chasing-dots .sk-dot2 ***REMOVED***
+    top: auto;
+    bottom: 0;
+    -webkit-animation-delay: -1s;
+            animation-delay: -1s; ***REMOVED***
+
+@-webkit-keyframes sk-chasingDotsRotate ***REMOVED***
+  100% ***REMOVED***
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); ***REMOVED*** ***REMOVED***
+
+@keyframes sk-chasingDotsRotate ***REMOVED***
+  100% ***REMOVED***
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); ***REMOVED*** ***REMOVED***
+
+@-webkit-keyframes sk-chasingDotsBounce ***REMOVED***
+  0%, 100% ***REMOVED***
+    -webkit-transform: scale(0);
+            transform: scale(0); ***REMOVED***
+  50% ***REMOVED***
+    -webkit-transform: scale(1);
+            transform: scale(1); ***REMOVED*** ***REMOVED***
+
+@keyframes sk-chasingDotsBounce ***REMOVED***
+  0%, 100% ***REMOVED***
+    -webkit-transform: scale(0);
+            transform: scale(0); ***REMOVED***
+  50% ***REMOVED***
+    -webkit-transform: scale(1);
+            transform: scale(1); ***REMOVED*** ***REMOVED***
+
+/*
+ *  Usage:
+ *
+      <div class="sk-three-bounce">
+        <div class="sk-child sk-bounce1"></div>
+        <div class="sk-child sk-bounce2"></div>
+        <div class="sk-child sk-bounce3"></div>
+      </div>
+ *
+ */
+.sk-three-bounce ***REMOVED***
+  margin: 40px auto;
+  width: 80px;
+  text-align: center; ***REMOVED***
+  .sk-three-bounce .sk-child ***REMOVED***
+    width: 20px;
+    height: 20px;
+    background-color: #333;
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: sk-three-bounce 1.4s ease-in-out 0s infinite both;
+            animation: sk-three-bounce 1.4s ease-in-out 0s infinite both; ***REMOVED***
+  .sk-three-bounce .sk-bounce1 ***REMOVED***
+    -webkit-animation-delay: -0.32s;
+            animation-delay: -0.32s; ***REMOVED***
+  .sk-three-bounce .sk-bounce2 ***REMOVED***
+    -webkit-animation-delay: -0.16s;
+            animation-delay: -0.16s; ***REMOVED***
+
+@-webkit-keyframes sk-three-bounce ***REMOVED***
+  0%, 80%, 100% ***REMOVED***
+    -webkit-transform: scale(0);
+            transform: scale(0); ***REMOVED***
+  40% ***REMOVED***
+    -webkit-transform: scale(1);
+            transform: scale(1); ***REMOVED*** ***REMOVED***
+
+@keyframes sk-three-bounce ***REMOVED***
+  0%, 80%, 100% ***REMOVED***
+    -webkit-transform: scale(0);
+            transform: scale(0); ***REMOVED***
+  40% ***REMOVED***
+    -webkit-transform: scale(1);
+            transform: scale(1); ***REMOVED*** ***REMOVED***
+
+/*
+ *  Usage:
+ *
+      <div class="sk-circle">
+        <div class="sk-circle1 sk-child"></div>
+        <div class="sk-circle2 sk-child"></div>
+        <div class="sk-circle3 sk-child"></div>
+        <div class="sk-circle4 sk-child"></div>
+        <div class="sk-circle5 sk-child"></div>
+        <div class="sk-circle6 sk-child"></div>
+        <div class="sk-circle7 sk-child"></div>
+        <div class="sk-circle8 sk-child"></div>
+        <div class="sk-circle9 sk-child"></div>
+        <div class="sk-circle10 sk-child"></div>
+        <div class="sk-circle11 sk-child"></div>
+        <div class="sk-circle12 sk-child"></div>
+      </div>
+ *
+ */
+.sk-circle ***REMOVED***
+  margin: 40px auto;
+  width: 40px;
+  height: 40px;
+  position: relative; ***REMOVED***
+  .sk-circle .sk-child ***REMOVED***
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0; ***REMOVED***
+  .sk-circle .sk-child:before ***REMOVED***
+    content: '';
+    display: block;
+    margin: 0 auto;
+    width: 15%;
+    height: 15%;
+    background-color: #333;
+    border-radius: 100%;
+    -webkit-animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
+            animation: sk-circleBounceDelay 1.2s infinite ease-in-out both; ***REMOVED***
+  .sk-circle .sk-circle2 ***REMOVED***
+    -webkit-transform: rotate(30deg);
+        -ms-transform: rotate(30deg);
+            transform: rotate(30deg); ***REMOVED***
+  .sk-circle .sk-circle3 ***REMOVED***
+    -webkit-transform: rotate(60deg);
+        -ms-transform: rotate(60deg);
+            transform: rotate(60deg); ***REMOVED***
+  .sk-circle .sk-circle4 ***REMOVED***
+    -webkit-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+            transform: rotate(90deg); ***REMOVED***
+  .sk-circle .sk-circle5 ***REMOVED***
+    -webkit-transform: rotate(120deg);
+        -ms-transform: rotate(120deg);
+            transform: rotate(120deg); ***REMOVED***
+  .sk-circle .sk-circle6 ***REMOVED***
+    -webkit-transform: rotate(150deg);
+        -ms-transform: rotate(150deg);
+            transform: rotate(150deg); ***REMOVED***
+  .sk-circle .sk-circle7 ***REMOVED***
+    -webkit-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+            transform: rotate(180deg); ***REMOVED***
+  .sk-circle .sk-circle8 ***REMOVED***
+    -webkit-transform: rotate(210deg);
+        -ms-transform: rotate(210deg);
+            transform: rotate(210deg); ***REMOVED***
+  .sk-circle .sk-circle9 ***REMOVED***
+    -webkit-transform: rotate(240deg);
+        -ms-transform: rotate(240deg);
+            transform: rotate(240deg); ***REMOVED***
+  .sk-circle .sk-circle10 ***REMOVED***
+    -webkit-transform: rotate(270deg);
+        -ms-transform: rotate(270deg);
+            transform: rotate(270deg); ***REMOVED***
+  .sk-circle .sk-circle11 ***REMOVED***
+    -webkit-transform: rotate(300deg);
+        -ms-transform: rotate(300deg);
+            transform: rotate(300deg); ***REMOVED***
+  .sk-circle .sk-circle12 ***REMOVED***
+    -webkit-transform: rotate(330deg);
+        -ms-transform: rotate(330deg);
+            transform: rotate(330deg); ***REMOVED***
+  .sk-circle .sk-circle2:before ***REMOVED***
+    -webkit-animation-delay: -1.1s;
+            animation-delay: -1.1s; ***REMOVED***
+  .sk-circle .sk-circle3:before ***REMOVED***
+    -webkit-animation-delay: -1s;
+            animation-delay: -1s; ***REMOVED***
+  .sk-circle .sk-circle4:before ***REMOVED***
+    -webkit-animation-delay: -0.9s;
+            animation-delay: -0.9s; ***REMOVED***
+  .sk-circle .sk-circle5:before ***REMOVED***
+    -webkit-animation-delay: -0.8s;
+            animation-delay: -0.8s; ***REMOVED***
+  .sk-circle .sk-circle6:before ***REMOVED***
+    -webkit-animation-delay: -0.7s;
+            animation-delay: -0.7s; ***REMOVED***
+  .sk-circle .sk-circle7:before ***REMOVED***
+    -webkit-animation-delay: -0.6s;
+            animation-delay: -0.6s; ***REMOVED***
+  .sk-circle .sk-circle8:before ***REMOVED***
+    -webkit-animation-delay: -0.5s;
+            animation-delay: -0.5s; ***REMOVED***
+  .sk-circle .sk-circle9:before ***REMOVED***
+    -webkit-animation-delay: -0.4s;
+            animation-delay: -0.4s; ***REMOVED***
+  .sk-circle .sk-circle10:before ***REMOVED***
+    -webkit-animation-delay: -0.3s;
+            animation-delay: -0.3s; ***REMOVED***
+  .sk-circle .sk-circle11:before ***REMOVED***
+    -webkit-animation-delay: -0.2s;
+            animation-delay: -0.2s; ***REMOVED***
+  .sk-circle .sk-circle12:before ***REMOVED***
+    -webkit-animation-delay: -0.1s;
+            animation-delay: -0.1s; ***REMOVED***
+
+@-webkit-keyframes sk-circleBounceDelay ***REMOVED***
+  0%, 80%, 100% ***REMOVED***
+    -webkit-transform: scale(0);
+            transform: scale(0); ***REMOVED***
+  40% ***REMOVED***
+    -webkit-transform: scale(1);
+            transform: scale(1); ***REMOVED*** ***REMOVED***
+
+@keyframes sk-circleBounceDelay ***REMOVED***
+  0%, 80%, 100% ***REMOVED***
+    -webkit-transform: scale(0);
+            transform: scale(0); ***REMOVED***
+  40% ***REMOVED***
+    -webkit-transform: scale(1);
+            transform: scale(1); ***REMOVED*** ***REMOVED***
+
+/*
+ *  Usage:
+ *
+      <div class="sk-cube-grid">
+        <div class="sk-cube sk-cube1"></div>
+        <div class="sk-cube sk-cube2"></div>
+        <div class="sk-cube sk-cube3"></div>
+        <div class="sk-cube sk-cube4"></div>
+        <div class="sk-cube sk-cube5"></div>
+        <div class="sk-cube sk-cube6"></div>
+        <div class="sk-cube sk-cube7"></div>
+        <div class="sk-cube sk-cube8"></div>
+        <div class="sk-cube sk-cube9"></div>
+      </div>
+ *
+ */
+.sk-cube-grid ***REMOVED***
+  width: 40px;
+  height: 40px;
+  margin: 40px auto;
+  /*
+   * Spinner positions
+   * 1 2 3
+   * 4 5 6
+   * 7 8 9
+   */ ***REMOVED***
+  .sk-cube-grid .sk-cube ***REMOVED***
+    width: 33.33%;
+    height: 33.33%;
+    background-color: #333;
+    float: left;
+    -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out; ***REMOVED***
+  .sk-cube-grid .sk-cube1 ***REMOVED***
+    -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s; ***REMOVED***
+  .sk-cube-grid .sk-cube2 ***REMOVED***
+    -webkit-animation-delay: 0.3s;
+            animation-delay: 0.3s; ***REMOVED***
+  .sk-cube-grid .sk-cube3 ***REMOVED***
+    -webkit-animation-delay: 0.4s;
+            animation-delay: 0.4s; ***REMOVED***
+  .sk-cube-grid .sk-cube4 ***REMOVED***
+    -webkit-animation-delay: 0.1s;
+            animation-delay: 0.1s; ***REMOVED***
+  .sk-cube-grid .sk-cube5 ***REMOVED***
+    -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s; ***REMOVED***
+  .sk-cube-grid .sk-cube6 ***REMOVED***
+    -webkit-animation-delay: 0.3s;
+            animation-delay: 0.3s; ***REMOVED***
+  .sk-cube-grid .sk-cube7 ***REMOVED***
+    -webkit-animation-delay: 0.0s;
+            animation-delay: 0.0s; ***REMOVED***
+  .sk-cube-grid .sk-cube8 ***REMOVED***
+    -webkit-animation-delay: 0.1s;
+            animation-delay: 0.1s; ***REMOVED***
+  .sk-cube-grid .sk-cube9 ***REMOVED***
+    -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s; ***REMOVED***
+
+@-webkit-keyframes sk-cubeGridScaleDelay ***REMOVED***
+  0%, 70%, 100% ***REMOVED***
+    -webkit-transform: scale3D(1, 1, 1);
+            transform: scale3D(1, 1, 1); ***REMOVED***
+  35% ***REMOVED***
+    -webkit-transform: scale3D(0, 0, 1);
+            transform: scale3D(0, 0, 1); ***REMOVED*** ***REMOVED***
+
+@keyframes sk-cubeGridScaleDelay ***REMOVED***
+  0%, 70%, 100% ***REMOVED***
+    -webkit-transform: scale3D(1, 1, 1);
+            transform: scale3D(1, 1, 1); ***REMOVED***
+  35% ***REMOVED***
+    -webkit-transform: scale3D(0, 0, 1);
+            transform: scale3D(0, 0, 1); ***REMOVED*** ***REMOVED***
+
+/*
+ *  Usage:
+ *
+      <div class="sk-fading-circle">
+        <div class="sk-circle1 sk-circle"></div>
+        <div class="sk-circle2 sk-circle"></div>
+        <div class="sk-circle3 sk-circle"></div>
+        <div class="sk-circle4 sk-circle"></div>
+        <div class="sk-circle5 sk-circle"></div>
+        <div class="sk-circle6 sk-circle"></div>
+        <div class="sk-circle7 sk-circle"></div>
+        <div class="sk-circle8 sk-circle"></div>
+        <div class="sk-circle9 sk-circle"></div>
+        <div class="sk-circle10 sk-circle"></div>
+        <div class="sk-circle11 sk-circle"></div>
+        <div class="sk-circle12 sk-circle"></div>
+      </div>
+ *
+ */
+.sk-fading-circle ***REMOVED***
+  margin: 40px auto;
+  width: 40px;
+  height: 40px;
+  position: relative; ***REMOVED***
+  .sk-fading-circle .sk-circle ***REMOVED***
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0; ***REMOVED***
+  .sk-fading-circle .sk-circle:before ***REMOVED***
+    content: '';
+    display: block;
+    margin: 0 auto;
+    width: 15%;
+    height: 15%;
+    background-color: #333;
+    border-radius: 100%;
+    -webkit-animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;
+            animation: sk-circleFadeDelay 1.2s infinite ease-in-out both; ***REMOVED***
+  .sk-fading-circle .sk-circle2 ***REMOVED***
+    -webkit-transform: rotate(30deg);
+        -ms-transform: rotate(30deg);
+            transform: rotate(30deg); ***REMOVED***
+  .sk-fading-circle .sk-circle3 ***REMOVED***
+    -webkit-transform: rotate(60deg);
+        -ms-transform: rotate(60deg);
+            transform: rotate(60deg); ***REMOVED***
+  .sk-fading-circle .sk-circle4 ***REMOVED***
+    -webkit-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+            transform: rotate(90deg); ***REMOVED***
+  .sk-fading-circle .sk-circle5 ***REMOVED***
+    -webkit-transform: rotate(120deg);
+        -ms-transform: rotate(120deg);
+            transform: rotate(120deg); ***REMOVED***
+  .sk-fading-circle .sk-circle6 ***REMOVED***
+    -webkit-transform: rotate(150deg);
+        -ms-transform: rotate(150deg);
+            transform: rotate(150deg); ***REMOVED***
+  .sk-fading-circle .sk-circle7 ***REMOVED***
+    -webkit-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+            transform: rotate(180deg); ***REMOVED***
+  .sk-fading-circle .sk-circle8 ***REMOVED***
+    -webkit-transform: rotate(210deg);
+        -ms-transform: rotate(210deg);
+            transform: rotate(210deg); ***REMOVED***
+  .sk-fading-circle .sk-circle9 ***REMOVED***
+    -webkit-transform: rotate(240deg);
+        -ms-transform: rotate(240deg);
+            transform: rotate(240deg); ***REMOVED***
+  .sk-fading-circle .sk-circle10 ***REMOVED***
+    -webkit-transform: rotate(270deg);
+        -ms-transform: rotate(270deg);
+            transform: rotate(270deg); ***REMOVED***
+  .sk-fading-circle .sk-circle11 ***REMOVED***
+    -webkit-transform: rotate(300deg);
+        -ms-transform: rotate(300deg);
+            transform: rotate(300deg); ***REMOVED***
+  .sk-fading-circle .sk-circle12 ***REMOVED***
+    -webkit-transform: rotate(330deg);
+        -ms-transform: rotate(330deg);
+            transform: rotate(330deg); ***REMOVED***
+  .sk-fading-circle .sk-circle2:before ***REMOVED***
+    -webkit-animation-delay: -1.1s;
+            animation-delay: -1.1s; ***REMOVED***
+  .sk-fading-circle .sk-circle3:before ***REMOVED***
+    -webkit-animation-delay: -1s;
+            animation-delay: -1s; ***REMOVED***
+  .sk-fading-circle .sk-circle4:before ***REMOVED***
+    -webkit-animation-delay: -0.9s;
+            animation-delay: -0.9s; ***REMOVED***
+  .sk-fading-circle .sk-circle5:before ***REMOVED***
+    -webkit-animation-delay: -0.8s;
+            animation-delay: -0.8s; ***REMOVED***
+  .sk-fading-circle .sk-circle6:before ***REMOVED***
+    -webkit-animation-delay: -0.7s;
+            animation-delay: -0.7s; ***REMOVED***
+  .sk-fading-circle .sk-circle7:before ***REMOVED***
+    -webkit-animation-delay: -0.6s;
+            animation-delay: -0.6s; ***REMOVED***
+  .sk-fading-circle .sk-circle8:before ***REMOVED***
+    -webkit-animation-delay: -0.5s;
+            animation-delay: -0.5s; ***REMOVED***
+  .sk-fading-circle .sk-circle9:before ***REMOVED***
+    -webkit-animation-delay: -0.4s;
+            animation-delay: -0.4s; ***REMOVED***
+  .sk-fading-circle .sk-circle10:before ***REMOVED***
+    -webkit-animation-delay: -0.3s;
+            animation-delay: -0.3s; ***REMOVED***
+  .sk-fading-circle .sk-circle11:before ***REMOVED***
+    -webkit-animation-delay: -0.2s;
+            animation-delay: -0.2s; ***REMOVED***
+  .sk-fading-circle .sk-circle12:before ***REMOVED***
+    -webkit-animation-delay: -0.1s;
+            animation-delay: -0.1s; ***REMOVED***
+
+@-webkit-keyframes sk-circleFadeDelay ***REMOVED***
+  0%, 39%, 100% ***REMOVED***
+    opacity: 0; ***REMOVED***
+  40% ***REMOVED***
+    opacity: 1; ***REMOVED*** ***REMOVED***
+
+@keyframes sk-circleFadeDelay ***REMOVED***
+  0%, 39%, 100% ***REMOVED***
+    opacity: 0; ***REMOVED***
+  40% ***REMOVED***
+    opacity: 1; ***REMOVED*** ***REMOVED***
+
+/*
+ *  Usage:
+ *
+      <div class="sk-folding-cube">
+        <div class="sk-cube1 sk-cube"></div>
+        <div class="sk-cube2 sk-cube"></div>
+        <div class="sk-cube4 sk-cube"></div>
+        <div class="sk-cube3 sk-cube"></div>
+      </div>
+ *
+ */
+.sk-folding-cube ***REMOVED***
+  margin: 40px auto;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  -webkit-transform: rotateZ(45deg);
+          transform: rotateZ(45deg); ***REMOVED***
+  .sk-folding-cube .sk-cube ***REMOVED***
+    float: left;
+    width: 50%;
+    height: 50%;
+    position: relative;
+    -webkit-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+            transform: scale(1.1); ***REMOVED***
+  .sk-folding-cube .sk-cube:before ***REMOVED***
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #333;
+    -webkit-animation: sk-foldCubeAngle 2.4s infinite linear both;
+            animation: sk-foldCubeAngle 2.4s infinite linear both;
+    -webkit-transform-origin: 100% 100%;
+        -ms-transform-origin: 100% 100%;
+            transform-origin: 100% 100%; ***REMOVED***
+  .sk-folding-cube .sk-cube2 ***REMOVED***
+    -webkit-transform: scale(1.1) rotateZ(90deg);
+            transform: scale(1.1) rotateZ(90deg); ***REMOVED***
+  .sk-folding-cube .sk-cube3 ***REMOVED***
+    -webkit-transform: scale(1.1) rotateZ(180deg);
+            transform: scale(1.1) rotateZ(180deg); ***REMOVED***
+  .sk-folding-cube .sk-cube4 ***REMOVED***
+    -webkit-transform: scale(1.1) rotateZ(270deg);
+            transform: scale(1.1) rotateZ(270deg); ***REMOVED***
+  .sk-folding-cube .sk-cube2:before ***REMOVED***
+    -webkit-animation-delay: 0.3s;
+            animation-delay: 0.3s; ***REMOVED***
+  .sk-folding-cube .sk-cube3:before ***REMOVED***
+    -webkit-animation-delay: 0.6s;
+            animation-delay: 0.6s; ***REMOVED***
+  .sk-folding-cube .sk-cube4:before ***REMOVED***
+    -webkit-animation-delay: 0.9s;
+            animation-delay: 0.9s; ***REMOVED***
+
+@-webkit-keyframes sk-foldCubeAngle ***REMOVED***
+  0%, 10% ***REMOVED***
+    -webkit-transform: perspective(140px) rotateX(-180deg);
+            transform: perspective(140px) rotateX(-180deg);
+    opacity: 0; ***REMOVED***
+  25%, 75% ***REMOVED***
+    -webkit-transform: perspective(140px) rotateX(0deg);
+            transform: perspective(140px) rotateX(0deg);
+    opacity: 1; ***REMOVED***
+  90%, 100% ***REMOVED***
+    -webkit-transform: perspective(140px) rotateY(180deg);
+            transform: perspective(140px) rotateY(180deg);
+    opacity: 0; ***REMOVED*** ***REMOVED***
+
+@keyframes sk-foldCubeAngle ***REMOVED***
+  0%, 10% ***REMOVED***
+    -webkit-transform: perspective(140px) rotateX(-180deg);
+            transform: perspective(140px) rotateX(-180deg);
+    opacity: 0; ***REMOVED***
+  25%, 75% ***REMOVED***
+    -webkit-transform: perspective(140px) rotateX(0deg);
+            transform: perspective(140px) rotateX(0deg);
+    opacity: 1; ***REMOVED***
+  90%, 100% ***REMOVED***
+    -webkit-transform: perspective(140px) rotateY(180deg);
+            transform: perspective(140px) rotateY(180deg);
+    opacity: 0; ***REMOVED*** ***REMOVED***

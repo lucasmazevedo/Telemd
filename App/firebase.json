@@ -1,0 +1,26 @@
+***REMOVED***
+  "database": ***REMOVED***
+    "rules": "database.rules.json"
+***REMOVED***
+  "firestore": ***REMOVED***
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+***REMOVED***
+  "functions": ***REMOVED***
+    "predeploy": [
+      "npm --prefix \"$RESOURCE_DIR\" run lint"
+    ]
+***REMOVED***
+  "hosting": ***REMOVED***
+    "site": "telemd-call",
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+***REMOVED***
+  "storage": ***REMOVED***
+    "rules": "storage.rules"
+***REMOVED***
+***REMOVED***
