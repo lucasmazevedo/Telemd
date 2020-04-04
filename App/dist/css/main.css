@@ -159,8 +159,10 @@ footer ***REMOVED***
     font-size: 18px; ***REMOVED*** ***REMOVED***
 
 #main ***REMOVED***
+  text-align: center;
   transition: transform .5s;
   padding: 0;
+  max-width: 740px;
   margin: 0 auto; ***REMOVED***
 
 #header_content ***REMOVED***

@@ -80,6 +80,25 @@ gulp.task('rmp-styles', function() ***REMOVED***
 		.pipe(gulp.dest(scss.outdir));
 ***REMOVED***);
 
+//This task will convert sass style features to css
+gulp.task('admin-styles', function() ***REMOVED***
+	// Our scss source folder: .scss files
+	var scss = ***REMOVED***
+		in: './src/sass/admin.scss',
+		outdir: './dist/css/',
+		sassOpts: ***REMOVED***
+			outputStyle: 'nested',
+			precison: 3,
+			errLogToConsole: true,
+			includePaths: ['./node_modules/']
+		***REMOVED***
+	***REMOVED***;
+
+	return gulp.src(scss.in)
+		.pipe(sass(scss.sassOpts).on('error', sass.logError))
+		.pipe(gulp.dest(scss.outdir));
+***REMOVED***);
+
 
 
 //This task will check for common errors in js files
@@ -133,6 +152,27 @@ gulp.task('rmp-js-scripts', function() ***REMOVED***
 		.pipe(gulp.dest(browserifyjs.outdir));
 ***REMOVED***);
 
+// This task will bundle all other js files and babelify them - Uses ES6 features
+gulp.task('admin-js-scripts', function() ***REMOVED***
+
+	var browserifyjs = ***REMOVED***
+		in: './src/js/admin.js',
+		outdir: './dist/js',
+		out: 'adminbundle.js',
+		jsOpts: ***REMOVED***
+			debug: false
+		***REMOVED***
+	***REMOVED***;
+
+	return browserify(browserifyjs.jsOpts)
+		.transform(babel, ***REMOVED*** presets: ['@babel/preset-env'] ***REMOVED***)
+		.require(browserifyjs.in, ***REMOVED*** entry: true ***REMOVED***)
+		.bundle()
+		.on('error', function(err)***REMOVED***	console.log(err.stack); ***REMOVED***)
+		.pipe(vinylsource(browserifyjs.out))
+		.pipe(gulp.dest(browserifyjs.outdir));
+***REMOVED***);
+
 
 //This task will copy index.html into 'dist'
 gulp.task('index', function()
@@ -142,11 +182,18 @@ gulp.task('index', function()
 		.pipe(gulp.dest('./dist'));
 ***REMOVED***);
 
-
 //This task will copy index.html into 'dist'
 gulp.task('rmp-index', function()
 ***REMOVED***
 	return gulp.src(['./src/rmp.html'])
+		.pipe(version(versionConfig))
+		.pipe(gulp.dest('./dist'));
+***REMOVED***);
+
+//This task will copy index.html into 'dist'
+gulp.task('admin-index', function()
+***REMOVED***
+	return gulp.src(['./src/admin.html'])
 		.pipe(version(versionConfig))
 		.pipe(gulp.dest('./dist'));
 ***REMOVED***);
@@ -183,8 +230,11 @@ gulp.task('lib', function()
 	gulp.src(['./node_modules/spinkit/css/**/*'])
 		.pipe(gulp.dest('./dist/third_party/'));
 
-
 	gulp.src(['./node_modules/notyf/*.css'])
+		.pipe(gulp.dest('./dist/third_party/'));
+
+
+	gulp.src(['./node_modules/intense-images/*.js'])
 		.pipe(gulp.dest('./dist/third_party/'));
 
 	return gulp.src(['./src/third_party/**/*'])
@@ -292,14 +342,15 @@ gulp.task('browser-sync', function()
 // Combined tasks
 gulp.task('js', gulp.series('js-scripts'));
 gulp.task('rmp-js', gulp.series('rmp-js-scripts'));
+gulp.task('admin-js', gulp.series('admin-js-scripts'));
 
 //This task will run by default - clean, process and start app - Development
-gulp.task('default', gulp.series('clean', 'assets', 'image-assets', 'lib', 'styles', 'rmp-styles', 'lint', 'js', 'rmp-js', 'index', 'rmp-index', 'pwa-mani' , 'watch', 'browser-sync'));
-gulp.task('firebase:host', gulp.series('clean', 'assets', 'image-assets', 'lib', 'styles', 'rmp-styles','lint', 'js', 'rmp-js', 'index', 'rmp-index', 'pwa-mani', shell.task(['firebase deploy --only hosting:telemd-call'])));
+gulp.task('default', gulp.series('clean', 'assets', 'image-assets', 'lib', 'styles', 'rmp-styles', 'admin-styles', 'lint', 'js', 'rmp-js', 'admin-js', 'index', 'rmp-index', 'admin-index', 'pwa-mani' , 'watch', 'browser-sync'));
+gulp.task('firebase:host', gulp.series('clean', 'assets', 'image-assets', 'lib', 'styles', 'rmp-styles', 'admin-styles', 'lint', 'js', 'rmp-js', 'admin-js', 'index', 'rmp-index', 'admin-index', 'pwa-mani', shell.task(['firebase deploy --only hosting:telemd-call'])));
 //
 //
 //This task will refresh other tasks upon watch
-gulp.task('refresh:all', gulp.series('styles', 'rmp-styles', 'lint', 'js', 'rmp-js', 'index', 'rmp-index', 'pwa-mani', function(done) ***REMOVED*** browserSync.reload(); done(); ***REMOVED***));
-gulp.task('refresh:styles', gulp.series('styles', 'rmp-styles',function(done) ***REMOVED*** browserSync.reload(); done(); ***REMOVED***));
-gulp.task('refresh:js', gulp.series('lint', 'js', 'rmp-js',function(done) ***REMOVED*** browserSync.reload(); done(); ***REMOVED***));
-gulp.task('refresh:index', gulp.series('index', 'rmp-index', function(done) ***REMOVED*** browserSync.reload(); done(); ***REMOVED***));
+gulp.task('refresh:all', gulp.series('styles', 'rmp-styles', 'admin-styles', 'lint', 'js', 'rmp-js', 'admin-js', 'index', 'rmp-index', 'admin-index', 'pwa-mani', function(done) ***REMOVED*** browserSync.reload(); done(); ***REMOVED***));
+gulp.task('refresh:styles', gulp.series('styles', 'rmp-styles', 'admin-styles', function(done) ***REMOVED*** browserSync.reload(); done(); ***REMOVED***));
+gulp.task('refresh:js', gulp.series('lint', 'js', 'rmp-js', 'admin-js', function(done) ***REMOVED*** browserSync.reload(); done(); ***REMOVED***));
+gulp.task('refresh:index', gulp.series('index', 'rmp-index', 'admin-index', function(done) ***REMOVED*** browserSync.reload(); done(); ***REMOVED***));

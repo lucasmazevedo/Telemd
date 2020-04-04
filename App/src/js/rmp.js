@@ -17,6 +17,8 @@ window.onload	=	function()	***REMOVED***
 	//
 	initFirebase();
 	initSidemenu();
+	//
+	//
 	$('#formsubmit').click(submitDoctorDetails);
 ***REMOVED***;
 
@@ -31,6 +33,7 @@ function	initFirebase()***REMOVED***
 
 	//	Your	web	app's	Firebase	configuration
 	const	firebaseConfig	=	***REMOVED******REMOVED***;
+
 	//	Initialize	Firebase
 	firebase.initializeApp(firebaseConfig);
 
@@ -101,21 +104,57 @@ function	onFirebaseAuth()***REMOVED***
 		usersRef.get().then(function(docSnapshot)***REMOVED***
 			if (docSnapshot.exists) ***REMOVED***
 				usersRef.onSnapshot(function(doc)***REMOVED***
-					// Submitted user, might be in review or approved [to be checked]
-					userState = 'pending';
-					console.log('Pending stage');
-					$('#user_div').hide();
-					$('#inlogin').hide();
-					$('#pending_div').show();
-					$('#ham_button').show();
-					$('#login_div').hide();
-					//
-					setTimeout(function()***REMOVED***waitTimer(0,10);***REMOVED***, 3000);
-
 					// Check if the user is verified and if verified create chatroom
-					//console.log(doc);
-					// Verfied user
-					//console.log('User is verified and onboarded.');
+					let db_Status = doc.get('status').toString();
+					if(doc.get('verified'))***REMOVED***
+						if(db_Status === 'Approved')***REMOVED***
+							// Definitely approved
+							// or approved [to be checked]
+							// Verfied user
+							console.log('User is verified and onboarded.');
+							userState = 'approved';
+							$('#user_div').hide();
+							$('pending_div').show();
+							$('#inlogin').hide();
+							$('#verified_div').show();
+							$('#ham_button').show();
+							$('#login_div').hide();
+							$('#disc').hide();
+							//
+							getUserInfo().then(function(value)***REMOVED***
+								window.user.info = value;
+								startVideo();
+							***REMOVED***);
+							//
+
+							//
+						***REMOVED***else if(db_Status === 'Rejected')***REMOVED***
+							// Definitely rejected
+							$('#main_applicant_status').text('🛑 APPLICATION REJECTED');
+							$('.rejected_stage').show();
+							// Rejected user
+							userState = 'rejected';
+							console.log('User is rejected.');
+							$('#user_div').hide();
+							$('#inlogin').hide();
+							$('#pending_div').show();
+							$('#ham_button').show();
+							$('#login_div').hide();
+						***REMOVED***else***REMOVED***
+							console.log('error! Not supposed to be here');
+						***REMOVED***
+					***REMOVED***else***REMOVED***
+						// Submitted user, still pending review
+						userState = 'pending';
+						console.log('Pending stage');
+						$('#user_div').hide();
+						$('#inlogin').hide();
+						$('#pending_div').show();
+						$('#ham_button').show();
+						$('#login_div').hide();
+						//
+						setTimeout(function()***REMOVED***waitTimer(0,10);***REMOVED***, 3000);
+					***REMOVED***
 				***REMOVED***,function(serr)***REMOVED***
 					//...
 					console.log('error!');
@@ -161,6 +200,8 @@ function	onFirebaseAuth()***REMOVED***
 /**
  * ------------------------------------------------
  * initSidemenu
+ * // FIX ME: Make sure handling #main and #main-div is
+ * // handled consistently across main.js, rmp.js and admin.js
  * ------------------------------------------------
  */
 function initSidemenu()***REMOVED***
@@ -263,7 +304,6 @@ function submitDoctorDetails()***REMOVED***
 		return -1;
 	***REMOVED***
 
-
 	console.log('Now submit values and documents');
 	//
 	var db = firebase.firestore();
@@ -285,7 +325,9 @@ function submitDoctorDetails()***REMOVED***
 		state: state,
 		country: 'IN',
 		phnumber: phnumber,
-		verified: false
+		uid: window.user.uid,
+		verified: false,
+		status: 'Pending...'
 	***REMOVED***).then(function() ***REMOVED***
 		console.log('Document successfully written!');
 		//
@@ -301,7 +343,6 @@ function submitDoctorDetails()***REMOVED***
 		throwError('Error writing document:\n'+ toString(error));
 	***REMOVED***);
 
-
 	function throwError(_in)***REMOVED***
 		$('#noteSpace').hide();
 		$('#errorSpace').show();
@@ -310,7 +351,6 @@ function submitDoctorDetails()***REMOVED***
 		//
 		window.notyf.error(_in);
 	***REMOVED***
-
 
 	function validateForm() ***REMOVED***
 		var isValid = true;
@@ -325,7 +365,6 @@ function submitDoctorDetails()***REMOVED***
 		***REMOVED***);
 		return isValid;
 	***REMOVED***
-
 ***REMOVED***
 
 
@@ -377,7 +416,10 @@ function waitTimer(mm,ss)***REMOVED***
 				$('.retry_stage_b').hide();
 				$('.retry_stage_c').hide();
 				//
+				//
 				clearInterval(timeinterval);
+				//
+				setTimeout(function()***REMOVED***location.reload(true);***REMOVED***, 2000);
 			***REMOVED***
 		***REMOVED***
 
@@ -390,139 +432,59 @@ function waitTimer(mm,ss)***REMOVED***
 ***REMOVED***
 
 
-/*
-function mostlyThese()***REMOVED***
+async function getUserInfo() ***REMOVED***
+	var db = firebase.firestore();
+	const snapshot = await db.collection('doctors').doc(window.user.uid).get();
+	return snapshot.data();
+***REMOVED***
 
-
-
-	$('#formsubmit').click(function()***REMOVED***
-		//$('#formmain').attr('action', 'https://us-central1-digidoc-17b1a.cloudfunctions.net/newdoc');
-		//console.log($('#formmain').attr('action'));
-		$('#formmain').ajaxForm(***REMOVED***
-			url : 'https://us-central1-digidoc-17b1a.cloudfunctions.net/newdoc', // or whatever
-			crossDomain: true,
-			dataType : 'json',
-			success : function (response) ***REMOVED***
-				//console.log(response);
-				$('#noteSpace').show();
-				$('#errorSpace').hide();
-				$('#message').text('');
-				if( response.code == 'COMPLETED')***REMOVED***
-					$('#errorSpace').hide();
-					$.toast('Completed');
-					//console.log('Show completed toast!');
-					updateUser();
-				***REMOVED***else if(response.code == 'auth/email-already-exists')***REMOVED***
-					updateUser(response.message);
-				***REMOVED***else***REMOVED***
-					//
-					$('#noteSpace').hide();
-					$('#errorSpace').show();
-					if(response.code.includes('auth/'))***REMOVED***
-						let message_in = response.message;
-						message_in = message_in.replace('email address', 'number');
-						message_in = message_in.replace('email', 'number');
-						$('#message').text(message_in);
-					***REMOVED***else
-						$('#message').text(response.message);
-				***REMOVED***
-			***REMOVED***
-		***REMOVED***);
-	***REMOVED***);
-
-
-	function updateUser(message_in)***REMOVED***
+/**
+ * ------------------------------------------------
+ * startVideo
+ * ------------------------------------------------
+ */
+function startVideo()***REMOVED***
+	//
+	let	user	=	firebase.auth().currentUser;
+	if(user	!=	null)***REMOVED***
+		var	email_id	=	user.email;
+		//var meeting_width = document.getElementById('main_video_item').offsetWidth;
+		let body_height = $( window ).height();
+		let header_height = $('header').outerHeight();
+		let header_width = $('header').outerWidth() - 60;
+		let prediv_height = $('#prelogin').outerHeight();
+		let meet_height = body_height - header_height - prediv_height - 25;
+		let meet_width = header_width;
 		//
-		// Verify Doctor details
-		var phone_num = $('#phonefield').val();
-		var ref_code = $('#codefield').val();
-		var doc_id = '';
-		//console.log(phone_num + ' ' + ref_code);
-
-		// Get Doctor ID
-		if(ref_code != '' && phone_num != '')***REMOVED***
-			if(ref_code.length == 6 && phone_num.length == 10)***REMOVED***
-				$('#noteSpace').hide();
-				var docRef = db.collection('referralCodes').doc(ref_code);
-				docRef.get().then(function(doc) ***REMOVED***
-					if (doc.exists) ***REMOVED***
-						//console.log('Document data:', doc.data());
-						doc_id = doc.data().docid;
-						//
-						// Check any image being updated
-						var eduFile = $('#edufile').prop('files');
-						var regFile = $('#regfile').prop('files');
-						if(eduFile.length != 0 && regFile.length != 0)***REMOVED***
-							// if present - Ask confirmation & upload
-							if (confirm('Number exists. \nAre you sure you want to upload these into the database?')) ***REMOVED***
-								//
-								uploadFileFB(eduFile[0], doc_id, 'Edu');
-								uploadFileFB(regFile[0], doc_id, 'Cert');
-							***REMOVED*** else ***REMOVED***
-								// Do nothing!
-								message_in = 'Upload cancelled by user.';
-								throwError(message_in);
-							***REMOVED***
-						***REMOVED***else***REMOVED***
-							message_in += ' No files selected to upload.';
-							throwError(message_in);
-						***REMOVED***
-					***REMOVED*** else ***REMOVED***
-						// doc.data() will be undefined in this case
-						//console.log('No such document!');
-						message_in = 'No such document found!';
-						throwError(message_in);
-					***REMOVED***
-				***REMOVED***).catch(function(error) ***REMOVED***
-					//console.log('Error getting document:', error);
-					message_in = 'Server error --' +	error;
-					throwError(message_in);
-				***REMOVED***);
-			***REMOVED***else***REMOVED***
-				message_in = 'phone-number/refferal-code incorrect. Check again!';
-				throwError(message_in);
-			***REMOVED***
-		***REMOVED***else***REMOVED***
-			message_in = 'phone-number/refferal-code cannot be empty!';
-			throwError(message_in);
-		***REMOVED***
-	***REMOVED***
-
-
-
-	function uploadFileFB(f, uid, type)***REMOVED***
+		$('#main').css(***REMOVED***'maxWidth': meet_width***REMOVED***);
+		$('#main').width(meet_width);
 		//
-		var uploadTask = storageRef.child('/doc_uploads/'+uid+'/'+type).put(f);
-
-		// Register three observers:
-		// 1. 'state_changed' observer, called any time the state changes
-		// 2. Error observer, called on failure
-		// 3. Completion observer, called on successful completion
-		uploadTask.on('state_changed', function(snapshot)***REMOVED***
-			// Observe state change events such as progress, pause, and resume
-			// Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-			var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-			//console.log('Upload is ' + progress + '% done');
-			switch (snapshot.state) ***REMOVED***
-			case firebase.storage.TaskState.PAUSED: // or 'paused'
-				break;
-			case firebase.storage.TaskState.RUNNING: // or 'running'
-				break;
+		const domain = 'meet.jit.si';
+		const options = ***REMOVED***
+			roomName: 'COVID19-'+window.user.uid,
+			width: meet_width,
+			height: meet_height,
+			parentNode: document.querySelector('#meet'),
+			interfaceConfigOverwrite: ***REMOVED***
+				DEFAULT_BACKGROUND: '#111',
+				DEFAULT_REMOTE_DISPLAY_NAME: 'Doctor',
+				SHOW_BRAND_WATERMARK: true,
+				BRAND_WATERMARK_LINK: 'https://telemd.org.in/img/logo.png',
+				SHOW_JITSI_WATERMARK: false,
+				SHOW_WATERMARK_FOR_GUESTS: false,
+				MOBILE_APP_PROMO: false,
+				SHOW_CHROME_EXTENSION_BANNER: false,
+				TOOLBAR_BUTTONS: [
+					'microphone', 'camera', 'desktop', 'fullscreen',
+					'fodeviceselection', 'hangup', 'profile', 'recording',
+					'livestreaming', 'etherpad', 'chat','sharedvideo', 'settings',
+					'videoquality', 'filmstrip', 'stats', 'shortcuts',
+					'tileview', 'help', 'mute-everyone'
+				]
 			***REMOVED***
-		***REMOVED***, function(error) ***REMOVED***
-			// Handle unsuccessful uploads
-			//console.log(error);
-			let message_ = error.message_;
-			throwError(message_);
-		***REMOVED***, function() ***REMOVED***
-			// Handle successful uploads on complete
-			// For instance, get the download URL: https://firebasestorage.googleapis.com/...
-			uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) ***REMOVED***
-				//console.log('File available at', downloadURL);
-				$.toast('Upload completd for - ' + type);
-			***REMOVED***);
-		***REMOVED***);
-
+		***REMOVED***;
+		const api = new JitsiMeetExternalAPI(domain, options);
+		api.executeCommand('displayName', window.user.info.name);
+		api.executeCommand('subject', 'COVID19-'+window.user.info.name);
 	***REMOVED***
 ***REMOVED***
-*/

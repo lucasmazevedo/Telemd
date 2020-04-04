@@ -22,6 +22,16 @@ input, button ***REMOVED***
   font-weight: 400;
 ***REMOVED***
 
+table ***REMOVED***
+    border-collapse: collapse;
+***REMOVED***
+
+td, th ***REMOVED***
+    border: 1px solid black;
+    padding: 3px;
+***REMOVED***
+
+
 .required ***REMOVED***
   border-radius: 5px;
   border:#FF0000 1px solid;
@@ -142,6 +152,7 @@ footer ***REMOVED***
   font-size: 10px;
   background: none;
   color: #000;
+  z-index: 1000;
 ***REMOVED***
 
 /* Firebase login */
@@ -162,6 +173,82 @@ footer ***REMOVED***
   transform: translate(-50%, 0%);
 ***REMOVED***
 
+/* modal */
+.modal ***REMOVED***
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.1);
+  transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+***REMOVED***
+
+.modal-content ***REMOVED***
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 1rem 1.5rem;
+  width: 24rem;
+  border-radius: 0.5rem;
+  font-size: 16px;
+***REMOVED***
+
+.close-button ***REMOVED***
+  float: right;
+  width: 1.5rem;
+  line-height: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  background-color: lightgray;
+***REMOVED***
+
+.close-button:hover ***REMOVED***
+  background-color: darkgray;
+***REMOVED***
+
+.show-modal ***REMOVED***
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1.0);
+  transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+***REMOVED***
+
+.row ***REMOVED***
+  display: flex;
+***REMOVED***
+
+.bigbutton ***REMOVED***
+  color: #000;
+  padding: 5px;
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  font-size: 12px;
+  cursor: pointer;
+  border: none;
+  color: white;
+  outline: none;
+***REMOVED***
+
+
+.bigbutton:hover***REMOVED***
+  transform: scale(1.1);
+***REMOVED***
+
+.bigbutton:active***REMOVED***
+  transform: scale(0.9);
+***REMOVED***
+
+.intense ***REMOVED***
+  cursor:pointer;
+***REMOVED***
 
 /* Side Navigation */
 #ham_button ***REMOVED***
@@ -234,44 +321,6 @@ footer ***REMOVED***
   padding: 0 20px;
 ***REMOVED***
 
-.main-div input ***REMOVED***
-  display: block;
-  border: 2px solid #222;
-  border-radius: 30px;
-  background: #fff;
-  padding: 15px;
-  outline: none;
-  width: 100%;
-  margin-bottom: 20px;
-  transition: 0.3s;
-  -webkit-transition: 0.3s;
-  -moz-transition: 0.3s;
-  font-size: 18px;
-***REMOVED***
-
-.main-div input:focus ***REMOVED***
-  border: 3px solid #000;
-***REMOVED***
-
-.main-div button ***REMOVED***
-  color: #000;
-  padding: 15px;
-  display: block;
-  width: 100%;
-  transition: 0.3s;
-  -webkit-transition: 0.3s;
-  -moz-transition: 0.3s;
-  font-size: 24px;
-  cursor: pointer;
-  background: none;
-  border: none;
-***REMOVED***
-
-.main-div button:hover ***REMOVED***
-  background: #fff;
-  cursor: pointer;
-***REMOVED***
-
 @media screen and (max-height: 450px) ***REMOVED***
   .sidenav ***REMOVED***padding-top: 15px;***REMOVED***
   .sidenav a ***REMOVED***font-size: 18px;***REMOVED***
@@ -282,12 +331,7 @@ footer ***REMOVED***
   padding: 0;
   max-width: 740px;
   margin: 0 auto;
-***REMOVED***
-
-#verified_div ***REMOVED***
-  padding: 0;
-  text-align: center;
-  margin: 0 auto;
+  width: 80%;
 ***REMOVED***
 
 
