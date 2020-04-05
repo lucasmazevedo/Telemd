@@ -1,17 +1,17 @@
-/*global	tele:true,	firebase:	true, JitsiMeetExternalAPI:true*/
+/*global tele:true, firebase:true, JitsiMeetExternalAPI:true*/
 
 window.tele	=	window.tele	||	{};
 window.user	=	window.user	||	null;
 
-import	$	from	'jquery';
-import	firebase	from	'firebase';
-import	*	as	firebaseui	from	'firebaseui';
-import	bootstrap	from	'bootstrap';
+import $ from 'jquery';
+import firebase from 'firebase';
+import * as firebaseui from 'firebaseui';
+import bootstrap from 'bootstrap';
 import { Notyf } from 'notyf';
 
-window.onload	=	function()	{
-	window.$	=	$;
-	window.firebase	=	firebase;
+window.onload = function() {
+	window.$ = $;
+	window.firebase = firebase;
 	window.notyf = new Notyf();
 	//
 	//
@@ -27,20 +27,19 @@ window.onload	=	function()	{
  * initFirebase
  * ------------------------------------------------
  */
-function	initFirebase(){
-
+function initFirebase(){
 	console.log('initFirebase');
 
-	//	Your	web	app's	Firebase	configuration
-	const	firebaseConfig	=	JSON.parse('#{FIREBASE_CONFIG_REPlACE}#');
+	//Your webapp's Firebase configuration
+	const firebaseConfig = JSON.parse('#{FIREBASE_CONFIG_REPlACE}#');
 
-	//	Initialize	Firebase
+	// Initialize Firebase
 	firebase.initializeApp(firebaseConfig);
 
 	//
-	firebase.auth().onAuthStateChanged(function(user)	{
-		if	(user){
-			window.user	=	user;
+	firebase.auth().onAuthStateChanged(function(user){
+		if (user){
+			window.user = user;
 		}
 		else{
 			window.user	=	null;
@@ -91,11 +90,9 @@ function initFirebaseUI(){
  * onFirebaseAuth
  * ------------------------------------------------
  */
-function	onFirebaseAuth(){
-
-	//	User	is	signed	in.
+function onFirebaseAuth(){
+	// User is signed in.
 	if(window.user){
-
 		let userState = 'na';
 		var db = firebase.firestore();
 		const usersRef = db.collection('doctors').doc(window.user.uid);
@@ -181,7 +178,7 @@ function	onFirebaseAuth(){
 			}, 4000);
 		});
 	}
-	//	No	user	is	signed	in.
+	//No user is signed in.
 	else{
 		$('#user_div').hide();
 		$('#ham_button').hide();
@@ -210,9 +207,9 @@ function initSidemenu(){
 	$('#close_nav').click(closeNav);
 	//
 
-	//	Side	menu	functions
-	let	elem	=	$(	'#sidemenu	a'	);
-	elem.each(function(	i	)	{
+	// Side menu functions
+	let elem = $('#sidemenu	a');
+	elem.each(function(i)	{
 		//
 		$(this).click(function(){
 			deselectAll();
@@ -224,7 +221,7 @@ function initSidemenu(){
 			$('#settings').hide();
 			$('#contact').hide();
 			//
-			let	id	=	$(this).attr('id');
+			let id = $(this).attr('id');
 			if(id.includes('home')){
 				$('#main').show();
 			}else	if(id.includes('about')){
@@ -242,7 +239,7 @@ function initSidemenu(){
 	// Following functions are scoped only for sidemenu
 	//
 	// function to open navigation
-	function	openNav()	{
+	function openNav()	{
 		console.log('Open');
 		$('#sidenav').addClass('open');
 		$('#sidenav').removeClass('closed');
@@ -254,8 +251,8 @@ function initSidemenu(){
 	}
 
 	// logout functionlity
-	function	logout(){
-		console.log('Logging	out...');
+	function logout(){
+		console.log('Logging out...');
 		//
 		deselectAll();
 		closeNav();
@@ -268,23 +265,23 @@ function initSidemenu(){
 	}
 
 	// deselect sidemenu links
-	function	deselectAll(){
-		let	elem	=	$('#sidemenu	a');
-		elem.each(function(	i	)	{
+	function deselectAll(){
+		let elem = $('#sidemenu	a');
+		elem.each(function(i)	{
 			$(this).children().removeClass('selected');
 		});
 	}
 
 	// close navigation
-	function	closeNav()	{
+	function closeNav()	{
 		console.log('Close');
 		$('#sidenav').addClass('closed');
 		$('#sidenav').removeClass('open');
-		$('#sidenav').css('width',	'0');
+		$('#sidenav').css('width','0');
 		//
-		$('#main').css('transform',	'translateX(0)');
-		$('#header_content').css('transform',	'translateX(0)');
-		$('#about').css('transform',	'translateX(0)');
+		$('#main').css('transform','translateX(0)');
+		$('#header_content').css('transform','translateX(0)');
+		$('#about').css('transform','translateX(0)');
 	}
 }
 

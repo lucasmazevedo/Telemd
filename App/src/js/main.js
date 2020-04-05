@@ -1,17 +1,16 @@
-/*global	tele:true,	firebase:	true, JitsiMeetExternalAPI:true*/
+/*global tele:true, firebase:true, JitsiMeetExternalAPI:true*/
 
-window.tele	=	window.tele	||	{};
-window.user	=	window.user	||	null;
+window.tele = window.tele || {};
+window.user = window.user || null;
 
-import	$	from	'jquery';
-import	firebase	from	'firebase';
-import	*	as	firebaseui	from	'firebaseui';
-import	bootstrap	from	'bootstrap';
-//import	{}	from	'./calibrate';
+import $ from 'jquery';
+import firebase from 'firebase';
+import * as firebaseui from 'firebaseui';
+import bootstrap from 'bootstrap';
 
-window.onload	=	function()	{
-	window.$	=	$;
-	window.firebase	=	firebase;
+window.onload = function() {
+	window.$ = $;
+	window.firebase = firebase;
 	//
 	initFirebase();
 	initSidemenu();
@@ -23,20 +22,19 @@ window.onload	=	function()	{
  * initFirebase
  * ------------------------------------------------
  */
-function	initFirebase(){
-
-	//	Your	web	app's	Firebase	configuration
+function initFirebase(){
+	// Your webapp's Firebase configuration
 	const	firebaseConfig	=	JSON.parse('#{FIREBASE_CONFIG_REPlACE}#');
 
-	//	Initialize	Firebase
+	// Initialize Firebase
 	firebase.initializeApp(firebaseConfig);
 
 	//
-	firebase.auth().onAuthStateChanged(function(user)	{
-		if	(user)
-			window.user	=	user;
+	firebase.auth().onAuthStateChanged(function(user){
+		if (user)
+			window.user = user;
 		else{
-			window.user	=	null;
+			window.user = null;
 			initFirebaseUI();
 		}
 		//
@@ -83,12 +81,12 @@ function initFirebaseUI(){
  * onFirebaseAuth
  * ------------------------------------------------
  */
-function	onFirebaseAuth(){
+function onFirebaseAuth(){
 
 	if(window.user){
 		console.log('User is logged in');
 
-		//	User	is	signed	in.
+		//User is signed in.
 		$('#user_div').show();
 		$('#ham_button').show();
 		$('#login_div').hide();
@@ -99,7 +97,7 @@ function	onFirebaseAuth(){
 
 
 	}else{
-		//	No	user	is	signed	in.
+		//No user is signed in.
 		$('#user_div').hide();
 		$('#ham_button').hide();
 		$('#login_div').show();
@@ -125,9 +123,9 @@ function initSidemenu(){
 	$('#close_nav').click(closeNav);
 	//
 
-	//	Side	menu	functions
-	let	elem	=	$(	'#sidemenu	a'	);
-	elem.each(function(	i	)	{
+	//Side menu functions
+	let elem = $('#sidemenu a');
+	elem.each(function(i){
 		//
 		$(this).click(function(){
 			deselectAll();
@@ -139,7 +137,7 @@ function initSidemenu(){
 			$('#settings').hide();
 			$('#contact').hide();
 			//
-			let	id	=	$(this).attr('id');
+			let id = $(this).attr('id');
 			if(id.includes('home')){
 				$('#main').show();
 			}else	if(id.includes('about')){
@@ -157,7 +155,7 @@ function initSidemenu(){
 	// Following functions are scoped only for sidemenu
 	//
 	// function to open navigation
-	function	openNav()	{
+	function openNav()	{
 		console.log('Open');
 		$('#sidenav').addClass('open');
 		$('#sidenav').removeClass('closed');
@@ -169,8 +167,8 @@ function initSidemenu(){
 	}
 
 	// logout functionlity
-	function	logout(){
-		console.log('Logging	out...');
+	function logout(){
+		console.log('Logging out...');
 		//
 		deselectAll();
 		closeNav();
@@ -182,23 +180,23 @@ function initSidemenu(){
 	}
 
 	// deselect sidemenu links
-	function	deselectAll(){
-		let	elem	=	$('#sidemenu	a');
-		elem.each(function(	i	)	{
+	function deselectAll(){
+		let	elem = $('#sidemenu a');
+		elem.each(function(i){
 			$(this).children().removeClass('selected');
 		});
 	}
 
 	// close navigation
-	function	closeNav()	{
+	function closeNav()	{
 		console.log('Close');
 		$('#sidenav').addClass('closed');
 		$('#sidenav').removeClass('open');
-		$('#sidenav').css('width',	'0');
+		$('#sidenav').css('width','0');
 		//
-		$('#main').css('transform',	'translateX(0)');
-		$('#header_content').css('transform',	'translateX(0)');
-		$('#about').css('transform',	'translateX(0)');
+		$('#main').css('transform','translateX(0)');
+		$('#header_content').css('transform','translateX(0)');
+		$('#about').css('transform','translateX(0)');
 	}
 
 }
@@ -213,9 +211,9 @@ function startVideo(){
 	//
 	//
 	//
-	let	user	=	firebase.auth().currentUser;
-	if(user	!=	null){
-		var	email_id	=	user.email;
+	let	user = firebase.auth().currentUser;
+	if(user != null){
+		var	email_id = user.email;
 		//
 		let body_height = $( window ).height();
 		let header_height = $('header').outerHeight();
