@@ -1,21 +1,21 @@
 /*global	tele:true,	firebase:	true, JitsiMeetExternalAPI:true*/
 
-window.tele	=	window.tele	||	***REMOVED******REMOVED***;
+window.tele	=	window.tele	||	{};
 window.user	=	window.user	||	null;
 
 import	$	from	'jquery';
 import	firebase	from	'firebase';
 import	*	as	firebaseui	from	'firebaseui';
 import	bootstrap	from	'bootstrap';
-//import	***REMOVED******REMOVED***	from	'./calibrate';
+//import	{}	from	'./calibrate';
 
-window.onload	=	function()	***REMOVED***
+window.onload	=	function()	{
 	window.$	=	$;
 	window.firebase	=	firebase;
 	//
 	initFirebase();
 	initSidemenu();
-***REMOVED***;
+};
 
 
 /**
@@ -23,45 +23,45 @@ window.onload	=	function()	***REMOVED***
  * initFirebase
  * ------------------------------------------------
  */
-function	initFirebase()***REMOVED***
+function	initFirebase(){
 
 	//	Your	web	app's	Firebase	configuration
-	const	firebaseConfig	=	***REMOVED******REMOVED***;
+	const	firebaseConfig	=	JSON.parse('#{FIREBASE_CONFIG_REPlACE}#');
 
 	//	Initialize	Firebase
 	firebase.initializeApp(firebaseConfig);
 
 	//
-	firebase.auth().onAuthStateChanged(function(user)	***REMOVED***
+	firebase.auth().onAuthStateChanged(function(user)	{
 		if	(user)
 			window.user	=	user;
-		else***REMOVED***
+		else{
 			window.user	=	null;
 			initFirebaseUI();
-		***REMOVED***
+		}
 		//
 		onFirebaseAuth();
-	***REMOVED***);
-***REMOVED***
+	});
+}
 
 /**
  * ------------------------------------------------
  * initFirebaseUI
  * ------------------------------------------------
  */
-function initFirebaseUI()***REMOVED***
+function initFirebaseUI(){
 
 	// FirebaseUI config.
-	var uiConfig = ***REMOVED***
+	var uiConfig = {
 		signInSuccessUrl: location.href,
-		callbacks: ***REMOVED***
-			signInSuccessWithAuthResult: function(authResult, redirectUrl) ***REMOVED***
+		callbacks: {
+			signInSuccessWithAuthResult: function(authResult, redirectUrl) {
 				// On success redirect to signInSuccessUrl.
 				return true;
 				// On sucess - get me some info on the user
 				//return false;
-			***REMOVED***
-		***REMOVED***,
+			}
+		},
 		signInFlow: 'popup',
 		signInOptions: [
 			// Leave the lines as is for the providers you want to offer your users.
@@ -70,22 +70,22 @@ function initFirebaseUI()***REMOVED***
 			firebase.auth.PhoneAuthProvider.PROVIDER_ID,
 			firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
 		]
-	***REMOVED***;
+	};
 
 	// Initialize the FirebaseUI Widget using Firebase.
 	var ui = new firebaseui.auth.AuthUI(firebase.auth());
 	// The start method will wait until the DOM is loaded.
 	ui.start('#firebaseui-auth-container', uiConfig);
-***REMOVED***
+}
 
 /**
  * ------------------------------------------------
  * onFirebaseAuth
  * ------------------------------------------------
  */
-function	onFirebaseAuth()***REMOVED***
+function	onFirebaseAuth(){
 
-	if(window.user)***REMOVED***
+	if(window.user){
 		console.log('User is logged in');
 
 		//	User	is	signed	in.
@@ -93,23 +93,23 @@ function	onFirebaseAuth()***REMOVED***
 		$('#ham_button').show();
 		$('#login_div').hide();
 
-		setTimeout(function()***REMOVED***
+		setTimeout(function(){
 			startVideo();
-		***REMOVED***,	2000);
+		},	2000);
 
 
-	***REMOVED***else***REMOVED***
+	}else{
 		//	No	user	is	signed	in.
 		$('#user_div').hide();
 		$('#ham_button').hide();
 		$('#login_div').show();
-	***REMOVED***
+	}
 
 	//
 	window.loading_screen.finish();
 	if(document.getElementById('_status') != null)
 		document.getElementById('_status').innerHTML	=	'Loaded';
-***REMOVED***
+}
 
 /**
  * ------------------------------------------------
@@ -118,7 +118,7 @@ function	onFirebaseAuth()***REMOVED***
  * // handled consistently across main.js, rmp.js and admin.js
  * ------------------------------------------------
  */
-function initSidemenu()***REMOVED***
+function initSidemenu(){
 
 	//
 	$('#ham_button').click(openNav);
@@ -127,9 +127,9 @@ function initSidemenu()***REMOVED***
 
 	//	Side	menu	functions
 	let	elem	=	$(	'#sidemenu	a'	);
-	elem.each(function(	i	)	***REMOVED***
+	elem.each(function(	i	)	{
 		//
-		$(this).click(function()***REMOVED***
+		$(this).click(function(){
 			deselectAll();
 			$(this).children().addClass('selected');
 			//
@@ -140,24 +140,24 @@ function initSidemenu()***REMOVED***
 			$('#contact').hide();
 			//
 			let	id	=	$(this).attr('id');
-			if(id.includes('home'))***REMOVED***
+			if(id.includes('home')){
 				$('#main').show();
-			***REMOVED***else	if(id.includes('about'))***REMOVED***
+			}else	if(id.includes('about')){
 				$('#about').show();
-			***REMOVED***else	if(id.includes('logout'))***REMOVED***
+			}else	if(id.includes('logout')){
 				logout();
-			***REMOVED***
+			}
 			//
 			closeNav();
-		***REMOVED***);
+		});
 
-	***REMOVED***);
+	});
 
 	// NOTE
 	// Following functions are scoped only for sidemenu
 	//
 	// function to open navigation
-	function	openNav()	***REMOVED***
+	function	openNav()	{
 		console.log('Open');
 		$('#sidenav').addClass('open');
 		$('#sidenav').removeClass('closed');
@@ -166,10 +166,10 @@ function initSidemenu()***REMOVED***
 		$('#main').css('transform',	'translateX(250px)');
 		$('#header_content').css('transform',	'translateX(250px)');
 		$('#about').css('transform',	'translateX(250px)');
-	***REMOVED***
+	}
 
 	// logout functionlity
-	function	logout()***REMOVED***
+	function	logout(){
 		console.log('Logging	out...');
 		//
 		deselectAll();
@@ -179,18 +179,18 @@ function initSidemenu()***REMOVED***
 		$('#main').show();
 		//
 		firebase.auth().signOut();
-	***REMOVED***
+	}
 
 	// deselect sidemenu links
-	function	deselectAll()***REMOVED***
+	function	deselectAll(){
 		let	elem	=	$('#sidemenu	a');
-		elem.each(function(	i	)	***REMOVED***
+		elem.each(function(	i	)	{
 			$(this).children().removeClass('selected');
-		***REMOVED***);
-	***REMOVED***
+		});
+	}
 
 	// close navigation
-	function	closeNav()	***REMOVED***
+	function	closeNav()	{
 		console.log('Close');
 		$('#sidenav').addClass('closed');
 		$('#sidenav').removeClass('open');
@@ -199,22 +199,22 @@ function initSidemenu()***REMOVED***
 		$('#main').css('transform',	'translateX(0)');
 		$('#header_content').css('transform',	'translateX(0)');
 		$('#about').css('transform',	'translateX(0)');
-	***REMOVED***
+	}
 
-***REMOVED***
+}
 
 /**
  * ------------------------------------------------
  * startVideo
  * ------------------------------------------------
  */
-function startVideo()***REMOVED***
+function startVideo(){
 	//
 	//
 	//
 	//
 	let	user	=	firebase.auth().currentUser;
-	if(user	!=	null)***REMOVED***
+	if(user	!=	null){
 		var	email_id	=	user.email;
 		//
 		let body_height = $( window ).height();
@@ -224,21 +224,21 @@ function startVideo()***REMOVED***
 		let meet_height = body_height - header_height - prediv_height - 25;
 		let meet_width = header_width;
 		//
-		$('#main').css(***REMOVED***'maxWidth': meet_width***REMOVED***);
+		$('#main').css({'maxWidth': meet_width});
 		$('#main').width(meet_width);
 		//
 		let doc_uid = '';//
 		let parametes = getUrlVars();
-		if(parametes.doc != null)***REMOVED***
+		if(parametes.doc != null){
 			doc_uid = parametes.doc;
 			//
 			const domain = 'meet.jit.si';
-			const options = ***REMOVED***
+			const options = {
 				roomName: 'COVID19-'+doc_uid,
 				width: meet_width,
 				height: meet_height,
 				parentNode: document.querySelector('#meet'),
-				interfaceConfigOverwrite: ***REMOVED***
+				interfaceConfigOverwrite: {
 					DEFAULT_BACKGROUND: '#111',
 					DEFAULT_REMOTE_DISPLAY_NAME: 'Patient',
 					SHOW_BRAND_WATERMARK: true,
@@ -254,15 +254,15 @@ function startVideo()***REMOVED***
 						'videoquality', 'filmstrip', 'stats', 'shortcuts',
 						'tileview', 'help', 'mute-everyone'
 					]
-				***REMOVED***
-			***REMOVED***;
+				}
+			};
 			const api = new JitsiMeetExternalAPI(domain, options);
 			api.executeCommand('displayName', window.user.displayName);
-		***REMOVED***
+		}
 		else
 			$('#meet').text('Error!! No Doctor specified...');
-	***REMOVED***
-***REMOVED***
+	}
+}
 
 /**
  * ------------------------------------------------
@@ -271,15 +271,15 @@ function startVideo()***REMOVED***
  */
 // Read a page's GET URL variables and return them as an associative array.
 function getUrlVars()
-***REMOVED***
+{
 	var vars = [], hash;
 	var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-	for(var i = 0; i < hashes.length; i++)***REMOVED***
+	for(var i = 0; i < hashes.length; i++){
 		hash = hashes[i].split('=');
 		vars.push(hash[0]);
 		vars[hash[0]] = hash[1];
-	***REMOVED***
+	}
 	return vars;
-***REMOVED***
+}
 
 

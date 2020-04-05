@@ -1,13 +1,13 @@
-***REMOVED***
+{
  "presets": [
     ["@babel/preset-env"]
   ],
   "plugins": [
     ["@babel/transform-runtime"]
   ],
-  "env": ***REMOVED***
-    "production": ***REMOVED***
+  "env": {
+    "production": {
        "presets": ["minify"]
-  ***REMOVED***
-***REMOVED***
-***REMOVED***
+    }
+  }
+}

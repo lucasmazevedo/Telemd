@@ -1,14 +1,14 @@
-***REMOVED***
+{
   "name": "telemd-webapp",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "Remote diagnosis for India in COVID-19 health crisis",
   "main": "main.js",
-  "scripts": ***REMOVED***
+  "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-***REMOVED***
+  },
   "author": "Mike Cj <mike@timeblur.io>",
   "license": "CC BY-NC 4.0",
-  "dependencies": ***REMOVED***
+  "dependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
     "@babel/runtime": "^7.9.2",
@@ -35,10 +35,11 @@
     "please-wait": "0.0.5",
     "popper.js": "^1.16.1",
     "spinkit": "1.2.5",
+    "twilio": "^3.42.0",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
-***REMOVED***
-  "devDependencies": ***REMOVED***
+  },
+  "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.9.0"
-***REMOVED***
-***REMOVED***
+  }
+}

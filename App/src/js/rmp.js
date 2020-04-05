@@ -1,15 +1,15 @@
 /*global	tele:true,	firebase:	true, JitsiMeetExternalAPI:true*/
 
-window.tele	=	window.tele	||	***REMOVED******REMOVED***;
+window.tele	=	window.tele	||	{};
 window.user	=	window.user	||	null;
 
 import	$	from	'jquery';
 import	firebase	from	'firebase';
 import	*	as	firebaseui	from	'firebaseui';
 import	bootstrap	from	'bootstrap';
-import ***REMOVED*** Notyf ***REMOVED*** from 'notyf';
+import { Notyf } from 'notyf';
 
-window.onload	=	function()	***REMOVED***
+window.onload	=	function()	{
 	window.$	=	$;
 	window.firebase	=	firebase;
 	window.notyf = new Notyf();
@@ -20,71 +20,70 @@ window.onload	=	function()	***REMOVED***
 	//
 	//
 	$('#formsubmit').click(submitDoctorDetails);
-***REMOVED***;
+};
 
 /**
  * ------------------------------------------------
  * initFirebase
  * ------------------------------------------------
  */
-function	initFirebase()***REMOVED***
+function	initFirebase(){
 
 	console.log('initFirebase');
 
 	//	Your	web	app's	Firebase	configuration
-	const	firebaseConfig	=	***REMOVED******REMOVED***;
+	const	firebaseConfig	=	JSON.parse('#{FIREBASE_CONFIG_REPlACE}#');
 
 	//	Initialize	Firebase
 	firebase.initializeApp(firebaseConfig);
 
 	//
-	firebase.auth().onAuthStateChanged(function(user)	***REMOVED***
-		if	(user)***REMOVED***
+	firebase.auth().onAuthStateChanged(function(user)	{
+		if	(user){
 			window.user	=	user;
-		***REMOVED***
-		else***REMOVED***
+		}
+		else{
 			window.user	=	null;
 			initFirebaseUI();
-		***REMOVED***
+		}
 		//
 		onFirebaseAuth();
-	***REMOVED***);
-***REMOVED***
+	});
+}
 
 /**
  * ------------------------------------------------
  * initFirebaseUI
  * ------------------------------------------------
  */
-function initFirebaseUI()***REMOVED***
+function initFirebaseUI(){
 	console.log('initFirebaseUI');
 
 	// FirebaseUI config.
-	var uiConfig = ***REMOVED***
+	var uiConfig = {
 		signInSuccessUrl: location.href,
-		callbacks: ***REMOVED***
-			signInSuccessWithAuthResult: function(authResult, redirectUrl) ***REMOVED***
+		callbacks: {
+			signInSuccessWithAuthResult: function(authResult, redirectUrl) {
 				// On success redirect to signInSuccessUrl.
 				return true;
 				// On sucess - get me some info on the user
 				//return false;
-			***REMOVED***
-		***REMOVED***,
+			}
+		},
 		signInFlow: 'popup',
 		signInOptions: [
-			// Leave the lines as is for the providers you want to offer your users.
-			firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-			firebase.auth.EmailAuthProvider.PROVIDER_ID,
-			firebase.auth.PhoneAuthProvider.PROVIDER_ID,
-			firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+			{
+				provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+				defaultCountry: 'IN',
+			}
 		]
-	***REMOVED***;
+	};
 
 	// Initialize the FirebaseUI Widget using Firebase.
 	var ui = new firebaseui.auth.AuthUI(firebase.auth());
 	// The start method will wait until the DOM is loaded.
 	ui.start('#firebaseui-auth-container', uiConfig);
-***REMOVED***
+}
 
 
 /**
@@ -92,22 +91,22 @@ function initFirebaseUI()***REMOVED***
  * onFirebaseAuth
  * ------------------------------------------------
  */
-function	onFirebaseAuth()***REMOVED***
+function	onFirebaseAuth(){
 
 	//	User	is	signed	in.
-	if(window.user)***REMOVED***
+	if(window.user){
 
 		let userState = 'na';
 		var db = firebase.firestore();
 		const usersRef = db.collection('doctors').doc(window.user.uid);
 		//
-		usersRef.get().then(function(docSnapshot)***REMOVED***
-			if (docSnapshot.exists) ***REMOVED***
-				usersRef.onSnapshot(function(doc)***REMOVED***
+		usersRef.get().then(function(docSnapshot){
+			if (docSnapshot.exists) {
+				usersRef.onSnapshot(function(doc){
 					// Check if the user is verified and if verified create chatroom
 					let db_Status = doc.get('status').toString();
-					if(doc.get('verified'))***REMOVED***
-						if(db_Status === 'Approved')***REMOVED***
+					if(doc.get('verified')){
+						if(db_Status === 'Approved'){
 							// Definitely approved
 							// or approved [to be checked]
 							// Verfied user
@@ -121,14 +120,14 @@ function	onFirebaseAuth()***REMOVED***
 							$('#login_div').hide();
 							$('#disc').hide();
 							//
-							getUserInfo().then(function(value)***REMOVED***
+							getUserInfo().then(function(value){
 								window.user.info = value;
 								startVideo();
-							***REMOVED***);
+							});
 							//
 
 							//
-						***REMOVED***else if(db_Status === 'Rejected')***REMOVED***
+						}else if(db_Status === 'Rejected'){
 							// Definitely rejected
 							$('#main_applicant_status').text('🛑 APPLICATION REJECTED');
 							$('.rejected_stage').show();
@@ -140,10 +139,10 @@ function	onFirebaseAuth()***REMOVED***
 							$('#pending_div').show();
 							$('#ham_button').show();
 							$('#login_div').hide();
-						***REMOVED***else***REMOVED***
+						}else{
 							console.log('error! Not supposed to be here');
-						***REMOVED***
-					***REMOVED***else***REMOVED***
+						}
+					}else{
 						// Submitted user, still pending review
 						userState = 'pending';
 						console.log('Pending stage');
@@ -153,13 +152,13 @@ function	onFirebaseAuth()***REMOVED***
 						$('#ham_button').show();
 						$('#login_div').hide();
 						//
-						setTimeout(function()***REMOVED***waitTimer(0,10);***REMOVED***, 3000);
-					***REMOVED***
-				***REMOVED***,function(serr)***REMOVED***
+						setTimeout(function(){waitTimer(0,10);}, 3000);
+					}
+				},function(serr){
 					//...
 					console.log('error!');
-				***REMOVED***);
-			***REMOVED*** else ***REMOVED***
+				});
+			} else {
 				userState = 'new';
 				// New user
 				console.log('New user');
@@ -168,34 +167,34 @@ function	onFirebaseAuth()***REMOVED***
 				$('#ham_button').show();
 				$('#login_div').hide();
 				// ...
-			***REMOVED***
-		***REMOVED***,function (err) ***REMOVED***
+			}
+		},function (err) {
 			//....
 			console.log('error!');
 			// error loading database
 			console.log('Databse error...');
 			window.notyf.error('Error loading database. Try loggin in again...');
-			setTimeout(function()***REMOVED***
+			setTimeout(function(){
 				window.user = null;
 				firebase.auth().signOut();
 				location.reload(true);
-			***REMOVED***, 4000);
-		***REMOVED***);
-	***REMOVED***
+			}, 4000);
+		});
+	}
 	//	No	user	is	signed	in.
-	else***REMOVED***
+	else{
 		$('#user_div').hide();
 		$('#ham_button').hide();
 		$('#login_div').show();
 		$('#inlogin').hide();
 		// ...
-	***REMOVED***
+	}
 
 	//
 	window.loading_screen.finish();
 	if(document.getElementById('_status') != null)
 		document.getElementById('_status').innerHTML	=	'Connected';
-***REMOVED***
+}
 
 /**
  * ------------------------------------------------
@@ -204,7 +203,7 @@ function	onFirebaseAuth()***REMOVED***
  * // handled consistently across main.js, rmp.js and admin.js
  * ------------------------------------------------
  */
-function initSidemenu()***REMOVED***
+function initSidemenu(){
 
 	//
 	$('#ham_button').click(openNav);
@@ -213,9 +212,9 @@ function initSidemenu()***REMOVED***
 
 	//	Side	menu	functions
 	let	elem	=	$(	'#sidemenu	a'	);
-	elem.each(function(	i	)	***REMOVED***
+	elem.each(function(	i	)	{
 		//
-		$(this).click(function()***REMOVED***
+		$(this).click(function(){
 			deselectAll();
 			$(this).children().addClass('selected');
 			//
@@ -226,24 +225,24 @@ function initSidemenu()***REMOVED***
 			$('#contact').hide();
 			//
 			let	id	=	$(this).attr('id');
-			if(id.includes('home'))***REMOVED***
+			if(id.includes('home')){
 				$('#main').show();
-			***REMOVED***else	if(id.includes('about'))***REMOVED***
+			}else	if(id.includes('about')){
 				$('#about').show();
-			***REMOVED***else	if(id.includes('logout'))***REMOVED***
+			}else	if(id.includes('logout')){
 				logout();
-			***REMOVED***
+			}
 			//
 			closeNav();
-		***REMOVED***);
+		});
 
-	***REMOVED***);
+	});
 
 	// NOTE
 	// Following functions are scoped only for sidemenu
 	//
 	// function to open navigation
-	function	openNav()	***REMOVED***
+	function	openNav()	{
 		console.log('Open');
 		$('#sidenav').addClass('open');
 		$('#sidenav').removeClass('closed');
@@ -252,10 +251,10 @@ function initSidemenu()***REMOVED***
 		$('#main').css('transform',	'translateX(250px)');
 		$('#header_content').css('transform',	'translateX(250px)');
 		$('#about').css('transform',	'translateX(250px)');
-	***REMOVED***
+	}
 
 	// logout functionlity
-	function	logout()***REMOVED***
+	function	logout(){
 		console.log('Logging	out...');
 		//
 		deselectAll();
@@ -266,18 +265,18 @@ function initSidemenu()***REMOVED***
 		$('#home_item').children().addClass('selected');
 		$('#main-div').show();
 		$('#main').hide();
-	***REMOVED***
+	}
 
 	// deselect sidemenu links
-	function	deselectAll()***REMOVED***
+	function	deselectAll(){
 		let	elem	=	$('#sidemenu	a');
-		elem.each(function(	i	)	***REMOVED***
+		elem.each(function(	i	)	{
 			$(this).children().removeClass('selected');
-		***REMOVED***);
-	***REMOVED***
+		});
+	}
 
 	// close navigation
-	function	closeNav()	***REMOVED***
+	function	closeNav()	{
 		console.log('Close');
 		$('#sidenav').addClass('closed');
 		$('#sidenav').removeClass('open');
@@ -286,8 +285,8 @@ function initSidemenu()***REMOVED***
 		$('#main').css('transform',	'translateX(0)');
 		$('#header_content').css('transform',	'translateX(0)');
 		$('#about').css('transform',	'translateX(0)');
-	***REMOVED***
-***REMOVED***
+	}
+}
 
 
 /**
@@ -295,14 +294,14 @@ function initSidemenu()***REMOVED***
  * submitDoctorDetails
  * ------------------------------------------------
  */
-function submitDoctorDetails()***REMOVED***
+function submitDoctorDetails(){
 
 	console.log('Performing validation check');
 	let is_valid = validateForm();
-	if(!is_valid)***REMOVED***
+	if(!is_valid){
 		throwError('All fields are strictly required.');
 		return -1;
-	***REMOVED***
+	}
 
 	console.log('Now submit values and documents');
 	//
@@ -317,7 +316,7 @@ function submitDoctorDetails()***REMOVED***
 	var phnumber = parseInt($('#ph').val());
 	//
 	// Add a new document in collection "doctors"
-	db.collection('doctors').doc(window.user.uid).set(***REMOVED***
+	db.collection('doctors').doc(window.user.uid).set({
 		name: 'Dr. ' + first_name + ' ' + last_name,
 		age: age,
 		address: address,
@@ -328,7 +327,7 @@ function submitDoctorDetails()***REMOVED***
 		uid: window.user.uid,
 		verified: false,
 		status: 'Pending...'
-	***REMOVED***).then(function() ***REMOVED***
+	}).then(function() {
 		console.log('Document successfully written!');
 		//
 		$('#noteSpace').show();
@@ -337,35 +336,35 @@ function submitDoctorDetails()***REMOVED***
 		$('#errorSpace').hide();
 		window.notyf.success('Your changes have been successfully submitted!');
 		//
-		setTimeout(function()***REMOVED***location.reload(true);***REMOVED***, 3000);
-	***REMOVED***).catch(function(error) ***REMOVED***
+		setTimeout(function(){location.reload(true);}, 3000);
+	}).catch(function(error) {
 		console.error('Error writing document: ', error);
 		throwError('Error writing document:\n'+ toString(error));
-	***REMOVED***);
+	});
 
-	function throwError(_in)***REMOVED***
+	function throwError(_in){
 		$('#noteSpace').hide();
 		$('#errorSpace').show();
 		$('#message').show();
 		$('#message').text(_in);
 		//
 		window.notyf.error(_in);
-	***REMOVED***
+	}
 
-	function validateForm() ***REMOVED***
+	function validateForm() {
 		var isValid = true;
 		var jfields = $('.ss-item-required');
 		var fields = jfields.serializeArray();
-		$.each(fields, function(i, field) ***REMOVED***
-			if (!field.value)***REMOVED***
+		$.each(fields, function(i, field) {
+			if (!field.value){
 				isValid = false;
 				$(jfields[i]).addClass('required');
-				setTimeout(function()***REMOVED***$(jfields[i]).removeClass('required');***REMOVED***, 3000);
-			***REMOVED***
-		***REMOVED***);
+				setTimeout(function(){$(jfields[i]).removeClass('required');}, 3000);
+			}
+		});
 		return isValid;
-	***REMOVED***
-***REMOVED***
+	}
+}
 
 
 /**
@@ -373,44 +372,44 @@ function submitDoctorDetails()***REMOVED***
  * waitTimer
  * ------------------------------------------------
  */
-function waitTimer(mm,ss)***REMOVED***
+function waitTimer(mm,ss){
 	$('.retry_stage_a').hide();
-	if(mm != 0)***REMOVED***
+	if(mm != 0){
 		$('.retry_stage_b').hide();
 		$('.retry_stage_c').show();
-	***REMOVED***
-	else***REMOVED***
+	}
+	else{
 		$('.retry_stage_b').show();
 		$('.retry_stage_c').hide();
-	***REMOVED***
+	}
 
-	function getTimeRemaining(endtime) ***REMOVED***
+	function getTimeRemaining(endtime) {
 		var t = Date.parse(endtime) - Date.parse(new Date());
 		var seconds = Math.floor((t / 1000) % 60);
 		var minutes = Math.floor((t / 1000 / 60) % 60);
 		var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
 		var days = Math.floor(t / (1000 * 60 * 60 * 24));
-		return ***REMOVED***
+		return {
 			'total': t,
 			'days': days,
 			'hours': hours,
 			'minutes': minutes,
 			'seconds': seconds
-		***REMOVED***;
-	***REMOVED***
+		};
+	}
 
-	function initializeClock(id, endtime) ***REMOVED***
+	function initializeClock(id, endtime) {
 		var clock = document.getElementById(id);
 		var minutesSpan = clock.querySelector('.minutes');
 		var secondsSpan = clock.querySelector('.seconds');
 
-		function updateClock() ***REMOVED***
+		function updateClock() {
 			var t = getTimeRemaining(endtime);
 
 			minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
 			secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
 
-			if (t.total <= 0) ***REMOVED***
+			if (t.total <= 0) {
 				$('#pending_div').trigger('timeisup', [mm,ss]);
 				$('.retry_stage_a').show();
 				$('.retry_stage_b').hide();
@@ -419,34 +418,34 @@ function waitTimer(mm,ss)***REMOVED***
 				//
 				clearInterval(timeinterval);
 				//
-				setTimeout(function()***REMOVED***location.reload(true);***REMOVED***, 2000);
-			***REMOVED***
-		***REMOVED***
+				setTimeout(function(){location.reload(true);}, 2000);
+			}
+		}
 
 		updateClock();
 		var timeinterval = setInterval(updateClock, 1000);
-	***REMOVED***
+	}
 
 	var deadline = new Date(Date.parse(new Date()) + mm * ss * 1000 + ss * 1000);
 	initializeClock('clockdiv', deadline);
-***REMOVED***
+}
 
 
-async function getUserInfo() ***REMOVED***
+async function getUserInfo() {
 	var db = firebase.firestore();
 	const snapshot = await db.collection('doctors').doc(window.user.uid).get();
 	return snapshot.data();
-***REMOVED***
+}
 
 /**
  * ------------------------------------------------
  * startVideo
  * ------------------------------------------------
  */
-function startVideo()***REMOVED***
+function startVideo(){
 	//
 	let	user	=	firebase.auth().currentUser;
-	if(user	!=	null)***REMOVED***
+	if(user	!=	null){
 		var	email_id	=	user.email;
 		//var meeting_width = document.getElementById('main_video_item').offsetWidth;
 		let body_height = $( window ).height();
@@ -456,16 +455,16 @@ function startVideo()***REMOVED***
 		let meet_height = body_height - header_height - prediv_height - 25;
 		let meet_width = header_width;
 		//
-		$('#main').css(***REMOVED***'maxWidth': meet_width***REMOVED***);
+		$('#main').css({'maxWidth': meet_width});
 		$('#main').width(meet_width);
 		//
 		const domain = 'meet.jit.si';
-		const options = ***REMOVED***
+		const options = {
 			roomName: 'COVID19-'+window.user.uid,
 			width: meet_width,
 			height: meet_height,
 			parentNode: document.querySelector('#meet'),
-			interfaceConfigOverwrite: ***REMOVED***
+			interfaceConfigOverwrite: {
 				DEFAULT_BACKGROUND: '#111',
 				DEFAULT_REMOTE_DISPLAY_NAME: 'Doctor',
 				SHOW_BRAND_WATERMARK: true,
@@ -481,10 +480,10 @@ function startVideo()***REMOVED***
 					'videoquality', 'filmstrip', 'stats', 'shortcuts',
 					'tileview', 'help', 'mute-everyone'
 				]
-			***REMOVED***
-		***REMOVED***;
+			}
+		};
 		const api = new JitsiMeetExternalAPI(domain, options);
 		api.executeCommand('displayName', window.user.info.name);
 		api.executeCommand('subject', 'COVID19-'+window.user.info.name);
-	***REMOVED***
-***REMOVED***
+	}
+}

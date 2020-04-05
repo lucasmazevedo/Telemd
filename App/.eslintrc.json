@@ -1,14 +1,14 @@
-***REMOVED***
-    "env": ***REMOVED***
+{
+    "env": {
         "browser": true,
         "es6": true
-  ***REMOVED***
+    },
     "extends": "eslint:recommended",
-    "parserOptions": ***REMOVED***
+    "parserOptions": {
 	"ecmaVersion": 2017,
         "sourceType": "module"
-  ***REMOVED***
-    "rules": ***REMOVED***
+    },
+    "rules": {
         "no-console": "off",
         "no-unused-vars": "off",
         "no-cond-assign": "off",
@@ -29,6 +29,6 @@
             "error",
             "always"
         ]
-  ***REMOVED***
-***REMOVED***
+    }
+}
 

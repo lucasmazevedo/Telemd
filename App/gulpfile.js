@@ -25,205 +25,217 @@ var rename = require('gulp-rename');
 
 const shell = require('gulp-shell');
 var pack = JSON.parse(fs.readFileSync('./package.json'));
-var versionConfig = ***REMOVED***
+var versionConfig = {
 	'value': pack.version,
-	'replaces' : ['#***REMOVED***VERSION_REPlACE***REMOVED***#'],
-	'append': ***REMOVED***
+	'replaces' : ['#{VERSION_REPlACE}#'],
+	'append': {
 		'key': 'v',
 		'to': ['css', 'js'],
-	***REMOVED***,
-***REMOVED***;
+	},
+};
+
+var configpack = JSON.parse(fs.readFileSync('./configProperties.json'));
+var firebaseConfig = {
+	'value': JSON.stringify(configpack.FIREBASE_CONFIG),
+	'replaces' : ['#{FIREBASE_CONFIG_REPlACE}#']
+};
 
 //This task will clean all files from 'dist'
 gulp.task('clean', function(done)
-***REMOVED***
+{
 	del.sync('./dist/**/*');
 	done();
-***REMOVED***);
+});
 
 //This task will convert sass style features to css
-gulp.task('styles', function() ***REMOVED***
+gulp.task('styles', function() {
 	// Our scss source folder: .scss files
-	var scss = ***REMOVED***
+	var scss = {
 		in: './src/sass/main.scss',
 		outdir: './dist/css/',
-		sassOpts: ***REMOVED***
+		sassOpts: {
 			outputStyle: 'nested',
 			precison: 3,
 			errLogToConsole: true,
 			includePaths: ['./node_modules/']
-		***REMOVED***
-	***REMOVED***;
+		}
+	};
 
 	return gulp.src(scss.in)
 		.pipe(sass(scss.sassOpts).on('error', sass.logError))
 		.pipe(gulp.dest(scss.outdir));
-***REMOVED***);
+});
 
 
 //This task will convert sass style features to css
-gulp.task('rmp-styles', function() ***REMOVED***
+gulp.task('rmp-styles', function() {
 	// Our scss source folder: .scss files
-	var scss = ***REMOVED***
+	var scss = {
 		in: './src/sass/rmp.scss',
 		outdir: './dist/css/',
-		sassOpts: ***REMOVED***
+		sassOpts: {
 			outputStyle: 'nested',
 			precison: 3,
 			errLogToConsole: true,
 			includePaths: ['./node_modules/']
-		***REMOVED***
-	***REMOVED***;
+		}
+	};
 
 	return gulp.src(scss.in)
 		.pipe(sass(scss.sassOpts).on('error', sass.logError))
 		.pipe(gulp.dest(scss.outdir));
-***REMOVED***);
+});
 
 //This task will convert sass style features to css
-gulp.task('admin-styles', function() ***REMOVED***
+gulp.task('admin-styles', function() {
 	// Our scss source folder: .scss files
-	var scss = ***REMOVED***
+	var scss = {
 		in: './src/sass/admin.scss',
 		outdir: './dist/css/',
-		sassOpts: ***REMOVED***
+		sassOpts: {
 			outputStyle: 'nested',
 			precison: 3,
 			errLogToConsole: true,
 			includePaths: ['./node_modules/']
-		***REMOVED***
-	***REMOVED***;
+		}
+	};
 
 	return gulp.src(scss.in)
 		.pipe(sass(scss.sassOpts).on('error', sass.logError))
 		.pipe(gulp.dest(scss.outdir));
-***REMOVED***);
+});
 
 
 
 //This task will check for common errors in js files
-gulp.task('lint', function() ***REMOVED***
+gulp.task('lint', function() {
 	return gulp.src('./src/js/**/*.js')
-		.pipe(eslint(***REMOVED*** fix: true ***REMOVED***))
+		.pipe(eslint({ fix: true }))
 		.pipe(eslint.format())
 		.pipe(eslint.failAfterError());
-***REMOVED***);
+});
 
 // This task will bundle all other js files and babelify them - Uses ES6 features
-gulp.task('js-scripts', function() ***REMOVED***
+gulp.task('js-scripts', function() {
 
-	var browserifyjs = ***REMOVED***
+	var browserifyjs = {
 		in: './src/js/main.js',
 		outdir: './dist/js',
 		out: 'bundle.js',
-		jsOpts: ***REMOVED***
+		jsOpts: {
 			debug: false
-		***REMOVED***
-	***REMOVED***;
+		}
+	};
 
 	return browserify(browserifyjs.jsOpts)
-		.transform(babel, ***REMOVED*** presets: ['@babel/preset-env'] ***REMOVED***)
-		.require(browserifyjs.in, ***REMOVED*** entry: true ***REMOVED***)
+		.transform(babel, { presets: ['@babel/preset-env'] })
+		.require(browserifyjs.in, { entry: true })
 		.bundle()
-		.on('error', function(err)***REMOVED***	console.log(err.stack); ***REMOVED***)
+		.on('error', function(err){	console.log(err.stack); })
 		.pipe(vinylsource(browserifyjs.out))
+		.pipe(vinylbuffer())
+		.pipe(version(firebaseConfig))
 		.pipe(gulp.dest(browserifyjs.outdir));
-***REMOVED***);
+});
 
 
 // This task will bundle all other js files and babelify them - Uses ES6 features
-gulp.task('rmp-js-scripts', function() ***REMOVED***
+gulp.task('rmp-js-scripts', function() {
 
-	var browserifyjs = ***REMOVED***
+	var browserifyjs = {
 		in: './src/js/rmp.js',
 		outdir: './dist/js',
 		out: 'rmpbundle.js',
-		jsOpts: ***REMOVED***
+		jsOpts: {
 			debug: false
-		***REMOVED***
-	***REMOVED***;
+		}
+	};
 
 	return browserify(browserifyjs.jsOpts)
-		.transform(babel, ***REMOVED*** presets: ['@babel/preset-env'] ***REMOVED***)
-		.require(browserifyjs.in, ***REMOVED*** entry: true ***REMOVED***)
+		.transform(babel, { presets: ['@babel/preset-env'] })
+		.require(browserifyjs.in, { entry: true })
 		.bundle()
-		.on('error', function(err)***REMOVED***	console.log(err.stack); ***REMOVED***)
+		.on('error', function(err){	console.log(err.stack); })
 		.pipe(vinylsource(browserifyjs.out))
+		.pipe(vinylbuffer())
+		.pipe(version(firebaseConfig))
 		.pipe(gulp.dest(browserifyjs.outdir));
-***REMOVED***);
+});
 
 // This task will bundle all other js files and babelify them - Uses ES6 features
-gulp.task('admin-js-scripts', function() ***REMOVED***
+gulp.task('admin-js-scripts', function() {
 
-	var browserifyjs = ***REMOVED***
+	var browserifyjs = {
 		in: './src/js/admin.js',
 		outdir: './dist/js',
 		out: 'adminbundle.js',
-		jsOpts: ***REMOVED***
+		jsOpts: {
 			debug: false
-		***REMOVED***
-	***REMOVED***;
+		}
+	};
 
 	return browserify(browserifyjs.jsOpts)
-		.transform(babel, ***REMOVED*** presets: ['@babel/preset-env'] ***REMOVED***)
-		.require(browserifyjs.in, ***REMOVED*** entry: true ***REMOVED***)
+		.transform(babel, { presets: ['@babel/preset-env'] })
+		.require(browserifyjs.in, { entry: true })
 		.bundle()
-		.on('error', function(err)***REMOVED***	console.log(err.stack); ***REMOVED***)
+		.on('error', function(err){	console.log(err.stack); })
 		.pipe(vinylsource(browserifyjs.out))
+		.pipe(vinylbuffer())
+		.pipe(version(firebaseConfig))
 		.pipe(gulp.dest(browserifyjs.outdir));
-***REMOVED***);
+});
 
 
 //This task will copy index.html into 'dist'
 gulp.task('index', function()
-***REMOVED***
+{
 	return gulp.src(['./src/index.html'])
 		.pipe(version(versionConfig))
 		.pipe(gulp.dest('./dist'));
-***REMOVED***);
+});
 
 //This task will copy index.html into 'dist'
 gulp.task('rmp-index', function()
-***REMOVED***
+{
 	return gulp.src(['./src/rmp.html'])
 		.pipe(version(versionConfig))
 		.pipe(gulp.dest('./dist'));
-***REMOVED***);
+});
 
 //This task will copy index.html into 'dist'
 gulp.task('admin-index', function()
-***REMOVED***
+{
 	return gulp.src(['./src/admin.html'])
 		.pipe(version(versionConfig))
 		.pipe(gulp.dest('./dist'));
-***REMOVED***);
+});
 
 //This task will copy manifest.json into 'dist'
 gulp.task('pwa-mani', function()
-***REMOVED***
+{
 	return gulp.src(['./src/manifest.json', './src/sw.js'])
 		.pipe(version(versionConfig))
 		.pipe(gulp.dest('./dist'));
-***REMOVED***);
+});
 
 //This task will copy assets into 'dist'
 gulp.task('assets', function()
-***REMOVED***
+{
 	return gulp.src(['./src/assets/**/*'])
 		.pipe(gulp.dest('./dist/'));
-***REMOVED***);
+});
 
 //This task will copy assets into 'dist'
 gulp.task('image-assets', function()
-***REMOVED***
+{
 	return gulp.src(['./src/assets/images/**/*'])
 		.pipe(gulp.dest('./dist/images/'));
-***REMOVED***);
+});
 
 
 //This task will copy third_party libraries into 'dist'
 gulp.task('lib', function()
-***REMOVED***
+{
 	gulp.src(['./node_modules/please-wait/build/**/*'])
 		.pipe(gulp.dest('./dist/third_party/'));
 
@@ -239,9 +251,9 @@ gulp.task('lib', function()
 
 	return gulp.src(['./src/third_party/**/*'])
 		.pipe(uglify())
-		.pipe(rename(function(path)***REMOVED***path.basename += '.min';***REMOVED***))
+		.pipe(rename(function(path){path.basename += '.min';}))
 		.pipe(gulp.dest('./dist/third_party/'));
-***REMOVED***);
+});
 
 //This task will bump up the version in package.json and update local version value.
 // Ref: https://stackoverflow.com/questions/36339694/how-to-increment-version-number-via-gulp-task
@@ -257,87 +269,87 @@ gulp.task('lib', function()
 ///    gulp bump --type patch       : bumps 0.0.2
 ///    gulp bump --type prerelease  : bumps 0.0.1-2
 /// </summary>
-gulp.task('bump', function () ***REMOVED***
+gulp.task('bump', function () {
 	var type = args.type;
 	var ver = args.version;
-	var options = ***REMOVED******REMOVED***;
-	if (ver) ***REMOVED***
+	var options = {};
+	if (ver) {
 		options.version = ver;
-	***REMOVED*** else ***REMOVED***
+	} else {
 		options.type = type;
-	***REMOVED***
+	}
 
 	return gulp.src(['./package.json'])
 		.pipe(bump(options))
 		.pipe(gulp.dest('./'));
-***REMOVED***);
+});
 
-gulp.task('bump:minor', function () ***REMOVED***
+gulp.task('bump:minor', function () {
 	var type = args.type;
 	var ver = args.version;
-	var options = ***REMOVED******REMOVED***;
-	if (ver) ***REMOVED***
+	var options = {};
+	if (ver) {
 		options.version = ver;
-	***REMOVED*** else ***REMOVED***
+	} else {
 		options.type = type;
-	***REMOVED***
+	}
 
 
 	options.type = 'minor';
 	return gulp.src(['./package.json'])
 		.pipe(bump(options))
 		.pipe(gulp.dest('./'));
-***REMOVED***);
+});
 
-gulp.task('bump:major', function () ***REMOVED***
+gulp.task('bump:major', function () {
 	var type = args.type;
 	var ver = args.version;
-	var options = ***REMOVED******REMOVED***;
-	if (ver) ***REMOVED***
+	var options = {};
+	if (ver) {
 		options.version = ver;
-	***REMOVED*** else ***REMOVED***
+	} else {
 		options.type = type;
-	***REMOVED***
+	}
 
 
 	options.type = 'minor';
 	return gulp.src(['./package.json'])
 		.pipe(bump(options))
 		.pipe(gulp.dest('./'));
-***REMOVED***);
+});
 
 //This task will watch for changes in src and then run reload task upon change
 gulp.task('watch', function(done)
-***REMOVED***
+{
 	//
 	var saas_watcher = gulp.watch('./src/sass/**/*', gulp.series('refresh:styles'));
-	saas_watcher.on('change', function(event)***REMOVED***
+	saas_watcher.on('change', function(event){
 		log('File ' + event.path + ' was ' + event.type + ', running styles tasks...');
-	***REMOVED***);
+	});
 	//
 	var js_watcher = gulp.watch('./src/js/**/*', gulp.series('refresh:js'));
-	js_watcher.on('change', function(event)***REMOVED***
+	js_watcher.on('change', function(event){
 		log('File ' + event.path + ' was ' + event.type + ', running js tasks...');
-	***REMOVED***);
+	});
 	//
 	var index_watcher = gulp.watch('./src/*.html', gulp.series('refresh:index'));
-	index_watcher.on('change', function(event)***REMOVED***
+	index_watcher.on('change', function(event){
 		log('File ' + event.path + ' was ' + event.type + ', running index tasks...');
-	***REMOVED***);
+	});
 	//
 	done();
 
-***REMOVED***);
+});
 
 
 //This task will start browser-sync for multiple browser screen environment
 gulp.task('browser-sync', function()
-***REMOVED***
-	browserSync.init(***REMOVED***
+{
+	browserSync.init({
 		server: './dist/',
 		https: true
-	***REMOVED***);
-***REMOVED***);
+	});
+});
 //
 // Combined tasks
 gulp.task('js', gulp.series('js-scripts'));
@@ -345,12 +357,13 @@ gulp.task('rmp-js', gulp.series('rmp-js-scripts'));
 gulp.task('admin-js', gulp.series('admin-js-scripts'));
 
 //This task will run by default - clean, process and start app - Development
-gulp.task('default', gulp.series('clean', 'assets', 'image-assets', 'lib', 'styles', 'rmp-styles', 'admin-styles', 'lint', 'js', 'rmp-js', 'admin-js', 'index', 'rmp-index', 'admin-index', 'pwa-mani' , 'watch', 'browser-sync'));
+gulp.task('serve:dist', gulp.series('clean', 'assets', 'image-assets', 'lib', 'styles', 'rmp-styles', 'admin-styles', 'lint', 'js', 'rmp-js', 'admin-js', 'index', 'rmp-index', 'admin-index', 'pwa-mani' , 'watch', 'browser-sync'));
 gulp.task('firebase:host', gulp.series('clean', 'assets', 'image-assets', 'lib', 'styles', 'rmp-styles', 'admin-styles', 'lint', 'js', 'rmp-js', 'admin-js', 'index', 'rmp-index', 'admin-index', 'pwa-mani', shell.task(['firebase deploy --only hosting:telemd-call'])));
+gulp.task('default', gulp.series('serve:dist'));
 //
 //
 //This task will refresh other tasks upon watch
-gulp.task('refresh:all', gulp.series('styles', 'rmp-styles', 'admin-styles', 'lint', 'js', 'rmp-js', 'admin-js', 'index', 'rmp-index', 'admin-index', 'pwa-mani', function(done) ***REMOVED*** browserSync.reload(); done(); ***REMOVED***));
-gulp.task('refresh:styles', gulp.series('styles', 'rmp-styles', 'admin-styles', function(done) ***REMOVED*** browserSync.reload(); done(); ***REMOVED***));
-gulp.task('refresh:js', gulp.series('lint', 'js', 'rmp-js', 'admin-js', function(done) ***REMOVED*** browserSync.reload(); done(); ***REMOVED***));
-gulp.task('refresh:index', gulp.series('index', 'rmp-index', 'admin-index', function(done) ***REMOVED*** browserSync.reload(); done(); ***REMOVED***));
+gulp.task('refresh:all', gulp.series('styles', 'rmp-styles', 'admin-styles', 'lint', 'js', 'rmp-js', 'admin-js', 'index', 'rmp-index', 'admin-index', 'pwa-mani', function(done) { browserSync.reload(); done(); }));
+gulp.task('refresh:styles', gulp.series('styles', 'rmp-styles', 'admin-styles', function(done) { browserSync.reload(); done(); }));
+gulp.task('refresh:js', gulp.series('lint', 'js', 'rmp-js', 'admin-js', function(done) { browserSync.reload(); done(); }));
+gulp.task('refresh:index', gulp.series('index', 'rmp-index', 'admin-index', function(done) { browserSync.reload(); done(); }));

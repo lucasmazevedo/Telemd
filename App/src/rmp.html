@@ -7,7 +7,7 @@
 		<meta	http-equiv="X-UA-Compatible"	content="IE=edge">
 		<meta	name="google"	value="notranslate">
 		<meta	name="robots"	content="index,	follow">
-		<meta	name="description"	content="Remote	diagnosis	for	India	in	COVID-19	health	crisis">
+		<meta	name="description"	content="Remote diagnosis for India in COVID-19 health crisis">
 		<meta	name="keywords"	content="">
 		<meta	name="author"	content="Mike	Cj">
 		<!--meta	name="google-site-verification"	/-->
@@ -49,11 +49,11 @@
 				let	loading_message_sub	=	'';
 				let	please_wait_spinner_index	=	Math.floor(Math.random()*please_wait_spinners.length);
 
-				window.loading_screen	=	window.pleaseWait(***REMOVED***
+				window.loading_screen	=	window.pleaseWait({
 						logo:	'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
 						backgroundColor:	'#000',
 						loadingHtml:	please_wait_spinners[please_wait_spinner_index]	+	'<br><p	class="loading-message"	style="margin-top:	-60px;color:rgba(255,	255,	255,	0.7);	font-size:	12px;">'	+	loading_message_sub	+	'<br><span	id="_status">Connecting...</span></p>'
-				***REMOVED***);
+				});
 		</script>
 
 		<div id="prelogin" style="color: white;">Loading...</div>
@@ -83,7 +83,7 @@
 
 
 		<!--	LOGIN	-->
-		<div	class="main-div	login-section"	id="login_div">
+		<div	class="main-div"	id="login_div">
 				<div	id="firebaseui-auth-container"></div>
 		</div>
 
@@ -236,7 +236,7 @@
 		<!--	ABOUT	-->
 		<div	id="about"	style="display:none;">
 				<p	style="letter-spacing:	0.1em;	margin-bottom:	0;">	ABOUT	</p>
-				<p	style="font-size:	14px;">TeleMD	v#***REMOVED***VERSION_REPlACE***REMOVED***#</p>
+				<p	style="font-size:	14px;">TeleMD	v#{VERSION_REPlACE}#</p>
 				<br>
 				<p>TeleMD	is	a	web	application	to	connect	remote	patients	to	Doctors.	</p>
 				<br>
