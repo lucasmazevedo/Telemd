@@ -8,7 +8,7 @@ import firebase from 'firebase';
 import * as firebaseui from 'firebaseui';
 import bootstrap from 'bootstrap';
 import { Notyf } from 'notyf';
-
+import { Twilio } from 'twilio';
 
 window.onload = function() {
 	window.$ = $;
@@ -118,6 +118,7 @@ function onFirebaseAuth(){
 					if(window.user.displayName != null)
 						$('#uname').text(' ' + window.user.displayName.split(' ')[0]);
 					if(adminEmails.indexOf(window.user.email) > -1){
+						initTwilio();
 						performAdminTasks();
 					}else{
 						console.log('Here');
@@ -256,6 +257,28 @@ function initModal(){
 	Intense( intense_elements );
 }
 
+
+/**
+ * ------------------------------------------------
+ * initTwilio
+ * ------------------------------------------------
+ */
+function initTwilio(){
+	const twilioConfig = JSON.parse('#{TWILIO_CONFIG_REPlACE}#');
+	const accountSid = twilioConfig.sid;
+	const authToken = twilioConfig.token;
+
+	console.log(accountSid);
+	console.log(authToken);
+	//
+	let twilio_client = new Twilio(accountSid, authToken);
+	window.tc = {
+		client: twilio_client,
+		from: twilioConfig.fromph
+	};
+}
+
+
 /**
  * ------------------------------------------------
  * performAdminTasks
@@ -275,6 +298,7 @@ function performAdminTasks(){
 				//
 				var modal = document.querySelector('.modal');
 				modal.classList.toggle('show-modal');
+				//
 				//
 				// Show approve button
 				let approve_markup = '<button	id="approve_button_'+index+'" class="bigbutton" style="background-color: green; display:none;">✔ Approve</button> &nbsp';
@@ -307,6 +331,27 @@ function performAdminTasks(){
 							console.log('Document successfully written!');
 							window.notyf.success('Approved!');
 							$('#status_'+index).text('Approved');
+							//
+							// Send a text to approved person
+							if(window.tc.client != null){
+								//
+								window.tc.client.messages
+									.create({
+										body: 'Hello ' + element.name + ', Your application has been approved.\nPlease login now with the link - http://doc.telemd.org.in/rmp.html\nThank you from Team TeleMD.',
+										from: window.tc.from,
+										to: '+91' + element.phnumber
+									})
+									.then(function(message) {
+										console.log('Message has been sent!');
+										console.log(message);
+										window.notyf.success('Approved & Message sent!');
+										setTimeout(function(){
+											$('.close-button').click();
+										}, 1000);
+									});
+							}else
+								console.log('Message Error!!\nTwilio client not available!!');
+							//
 						}).catch(function(error) {
 							console.error('Error writing document: ', error);
 							throwError('Error writing document:\n'+ toString(error));
@@ -325,6 +370,26 @@ function performAdminTasks(){
 							console.log('Document successfully written!');
 							window.notyf.error('Rejected!');
 							$('#status_'+index).text('Rejected');
+							// Send a text to approved person
+							if(window.tc.client != null){
+								//
+								window.tc.client.messages
+									.create({
+										body: 'Hello, We are really sorry to inform that your application has been rejected.\nPlease reach out to us at telemdin[at]gmail.com if you think this is a mistake.\nThank you, from Team TeleMD(http://telemd.org.in)',
+										from: window.tc.from,
+										to: '+91' + element.phnumber
+									})
+									.then(function(message) {
+										console.log('Message has been sent!');
+										console.log(message);
+										setTimeout(function(){
+											window.notyf.success('Rejected & Message sent!');
+											$('.close-button').click();
+										}, 1000);
+									});
+							}else
+								console.log('Message Error!!\nTwilio client not available!!');
+
 						}).catch(function(error) {
 							console.error('Error writing document: ', error);
 							throwError('Error writing document:\n'+ toString(error));

@@ -13,8 +13,13 @@ Remote diagnosis for India in COVID-19 health crisis
 	gulp serve:dist
 ```
 
+###### Bump up version before commit
+```
+	gulp bump
+```
+
+
 ### Todo
- - Add Hangouts-Meet API
  - Add volunteering registration
  - Add Donate button
 
@@ -35,13 +40,13 @@ Remote diagnosis for India in COVID-19 health crisis
  - Known telemedicine businesses in India -> [Televital](http://www.televital.com/telemedicine), [digiMD](https://www.digimd.in/), [Curofy](https://curofy.com/) and lot more...
 
 ### Tech
-* [Hangouts API](https://developers.google.com/hangouts/chat/concepts)
-* [Google meets API](https://cloud.google.com/blog/products/application-development/hangouts-meet-now-available-in-google)
 * [Firebase](https://firebase.google.com/)
+* [Jitsi](https://jitsi.org/)
+* [Twilio](https://twilio.com/)
 
 ### Opensource tools and modules in use
-* [Login]()
-*
+* [Firebase UI](https://github.com/firebase/firebaseui-web/) - for Login
+* [Jitsi Meet](https://github.com/jitsi/jitsi-meet/) - for video calls
 
 ### More
 * [OpenEMR](https://github.com/openemr/openemr)

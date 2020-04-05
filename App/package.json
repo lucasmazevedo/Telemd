@@ -1,6 +1,6 @@
 {
   "name": "telemd-webapp",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Remote diagnosis for India in COVID-19 health crisis",
   "main": "main.js",
   "scripts": {

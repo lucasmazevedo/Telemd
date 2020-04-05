@@ -39,6 +39,10 @@ var firebaseConfig = {
 	'value': JSON.stringify(configpack.FIREBASE_CONFIG),
 	'replaces' : ['#{FIREBASE_CONFIG_REPlACE}#']
 };
+var twilioConfig = {
+	'value': JSON.stringify(configpack.TWILIO_CONFIG),
+	'replaces' : ['#{TWILIO_CONFIG_REPlACE}#']
+};
 
 //This task will clean all files from 'dist'
 gulp.task('clean', function(done)
@@ -182,6 +186,7 @@ gulp.task('admin-js-scripts', function() {
 		.pipe(vinylsource(browserifyjs.out))
 		.pipe(vinylbuffer())
 		.pipe(version(firebaseConfig))
+		.pipe(version(twilioConfig))
 		.pipe(gulp.dest(browserifyjs.outdir));
 });
 
