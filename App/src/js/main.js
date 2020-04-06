@@ -85,12 +85,8 @@ function onFirebaseAuth(){
 		$('#user_div').show();
 		$('#ham_button').show();
 		$('#login_div').hide();
-
-		setTimeout(function(){
-			startVideo();
-		},	2000);
-
-
+		//
+		performPatientTasks();
 	}else{
 		//No user is signed in.
 		$('#user_div').hide();
@@ -198,6 +194,15 @@ function initSidemenu(){
 
 /**
  * ------------------------------------------------
+ * performPatientTasks
+ * ------------------------------------------------
+ */
+function performPatientTasks(){
+
+}
+
+/**
+ * ------------------------------------------------
  * startVideo
  * ------------------------------------------------
  */
@@ -209,6 +214,8 @@ function startVideo(){
 	let	user = firebase.auth().currentUser;
 	if(user != null){
 		var	email_id = user.email;
+
+		startVideo();
 		//
 		let body_height = $( window ).height();
 		let header_height = $('header').outerHeight();

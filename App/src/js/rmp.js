@@ -323,9 +323,6 @@ function initModal(start_opened){
 	//
 	$('#golive').click(function(){
 		startVideo();
-		$('#onenter').hide();
-		$('#live').show();
-		$('.close-button').hide();
 	});
 }
 
@@ -484,6 +481,11 @@ async function getUserInfo() {
  */
 function startVideo(){
 	//
+	$('#onenter').hide();
+	$('#live').show();
+	$('.close-button').hide();
+	let online = false;
+	//
 	let	user	=	firebase.auth().currentUser;
 	if(user	!=	null){
 		var	email_id	=	user.email;
@@ -525,6 +527,19 @@ function startVideo(){
 				//
 				var modal = document.querySelector('.modal');
 				modal.classList.toggle('show-modal');
+				//
+				online = !online;
+				if(online){
+					$('#onenter').hide();
+					$('#live').show();
+					$('#meet').show();
+					//
+				}else{
+					$('#onenter').show();
+					$('#live').hide();
+					$('#meet').empty();
+					$('#meet').hide();
+				}
 			}
 		};
 		const api = new JitsiMeetExternalAPI(domain, options);
