@@ -1,12 +1,10 @@
-/*global tele:true, firebase:true, JitsiMeetExternalAPI:true*/
+/*global tele:true, $:true, firebase:true, JitsiMeetExternalAPI:true*/
 
 window.tele	=	window.tele	||	{};
 window.user	=	window.user	||	null;
 
-import $ from 'jquery';
 import firebase from 'firebase';
 import * as firebaseui from 'firebaseui';
-import bootstrap from 'bootstrap';
 import { Notyf } from 'notyf';
 
 window.onload = function() {
@@ -119,7 +117,13 @@ function onFirebaseAuth(){
 							//
 							getUserInfo().then(function(value){
 								window.user.info = value;
-								startVideo();
+								//
+								if(window.user.info.name != null)
+									$('#doc_name').text(' ' + window.user.info.name.split(' ')[0] + ' ' + window.user.info.name.split(' ')[1]);
+								//
+								initModal(true);
+								//
+								//startVideo();
 							});
 							//
 
@@ -285,6 +289,45 @@ function initSidemenu(){
 	}
 }
 
+
+/**
+ * ------------------------------------------------
+ * initModal
+ * ------------------------------------------------
+ */
+function initModal(start_opened){
+	var modal = document.querySelector('.modal');
+	var closeButton = document.querySelector('.close-button');
+
+	function toggleModal() {
+		modal.classList.toggle('show-modal');
+	}
+
+	function windowOnClick(event) {
+		if (event.target === modal) {
+			toggleModal();
+		}
+	}
+	//
+	closeButton.addEventListener('click', toggleModal);
+	window.addEventListener('click', windowOnClick);
+	//
+	$(document).keydown(function(event) {
+		if (event.keyCode == 27) {
+			toggleModal();
+		}
+	});
+	//
+	if(start_opened)
+		toggleModal();
+	//
+	$('#golive').click(function(){
+		startVideo();
+		$('#onenter').hide();
+		$('#live').show();
+		$('.close-button').hide();
+	});
+}
 
 /**
  * ------------------------------------------------
@@ -477,6 +520,11 @@ function startVideo(){
 					'videoquality', 'filmstrip', 'stats', 'shortcuts',
 					'tileview', 'help', 'mute-everyone'
 				]
+			},
+			onload: function(){
+				//
+				var modal = document.querySelector('.modal');
+				modal.classList.toggle('show-modal');
 			}
 		};
 		const api = new JitsiMeetExternalAPI(domain, options);

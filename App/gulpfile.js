@@ -142,7 +142,6 @@ gulp.task('js-scripts', function() {
 		.pipe(gulp.dest(browserifyjs.outdir));
 });
 
-
 // This task will bundle all other js files and babelify them - Uses ES6 features
 gulp.task('rmp-js-scripts', function() {
 
@@ -241,6 +240,10 @@ gulp.task('image-assets', function()
 //This task will copy third_party libraries into 'dist'
 gulp.task('lib', function()
 {
+
+	gulp.src(['./node_modules/jquery/dist/jquery.min.js'])
+		.pipe(gulp.dest('./dist/third_party/'));
+
 	gulp.src(['./node_modules/please-wait/build/**/*'])
 		.pipe(gulp.dest('./dist/third_party/'));
 
@@ -250,6 +253,14 @@ gulp.task('lib', function()
 	gulp.src(['./node_modules/notyf/*.css'])
 		.pipe(gulp.dest('./dist/third_party/'));
 
+	gulp.src(['./node_modules/firebaseui/dist/*.css'])
+		.pipe(gulp.dest('./dist/third_party/'));
+
+	gulp.src(['./node_modules/firebaseui/dist/*.css'])
+		.pipe(gulp.dest('./dist/third_party/'));
+
+	gulp.src(['./node_modules/firechat/dist/**/*'])
+		.pipe(gulp.dest('./dist/third_party/'));
 
 	gulp.src(['./node_modules/intense-images/*.js'])
 		.pipe(gulp.dest('./dist/third_party/'));
@@ -332,9 +343,19 @@ gulp.task('watch', function(done)
 		log('File ' + event.path + ' was ' + event.type + ', running styles tasks...');
 	});
 	//
-	var js_watcher = gulp.watch('./src/js/**/*', gulp.series('refresh:js'));
+	var js_watcher = gulp.watch('./src/js/main.js', gulp.series('refresh:js'));
 	js_watcher.on('change', function(event){
-		log('File ' + event.path + ' was ' + event.type + ', running js tasks...');
+		log('File ' + event.path + ' was ' + event.type + ', running main js tasks...');
+	});
+	//
+	var rmp_js_watcher = gulp.watch('./src/js/rmp.js', gulp.series('refresh:rmp-js'));
+	rmp_js_watcher.on('change', function(event){
+		log('File ' + event.path + ' was ' + event.type + ', running rmp js tasks...');
+	});
+	//
+	var admin_js_watcher = gulp.watch('./src/js/admin.js', gulp.series('refresh:admin-js'));
+	admin_js_watcher.on('change', function(event){
+		log('File ' + event.path + ' was ' + event.type + ', running admin js tasks...');
 	});
 	//
 	var index_watcher = gulp.watch('./src/*.html', gulp.series('refresh:index'));
@@ -370,5 +391,7 @@ gulp.task('default', gulp.series('serve:dist'));
 //This task will refresh other tasks upon watch
 gulp.task('refresh:all', gulp.series('styles', 'rmp-styles', 'admin-styles', 'lint', 'js', 'rmp-js', 'admin-js', 'index', 'rmp-index', 'admin-index', 'pwa-mani', function(done) { browserSync.reload(); done(); }));
 gulp.task('refresh:styles', gulp.series('styles', 'rmp-styles', 'admin-styles', function(done) { browserSync.reload(); done(); }));
-gulp.task('refresh:js', gulp.series('lint', 'js', 'rmp-js', 'admin-js', function(done) { browserSync.reload(); done(); }));
+gulp.task('refresh:js', gulp.series('lint', 'js', function(done) { browserSync.reload(); done(); }));
+gulp.task('refresh:rmp-js', gulp.series('lint', 'rmp-js', function(done) { browserSync.reload(); done(); }));
+gulp.task('refresh:admin-js', gulp.series('lint', 'admin-js', function(done) { browserSync.reload(); done(); }));
 gulp.task('refresh:index', gulp.series('index', 'rmp-index', 'admin-index', function(done) { browserSync.reload(); done(); }));

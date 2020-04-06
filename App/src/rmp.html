@@ -19,12 +19,12 @@
   <link rel="stylesheet" type="text/css" href="third_party/spinkit.css">
   <link rel="stylesheet" type="text/css" href="third_party/please-wait.css">
   <link rel="stylesheet"  type="text/css" href="third_party/notyf.min.css">
-
+  <link rel="stylesheet" type="text/css" href="third_party/firebaseui.css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap" rel="stylesheet">
-  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.css" />
 
 
   <!-- scripts -->
+  <script type="text/javascript" src="third_party/jquery.min.js"></script>
   <script type="text/javascript" src="third_party/please-wait.min.js"></script>
   <script src='https://meet.jit.si/external_api.js'></script>
   <!-- The core Firebase JS SDK -->
@@ -62,14 +62,14 @@
 
   <!-- HEADER -->
   <header>
-   <div id="header_content">
-    <img src="images/logo.png" alt="" width="150" height="40">
-    <hr>
-   </div>
+    <div id="header_content">
+      <img src="images/logo.png" alt="" width="150" height="40">
+      <hr>
+    </div>
 
 
-     <button id="ham_button" style="display: none;">&#9776;</button>
-   <div id="sidenav" class="sidenav closed">
+    <button id="ham_button" style="display: none;">&#9776;</button>
+    <div id="sidenav" class="sidenav closed">
        <a href="javascript:void(0)" class="closebtn" id="close_nav">&times;</a>
        <div id="sidemenu">
          <a href="rmp.html" id="home_item"><span class="selected">Home</span></a>
@@ -90,148 +90,164 @@
 
   <!-- MAIN -->
   <div id="main">
-   <div id="user_div" class="loggedin-div" style="display: none;">
-    <div id="inlogin" class="login-container" style="display: none;">
-       <div class="login-form-2">
-         <h4 style="color: #bbb;text-align: center;">ADD DOCTOR</h4>
-           <form id="formmain" class="main-form" onsubmit="return false;">
-         <div class="form-group">
-          <h5>Personal information</h5>
-          <input class="ss-item-required" type="text" class="form-control" name="FN" placeholder="First Name" id="fnfield">
-          <input class="ss-item-required" type="text" class="form-control" name="LN" placeholder="Last Name" id="lnfield">
-          <input class="ss-item-required" type="number" class="form-control" name="Age" placeholder="Age" id="age" style="width: 38px;">
+    <div id="user_div" class="loggedin-div" style="display: none;">
+      <div id="inlogin" class="login-container" style="display: none;">
+         <div class="login-form-2">
+           <h4 style="color: #bbb;text-align: center;">ADD DOCTOR</h4>
+            <form id="formmain" class="main-form" onsubmit="return false;">
+              <div class="form-group">
+                <h5>Personal information</h5>
+                <input class="ss-item-required" type="text" class="form-control" name="FN" placeholder="First Name" id="fnfield">
+                <input class="ss-item-required" type="text" class="form-control" name="LN" placeholder="Last Name" id="lnfield">
+                <input class="ss-item-required" type="number" class="form-control" name="Age" placeholder="Age" id="age" style="width: 38px;">
+              </div>
+              <br>
+              <div class="form-group">
+                <h5>Contact information</h5>
+                <input class="ss-item-required" type="text" class="form-control" name="address" placeholder="Address" id="addfield" style="width: 90%;">
+                <br><input class="ss-item-required" type="text" class="form-control" name="city" placeholder="City" id="cityfield">
+                <select name="state" id="state" class="form-control">
+                  <option value="Andhra Pradesh">Andhra Pradesh</option>
+                  <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                  <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                  <option value="Assam">Assam</option>
+                  <option value="Bihar">Bihar</option>
+                  <option value="Chandigarh">Chandigarh</option>
+                  <option value="Chhattisgarh">Chhattisgarh</option>
+                  <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+                  <option value="Daman and Diu">Daman and Diu</option>
+                  <option value="Delhi">Delhi</option>
+                  <option value="Lakshadweep">Lakshadweep</option>
+                  <option value="Puducherry">Puducherry</option>
+                  <option value="Goa">Goa</option>
+                  <option value="Gujarat">Gujarat</option>
+                  <option value="Haryana">Haryana</option>
+                  <option value="Himachal Pradesh">Himachal Pradesh</option>
+                  <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                  <option value="Jharkhand">Jharkhand</option>
+                  <option value="Karnataka">Karnataka</option>
+                  <option value="Kerala">Kerala</option>
+                  <option value="Madhya Pradesh">Madhya Pradesh</option>
+                  <option value="Maharashtra">Maharashtra</option>
+                  <option value="Manipur">Manipur</option>
+                  <option value="Meghalaya">Meghalaya</option>
+                  <option value="Mizoram">Mizoram</option>
+                  <option value="Nagaland">Nagaland</option>
+                  <option value="Odisha">Odisha</option>
+                  <option value="Punjab">Punjab</option>
+                  <option value="Rajasthan">Rajasthan</option>
+                  <option value="Sikkim">Sikkim</option>
+                  <option value="Tamil Nadu">Tamil Nadu</option>
+                  <option value="Telangana">Telangana</option>
+                  <option value="Tripura">Tripura</option>
+                  <option value="Uttar Pradesh">Uttar Pradesh</option>
+                  <option value="Uttarakhand">Uttarakhand</option>
+                  <option value="West Bengal">West Bengal</option>
+                </select><br>
+                <input class="ss-item-required" type="number" class="form-control" name="ph" maxlength="10" placeholder="Phone number" id="ph" style="width: 90%;">
+              </div>
+              <br>
+              <div class="form-group">
+                <h5>Availability and Work</h5>
+                <input type="checkbox" id="pref1" name="vehicle1" value="Bike">
+                <label for="vehicle1"> I'm a  general physician</label><br>
+                <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+                <label for="vehicle2"> I'm a specialist</label>
+                <br>
+                <span>From: <input class="ss-item-required"  type="time" name="from" value="08:00"> To: <input class="ss-item-required"  type="time" name="to" value="22:00"></span>
+              </div>
+              <br>
+              <div class="form-control" style="border:none;">
+                <span>MCI registration.</span><br>
+                <input type="file" id="edufile" style="color:#888888;">
+              </div>
+              <br class="extraSpacing">
+              <div class="form-control" style="border:none;">
+                <span>Degree certificate.</span><br>
+                <input type="file" id="regfile" style="color:#888888;">
+              </div>
+              <br>
+              <input type="checkbox" name="checkbox" value="check" id="agree" /> I have read the disclaimer and agree to be contacted to provide health care services.
+              <div>
+                <input id="formsubmit" type="submit" class="btnSubmit" value="Submit">
+              </div>
+            </form>
+         <br><br>
          </div>
-         <br>
-         <div class="form-group">
-          <h5>Contact information</h5>
-          <input class="ss-item-required" type="text" class="form-control" name="address" placeholder="Address" id="addfield" style="width: 90%;">
-          <br><input class="ss-item-required" type="text" class="form-control" name="city" placeholder="City" id="cityfield">
-          <select name="state" id="state" class="form-control">
-         <option value="Andhra Pradesh">Andhra Pradesh</option>
-         <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-         <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-         <option value="Assam">Assam</option>
-         <option value="Bihar">Bihar</option>
-         <option value="Chandigarh">Chandigarh</option>
-         <option value="Chhattisgarh">Chhattisgarh</option>
-         <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
-         <option value="Daman and Diu">Daman and Diu</option>
-         <option value="Delhi">Delhi</option>
-         <option value="Lakshadweep">Lakshadweep</option>
-         <option value="Puducherry">Puducherry</option>
-         <option value="Goa">Goa</option>
-         <option value="Gujarat">Gujarat</option>
-         <option value="Haryana">Haryana</option>
-         <option value="Himachal Pradesh">Himachal Pradesh</option>
-         <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-         <option value="Jharkhand">Jharkhand</option>
-         <option value="Karnataka">Karnataka</option>
-         <option value="Kerala">Kerala</option>
-         <option value="Madhya Pradesh">Madhya Pradesh</option>
-         <option value="Maharashtra">Maharashtra</option>
-         <option value="Manipur">Manipur</option>
-         <option value="Meghalaya">Meghalaya</option>
-         <option value="Mizoram">Mizoram</option>
-         <option value="Nagaland">Nagaland</option>
-         <option value="Odisha">Odisha</option>
-         <option value="Punjab">Punjab</option>
-         <option value="Rajasthan">Rajasthan</option>
-         <option value="Sikkim">Sikkim</option>
-         <option value="Tamil Nadu">Tamil Nadu</option>
-         <option value="Telangana">Telangana</option>
-         <option value="Tripura">Tripura</option>
-         <option value="Uttar Pradesh">Uttar Pradesh</option>
-         <option value="Uttarakhand">Uttarakhand</option>
-         <option value="West Bengal">West Bengal</option>
-         </select><br>
-          <input class="ss-item-required" type="number" class="form-control" name="ph" maxlength="10" placeholder="Phone number" id="ph" style="width: 90%;">
-         </div>
-        <br>
-         <div class="form-group">
-         <h5>Availability and Work</h5>
-          <input type="checkbox" id="pref1" name="vehicle1" value="Bike">
-          <label for="vehicle1"> I'm a  general physician</label><br>
-          <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
-          <label for="vehicle2"> I'm a specialist</label>
-          <br>
-          <span>From: <input class="ss-item-required"  type="time" name="from" value="08:00"> To: <input class="ss-item-required"  type="time" name="to" value="22:00"></span>
-         </div>
-         <br>
-        <div class="form-control" style="border:none;">
-         <span>MCI registration.</span><br>
-         <input type="file" id="edufile" style="color:#888888;">
-        </div>
-        <br class="extraSpacing">
-         <div class="form-control" style="border:none;">
-         <span>Degree certificate.</span><br>
-         <input type="file" id="regfile" style="color:#888888;">
-         </div>
-         <br>
-         <input type="checkbox" name="checkbox" value="check" id="agree" /> I have read the disclaimer and agree to be contacted to provide health care services.
-         <div>
-         <input id="formsubmit" type="submit" class="btnSubmit" value="Submit">
-        </div>
-       </form>
-       <br><br>
-       </div>
-    </div>
-    <div class="hint" id="noteSpace">
-       <h5>NOTE</h5>
-       <hr style="color: #fff;background: #fff;">
-       <p>You need to be a Registed Medical Practitioner(RMP) to provide services on this website. After you click the "Submit" button, the form-data will be sent to create a new account associated to the given details. You'll receive  a confirmation email or a call shortly, after which you can start treating patients online.</p>
+      </div>
+      <div class="hint" id="noteSpace">
+        <h5>NOTE</h5>
+        <hr style="color: #fff;background: #fff;">
+        <p>You need to be a Registed Medical Practitioner(RMP) to provide services on this website. After you click the "Submit" button, the form-data will be sent to create a new account associated to the given details. You'll receive  a confirmation email or a call shortly, after which you can start treating patients online.</p>
       </div>
       <div class="hint" id="errorSpace" style="display: none;">
-       <h5 style="color: #F00;">ERROR!</h5>
-       <hr style="color: #fff;background: #fff;">
-       <p id="message"></p>
+        <h5 style="color: #F00;">ERROR!</h5>
+        <hr style="color: #fff;background: #fff;">
+        <p id="message"></p>
       </div>
       <div style="margin-bottom: 80px;color: #fff;">.</div>
     </div>
 
-   <div id="pending_div" style="display: none;">
-    <h4 style="color: #bbb;text-align: center;margin-bottom: 5px;" id="main_applicant_status">⚠️ REVIEW PENDING</h5>
-    <div id="clockdiv">
-      <div class="retry_stage_a" style="display: none;">
-       <span>Retrying...</span>
+    <div id="pending_div" style="display: none;">
+      <h4 style="color: #bbb;text-align: center;margin-bottom: 5px;" id="main_applicant_status">⚠️ REVIEW PENDING</h4>
+      <div id="clockdiv">
+        <div class="retry_stage_a" style="display: none;">
+          <span>Retrying...</span>
+        </div>
+        <div class="retry_stage_b" style="display: none;">
+          <span>Retrying in</span>
+          <span class="seconds"></span>
+          <span>seconds...</span>
+        </div>
+        <div class="retry_stage_c" style="display: none;">
+          <span>Retrying in</span>
+          <span class="minutes"></span>
+          <span class="seperator">&nbsp:&nbsp</span>
+          <span class="seconds"></span>
+          <span>seconds...</span>
+        </div>
+        <div class="rejected_stage" style="display: none;">
+          <span>Sorry, your application has been rejected. Please contact our  <a href="mailto:telemd@gmail.com">team</a>, we will get back to you soon. </span>
+        </div>
       </div>
-      <div class="retry_stage_b" style="display: none;">
-       <span>Retrying in</span>
-       <span class="seconds"></span>
-       <span>seconds...</span>
-      </div>
-      <div class="retry_stage_c" style="display: none;">
-       <span>Retrying in</span>
-       <span class="minutes"></span>
-       <span class="seperator">&nbsp:&nbsp</span>
-       <span class="seconds"></span>
-       <span>seconds...</span>
-      </div>
-      <div class="rejected_stage" style="display: none;">
-       <span>Sorry, your application has been rejected. Please contact our  <a href="mailto:telemd@gmail.com">team</a>, we will get back to you soon. </span>
+
+      <div class="hint" id="pendingNoteSpace">
+        <h5>NOTE</h5>
+        <hr style="color: #fff;background: #fff;">
+        <ul>
+          <li>When your application is being reviewed, It can take few seconds to several minutes.</li>
+          <li>You need to be a Registed Medical Practitioner(RMP) to provide services on this website.</li>
+          <li>Once approved, you'll revice a confirmation and you can <a href="rmp.html" target="_blank">login here</a> to provide services.</li>
+          <li>After loging in your <b>virtual hospital room</b> will be ready to treat COVID19 patients online.</li>
+          <li>If you need any furter support or assistance please reach out to us at: <a href="mailto:telemd@gmail.com">telemd@gmail.com</a></li>
+          <li>Please refer to the <i>latest guidelines</i> from MOH on Telemedicice for COVID19. <a href="https://www.mohfw.gov.in/pdf/Telemedicine.pdf" target="_blank">Click here</a> to read more...</li>
+          <li>You'll also recieve a <b>unique link</b> to share on social channels and extend your support to your firends and family memners</li>
+          <li>Stay tuned!</li>
+        </ul>
       </div>
     </div>
 
+    <div id="verified_div" style="display: none;">
+      <div class="main_video_item" id="meet"></div>
+    </div>
 
-    <div class="hint" id="pendingNoteSpace">
-     <h5>NOTE</h5>
-       <hr style="color: #fff;background: #fff;">
-     <ul>
-      <li>When your application is being reviewed, It can take few seconds to several minutes.</li>
-      <li>You need to be a Registed Medical Practitioner(RMP) to provide services on this website.</li>
-      <li>Once approved, you'll revice a confirmation and you can <a href="rmp.html" target="_blank">login here</a> to provide services.</li>
-      <li>After loging in your <b>virtual hospital room</b> will be ready to treat COVID19 patients online.</li>
-      <li>If you need any furter support or assistance please reach out to us at: <a href="mailto:telemd@gmail.com">telemd@gmail.com</a></li>
-      <li>Please refer to the <i>latest guidelines</i> from MOH on Telemedicice for COVID19. <a href="https://www.mohfw.gov.in/pdf/Telemedicine.pdf" target="_blank">Click here</a> to read more...</li>
-      <li>You'll also recieve a <b>unique link</b> to share on social channels and extend your support to your firends and family memners</li>
-      <li>Stay tuned!</li>
-     </ul>
+    <div class="modal">
+        <div class="modal-content">
+          <span class="close-button">&times;</span>
+          <div id="onenter">
+            <h2>Hello<span id="doc_name"></span></h2>
+            <h3 style="font-weight:normal;">What would like to do?</h3>
+            <button id="golive" type="submit" class="btnSubmit tip">Go Online<span style="color:black; background: none;">Enter ward and start treating patients</span></button> &nbsp
+            <button id="schedule" type="submit" class="btnSubmit tip">Schedule<span style="color:black; background: none;">Schedule a conference call or an awareness campaign</span></button> &nbsp
+            <button id="share" type="submit" class="btnSubmit tip">Share<span style="color:black; background: none;">Suggest this to others</span></button>
+          </div>
+          <div id="live" style="display:none;text-align: center;">
+            <p>We are setting up things for you...</p>
+            <div class="sk-spinner sk-spinner-pulse" style="background-color: black;"></div>
+          </div>
+        </div>
       </div>
-   </div>
-
-   <div id="verified_div" style="display: none;">
-    <div class="main_video_item" id="meet"></div>
-   </div>
-  </div>
+    </div>
 
   <!-- ABOUT -->
   <div id="about" style="display:none;">

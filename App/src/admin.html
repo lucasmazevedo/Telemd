@@ -22,11 +22,12 @@
   <link rel="stylesheet" type="text/css" href="third_party/spinkit.css">
   <link rel="stylesheet" type="text/css" href="third_party/please-wait.css">
   <link rel="stylesheet"  type="text/css" href="third_party/notyf.min.css">
-
+  <link rel="stylesheet" type="text/css" href="third_party/firebaseui.css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap" rel="stylesheet">
-  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.css" />
+
 
   <!-- scripts -->
+  <script type="text/javascript" src="third_party/jquery.min.js"></script>
   <script type="text/javascript" src="third_party/please-wait.min.js"></script>
   <script type="text/javascript" src="third_party/intense.min.js"></script>
   <!-- The core Firebase JS SDK -->
@@ -89,54 +90,54 @@
   <!-- MAIN -->
   <div id="main">
     <div id="user_div" class="loggedin-div" style="display: none;">
-     <p>Hi<span id="uname"></span>,<br>
-     <span id="auth_message">please review the following carefully and quickly.</span>
-     <br><br>
-     <table border="1" id="review_doctors" style="display: none;">
-      <thead>
-       <tr>
-        <th>Sl.No</th>
-        <th>Dotor name</th>
-        <th>Status</th>
-        <th>UID</th>
-        <th>Link</th>
-       </tr>
-      </thead>
-      <tbody></tbody>
-     </table>
-     <div class="modal">
-           <div class="modal-content">
-               <span class="close-button">&times;</span>
-               <h1>Doctor Profile</h1>
-               <div class="row">
-           <div class="column" style="width: 200px;">
-            <img id="doc_profile" src="https://via.placeholder.com/150" width="150" height="150"><br>
-            <span id="doc_name"></span> (<span id="doc_age"></span>)<br><br>
-            <div id="action_buttons"></div>
-           </div>
-           <div class="column">
-            <h3>Contact info</h3>
-            <span id="doc_address"></span><br>
-                 <span id="doc_city"></span>
-                 <span id="doc_country"></span><br>
-            (+91) <span id="doc_ph"></span>
-            <hr>
-            <h3>Availability and work</h3>
-            <span> General physician </span><br>
-            <span> Available from <b>08:00 AM till 10:00 PM</b> </span>
-            <hr>
-            <h3>Documents produced</h3>
-            <img id="doc_mci" src="https://via.placeholder.com/1500" class="intense"  width="80" height="80">
-            <img id="doc_degree" src="https://via.placeholder.com/1500" class="intense"  width="80" height="80">
-           </div>
-         </div>
-           </div>
-       </div>
-       <div class="hint" id="errorSpace" style="display: none;">
+      <p>Hi<span id="uname"></span>,<br>
+      <span id="auth_message">please review the following carefully and quickly.</span>
+      <br><br>
+      <table border="1" id="review_doctors" style="display: none;">
+        <thead>
+         <tr>
+          <th>Sl.No</th>
+          <th>Dotor name</th>
+          <th>Status</th>
+          <th>UID</th>
+          <th>Link</th>
+         </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="modal">
+        <div class="modal-content">
+          <span class="close-button">&times;</span>
+          <h1>Doctor Profile</h1>
+          <div class="row">
+            <div class="column" style="width: 200px;">
+              <img id="doc_profile" src="https://via.placeholder.com/150" width="150" height="150"><br>
+              <span id="doc_name"></span> (<span id="doc_age"></span>)<br><br>
+              <div id="action_buttons"></div>
+            </div>
+            <div class="column">
+              <h3>Contact info</h3>
+              <span id="doc_address"></span><br>
+              <span id="doc_city"></span>
+              <span id="doc_country"></span><br>
+              (+91) <span id="doc_ph"></span>
+              <hr>
+              <h3>Availability and work</h3>
+              <span> General physician </span><br>
+              <span> Available from <b>08:00 AM till 10:00 PM</b> </span>
+              <hr>
+              <h3>Documents produced</h3>
+              <img id="doc_mci" src="https://via.placeholder.com/1500" class="intense"  width="80" height="80">
+              <img id="doc_degree" src="https://via.placeholder.com/1500" class="intense"  width="80" height="80">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hint" id="errorSpace" style="display: none;">
         <h5 style="color: #F00;">ERROR!</h5>
         <hr style="color: #fff;background: #fff;">
         <p id="message"></p>
-       </div>
+      </div>
     </div>
   </div>
 

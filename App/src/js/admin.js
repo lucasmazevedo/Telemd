@@ -1,12 +1,10 @@
-/*global tele:true, firebase:true, JitsiMeetExternalAPI:true, Intense:true*/
+/*global tele:true, $:true, firebase:true, JitsiMeetExternalAPI:true, Intense:true*/
 
 window.tele = window.tele || {};
 window.user = window.user || null;
 
-import $ from 'jquery';
 import firebase from 'firebase';
 import * as firebaseui from 'firebaseui';
-import bootstrap from 'bootstrap';
 import { Notyf } from 'notyf';
 import { Twilio } from 'twilio';
 
@@ -18,7 +16,7 @@ window.onload = function() {
 	//
 	initFirebase();
 	initSidemenu();
-	initModal();
+	initModal(false);
 	//
 };
 
@@ -236,7 +234,7 @@ function initSidemenu(){
  * initModal
  * ------------------------------------------------
  */
-function initModal(){
+function initModal(start_opened){
 	var modal = document.querySelector('.modal');
 	var closeButton = document.querySelector('.close-button');
 
@@ -252,6 +250,15 @@ function initModal(){
 	//
 	closeButton.addEventListener('click', toggleModal);
 	window.addEventListener('click', windowOnClick);
+	//
+	$(document).keydown(function(event) {
+		if (event.keyCode == 27) {
+			toggleModal();
+		}
+	});
+	//
+	if(start_opened)
+		toggleModal();
 	//
 	var intense_elements = document.querySelectorAll( '.intense' );
 	Intense( intense_elements );

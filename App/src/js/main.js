@@ -1,12 +1,10 @@
-/*global tele:true, firebase:true, JitsiMeetExternalAPI:true*/
+/*global tele:true, $:true, firebase:true, JitsiMeetExternalAPI:true*/
 
 window.tele = window.tele || {};
 window.user = window.user || null;
 
-import $ from 'jquery';
 import firebase from 'firebase';
 import * as firebaseui from 'firebaseui';
-import bootstrap from 'bootstrap';
 
 window.onload = function() {
 	window.$ = $;
@@ -61,19 +59,16 @@ function initFirebaseUI(){
 			}
 		},
 		signInFlow: 'popup',
-		signInOptions: [
-			// Leave the lines as is for the providers you want to offer your users.
-			firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-			firebase.auth.EmailAuthProvider.PROVIDER_ID,
-			firebase.auth.PhoneAuthProvider.PROVIDER_ID,
-			firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
-		]
+		signInOptions: [firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID]
 	};
 
 	// Initialize the FirebaseUI Widget using Firebase.
 	var ui = new firebaseui.auth.AuthUI(firebase.auth());
 	// The start method will wait until the DOM is loaded.
 	ui.start('#firebaseui-auth-container', uiConfig);
+	//
+	$('.firebaseui-idp-anonymous').hide();
+	$('.firebaseui-idp-anonymous').click();
 }
 
 /**
