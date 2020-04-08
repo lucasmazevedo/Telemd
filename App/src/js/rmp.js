@@ -6,11 +6,15 @@ window.user	=	window.user	||	null;
 import firebase from 'firebase';
 import * as firebaseui from 'firebaseui';
 import { Notyf } from 'notyf';
+import p5 from 'p5';
+import {} from './Extras/Reporter';
 
 window.onload = function() {
 	window.$ = $;
 	window.firebase = firebase;
 	window.notyf = new Notyf();
+	window.reporter = new window.tele.NewReporter();
+
 	//
 	//
 	initFirebase();
@@ -122,6 +126,7 @@ function onFirebaseAuth(){
 									$('#doc_name').text(' ' + window.user.info.name.split(' ')[0] + ' ' + window.user.info.name.split(' ')[1]);
 								//
 								initModal(true);
+								initP5();
 								//
 								//startVideo();
 							});
@@ -324,6 +329,16 @@ function initModal(start_opened){
 	$('#golive').click(function(){
 		startVideo();
 	});
+}
+
+function initP5(){
+	//
+	window.reporter.init();
+	var myp5 = new p5(window.reporter.getSketch());
+	//
+	setTimeout(function(){
+		fetchPatients();
+	},1000);
 }
 
 /**
@@ -530,11 +545,14 @@ function startVideo(){
 				//
 				online = !online;
 				if(online){
+					// Doctor is now online
 					$('#onenter').hide();
 					$('#live').show();
 					$('#meet').show();
 					//
+					//fetchPatients();
 				}else{
+					// Doctor went offline
 					$('#onenter').show();
 					$('#live').hide();
 					$('#meet').empty();
@@ -546,4 +564,55 @@ function startVideo(){
 		api.executeCommand('displayName', window.user.info.name);
 		api.executeCommand('subject', 'COVID19-'+window.user.info.name);
 	}
+}
+
+
+let patientQ = [];
+function fetchPatients(){
+	console.log('Fetch patients from database');
+	// Get a reference to the database service
+	var database = firebase.database();
+	//
+	console.log(window.user.info);
+	let serviceLocations = window.user.info.serviceloc;
+
+	// FIX ME!!! CONSILDER OTHER STATES TOO
+	// Request for recent 10 patients
+	var recentRequestsRef = firebase.database().ref('waitlist/'+serviceLocations[0]+'/patients').limitToLast(10);
+	recentRequestsRef.once('value').then(function(snapshot) {
+		//
+		if(snapshot.val() != null){
+			for(let q=0; q < snapshot.val().length; q++){
+				let currentPatientInfo = snapshot.val()[q];
+				if(currentPatientInfo.attended != true)
+					patientQ.push(currentPatientInfo);
+			}
+			//
+		}
+		//
+		// ACTIONS
+		//
+		// Show number of patients waiting
+		console.log('There are ' + patientQ.length + ' patients waiting to be treated...');
+		//
+		// Show pateint report to doctor
+		//
+	});
+
+	// Listen for new changes as-well for more recent cases
+
+
+
+	/*
+	//
+	// Anytime
+	const p5element = document.getElementById('main-p5-canvas');
+	p5element.patientReportCode = 'M4-0000-100110001';
+	if(window.reporter.getP() != null){
+		console.log('P5 ready, dispatching now!');
+		p5element.dispatchEvent(new Event('update-report'));
+	}else{
+		console.log('Not yet ready! Will need to try again...');
+	}
+	*/
 }

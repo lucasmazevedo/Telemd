@@ -348,7 +348,7 @@ gulp.task('watch', function(done)
 		log('File ' + event.path + ' was ' + event.type + ', running main js tasks...');
 	});
 	//
-	var rmp_js_watcher = gulp.watch('./src/js/rmp.js', gulp.series('refresh:rmp-js'));
+	var rmp_js_watcher = gulp.watch(['./src/js/rmp.js','./src/js/Extras/*'], gulp.series('refresh:rmp-js'));
 	rmp_js_watcher.on('change', function(event){
 		log('File ' + event.path + ' was ' + event.type + ', running rmp js tasks...');
 	});

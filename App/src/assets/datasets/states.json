@@ -1,0 +1,122 @@
+{
+	"waitlist":{
+		"IN-AP":{
+			"Name": "Andhra Pradesh"
+		},
+		"IN-AR":{
+			"Name": "Arunachal Pradesh"
+		},
+		"IN-AS":{
+			"Name": "Assam"
+		},
+		"IN-BR":{
+			"Name": "Bihar"
+		},
+		"IN-CT":{
+			"Name": "Chhattisgarh"
+		},
+		"IN-GA":{
+			"Name": "Goa"
+		},
+		"IN-GJ":{
+			"Name": "Gujarat"
+		},
+		"IN-HR":{
+			"Name": "Haryana"
+		},
+		"IN-HP":{
+			"Name": "Himachal Pradesh"
+		},
+		"IN-JH":{
+			"Name": "Jharkhand"
+		},
+		"IN-KA":{
+			"Name": "Karnataka"
+		},
+		"IN-KL":{
+			"Name": "Kerala"
+		},
+		"IN-MP":{
+			"Name": "Madhya Pradesh"
+		},
+		"IN-MH":{
+			"Name": "Maharashtra"
+		},
+		"IN-MN":{
+			"Name": "Manipur"
+		},
+		"IN-ML":{
+			"Name": "Meghalaya"
+		},
+		"IN-MZ":{
+			"Name": "Mizoram"
+		},
+		"IN-NL":{
+			"Name": "Nagaland"
+		},
+		"IN-OR":{
+			"Name": "Odisha"
+		},
+		"IN-PB":{
+			"Name": "Punjab"
+		},
+		"IN-RJ":{
+			"Name": "Rajasthan"
+		},
+		"IN-SK":{
+			"Name": "Sikkim"
+		},
+		"IN-TN":{
+			"Name": "Tamil Nadu"
+		},
+		"IN-TG":{
+			"Name": "Telangana"
+		},
+		"IN-TR":{
+			"Name": "Tripura"
+		},
+		"IN-UP":{
+			"Name": "Uttar Pradesh"
+		},
+		"IN-UT":{
+			"Name": "Uttarakhand"
+		},
+		"IN-WB":{
+			"Name": "West Bengal"
+		},
+		"IN-AN":{
+			"Name": "Andaman and Nicobar Islands"
+		},
+		"IN-CH":{
+			"Name": "Chandigarh"
+		},
+		"IN-DD":{
+			"Name": "Dadra and Nagar Haveli and Daman and Diu"
+		},
+		"IN-DL":{
+			"Name": "Delhi",
+			"patients": [
+				{
+					"uid": "9ckTOz6GTYaoKO4wlajkooeuzpf1",
+					"covid19-report": "M5-0000-100110001"
+				},
+				{
+					"uid": "KpfSFBqr5cU5aqMbqAMAjTldEOr2",
+					"covid19-report": "F3-1011-000000001"
+				}
+			]
+		},
+		"IN-JK":{
+			"Name": "Jammu and Kashmir"
+		},
+		"IN-LA":{
+			"Name": "Ladakh"
+		},
+		"IN-LD":{
+			"Name": "Lakshadweep"
+		},
+		"IN-PY":{
+			"Name": "Puducherry"
+		}
+	}
+}

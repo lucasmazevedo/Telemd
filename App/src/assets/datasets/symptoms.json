@@ -1,0 +1,97 @@
+{
+  "symptoms": [
+    {
+      "id":1,
+      "title":"Personal Information",
+      "info":[
+        {
+          "id":1.1,
+          "title":"Gender",
+          "options":["Male","Female","Other"]
+        },
+        {
+          "id":1.2,
+          "title":"What is your age range?",
+          "options":["0-2", "3-20", "21-40", "41-60","60+"]
+        }
+      ]
+    },
+    {
+      "id":2,
+      "title":"Epidemiological Information",
+      "info":[
+        {
+          "id":2.1,
+          "title":"Have you or the person(s) living with you traveled in the last 2 weeks domestically or overseas, to an area with a high incidence of COVID-19 infection?",
+          "options":[true, false]
+        },
+        {
+          "id":2.2,
+          "title":"Within the past two weeks, have you or your family member (living together) been in close contact with a confirmed COVID-19 positive individual?",
+          "options":[true, false]
+        },
+        {
+          "id":2.3,
+          "title":"Within the past two weeks, have you or your family member (living together) been in close contact with anyone who had fever or respiratory symptoms and visited a domestic or overseas region with a high incidence of COVID-19, but have not yet been confirmed as COVID-19 positive?",
+          "options":[true, false]
+        },
+        {
+          "id":2.4,
+          "title":"Have you or or your family member been in close contact with anyone who developed unexplained fever and/or respiratory symptoms?",
+          "options":[true, false]
+        }
+      ]
+    },
+    {
+      "id":3,
+      "title":"Fever and Respiratory Symptoms",
+      "info":[
+        {
+          "id":3.1,
+          "title":"Does your highest temperature exceed 100.5°F/38°C?",
+          "options":[true, false]
+        },
+        {
+          "id":3.2,
+          "title":"Are you taking any fever reducer (Tylenol, aspirin, Motrin, Advil or other NSAIDs)?",
+          "options":[true, false]
+        },
+        {
+          "id":3.3,
+          "title":"Do you have a runny nose and nasal congestion?",
+          "options":[true, false]
+        },
+        {
+          "id":3.4,
+          "title":"Do you have a sore throat?",
+          "options":[true, false]
+        },
+        {
+          "id":3.5,
+          "title":"Do you have a persistent cough?",
+          "options":[true, false]
+        },
+        {
+          "id":3.6,
+          "title":"Do you feel weakness and fatigue?",
+          "options":[true, false]
+        },
+        {
+          "id":3.7,
+          "title":"Do you have chest pain when you cough or breath deeply?",
+          "options":[true, false]
+        },
+        {
+          "id":3.8,
+          "title":"Are you short of breath or do you have difficulty breathing when you walk a short distance?",
+          "options":[true, false]
+        },
+        {
+          "id":3.9,
+          "title":"Are you short of breath or do you have difficulty breathing when you are at rest (sitting in a chair, lying in a bed)?",
+          "options":[true, false]
+        }
+      ]
+    }
+  ]
+}
