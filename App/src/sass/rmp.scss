@@ -1,3 +1,32 @@
+/* Fonts */
+@font-face {
+  font-family: 'Nunito';
+  src: url('fonts/Nunito/Nunito-Regular.ttf')  format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('fonts/Nunito/Nunito-Bold.ttf')  format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('fonts/Nunito/Nunito-Italic.ttf')  format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('fonts/Nunito/Nunito-BoldItalic.ttf')  format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
 
 /* Globl variables */
 $primaryColor: #fff;
@@ -52,6 +81,7 @@ input, button {
 .btnSubmit
 {
   width: 30%;
+  min-width: 100px;
   background: white;
   color: black;
   border-radius: 1rem;
@@ -71,6 +101,16 @@ input, button {
 .btnSubmit:active{
   background: black;
   color: white;
+}
+
+.btnSubmit:disabled{
+  background: #aaa;
+  color: #ddd;
+  border: none;
+}
+
+.intense {
+  cursor:pointer;
 }
 
 .center {
@@ -162,6 +202,36 @@ footer {
   transform: translate(-50%, 0%);
 }
 
+#islive{
+  height: 100%;
+}
+
+/* split-div */
+.row {
+  display: flex;
+  height: 100%;
+}
+
+.column-a {
+  min-width: 270px;
+  flex: 33%;
+  margin: 0 1%;
+  text-align: left;
+}
+
+.column-b {
+  flex: 63%;
+  margin: 0 1%;
+}
+
+.exactly-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
 
 /* modal */
 .modal {
@@ -322,12 +392,14 @@ button.tip:active span {
   padding: 0;
   max-width: 740px;
   margin: 0 auto;
+  height: 80%;
 }
 
 #verified_div {
   padding: 0;
   text-align: center;
   margin: 0 auto;
+  height: 100%;
 }
 
 

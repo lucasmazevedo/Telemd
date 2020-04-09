@@ -26,6 +26,7 @@
   <!-- scripts -->
   <script type="text/javascript" src="third_party/jquery.min.js"></script>
   <script type="text/javascript" src="third_party/please-wait.min.js"></script>
+  <script type="text/javascript" src="third_party/intense.min.js"></script>
   <script src='https://meet.jit.si/external_api.js'></script>
   <!-- The core Firebase JS SDK -->
   <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-app.js"></script>
@@ -87,11 +88,11 @@
     <div id="firebaseui-auth-container"></div>
   </div>
 
-  <div id="main-p5-canvas" resize style="position: absolute;left: 0;top: 0;"></div>
+  <div id="main-p5-canvas" resize style="position: absolute;left: 0;top: 0;display: none;"></div>
 
 
   <!-- MAIN -->
-  <div id="main">
+  <div id="main" style="height: 80%;">
     <div id="user_div" class="loggedin-div" style="display: none;">
       <div id="inlogin" class="login-container" style="display: none;">
          <div class="login-form-2">
@@ -231,20 +232,41 @@
     </div>
 
     <div id="verified_div" style="display: none;">
-      <div class="main_video_item" id="meet"></div>
+      <div id="islive" style="display: none;">
+        <div class="row">
+          <div class="column-a">
+            <div style="float:left;font-size: 24px;"><span>Patient</span><span id="currentPatient" style="margin-left: 10px; font-size: 14px;">-/-</span></div><br>
+            <div style="font-size: 14px;"><span id="reports_status" >Loading next report...</span>
+            <a style="float: right;display: none;" id="viewPatient" href="#">View</a></div>
+            <div id="report_space" style="border:#222 1px solid;height: 86%;position: relative;">
+              <img id="current_report" class="intense"  style="display: none;">
+              <div id="loadingreport" class="exactly-center">
+                <div class="sk-chasing-dots"><div class="sk-child sk-dot1" style="background-color: black"></div><div class="sk-child sk-dot2" style="background-color: black"></div></div>
+              </div>
+            </div>
+            <div style="margin: 10px 0;">
+              <button id="connectPatient" class="btnSubmit" style="float: left;" disabled>&nbsp;Connect&nbsp;</button>
+              <button id="skipPatient" class="btnSubmit" style="float: right;" disabled><span>&nbsp;Skip >&nbsp;</span></button>
+            </div>
+          </div>
+          <div class="column-b" style="text-align: center; height: 100%;">
+            <div class="main_video_item" id="meet" style="height: 100%;margin-top:60px;">
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="modal">
         <div class="modal-content">
           <span class="close-button">&times;</span>
-          <div id="onenter">
+          <div id="onenter" style="text-align: left;">
             <h2>Hello<span id="doc_name"></span></h2>
-            <h3 style="font-weight:normal;">What would like to do?</h3>
+            <h3 style="font-weight:normal;text-align: left;">What would you like to do?</h3>
             <button id="golive" type="submit" class="btnSubmit tip">Go Online<span style="color:black; background: none;">Enter ward and start treating patients</span></button> &nbsp
             <button id="schedule" type="submit" class="btnSubmit tip">Schedule<span style="color:black; background: none;">Schedule a conference call or an awareness campaign</span></button> &nbsp
             <button id="share" type="submit" class="btnSubmit tip">Share<span style="color:black; background: none;">Recommend this app to any patient or NGO</span></button>
           </div>
-          <div id="live" style="display:none;text-align: center;">
+          <div id="goinglive" style="display:none;text-align: center;">
             <p>We are setting up things for you...</p>
             <div class="sk-spinner sk-spinner-pulse" style="background-color: black;"></div>
           </div>

@@ -1,4 +1,4 @@
-/*global tele:true, $:true, firebase:true, JitsiMeetExternalAPI:true*/
+/*global tele:true, $:true, firebase:true, JitsiMeetExternalAPI:true, Intense:true*/
 
 window.tele	=	window.tele	||	{};
 window.user	=	window.user	||	null;
@@ -127,8 +127,8 @@ function onFirebaseAuth(){
 								//
 								initModal(true);
 								initP5();
+								fetchPatients();
 								//
-								//startVideo();
 							});
 							//
 
@@ -331,14 +331,38 @@ function initModal(start_opened){
 	});
 }
 
+let intense_init = false;
 function initP5(){
 	//
 	window.reporter.init();
 	var myp5 = new p5(window.reporter.getSketch());
 	//
-	setTimeout(function(){
-		fetchPatients();
-	},1000);
+	const p5element = document.getElementById('main-p5-canvas');
+	p5element.addEventListener('ready-report', function (e) {
+		console.log('report image ready.');
+		$('#currentPatient').text((currentPatientView+1) + ' / ' + patientQ.length);
+		//
+		$('#loadingreport').hide();
+		$('#viewPatient').show();
+		$('#reports_status').text('💡Hint: Click over report to enlarge.');
+		//
+		let canvas = $('#main-p5-canvas > canvas:first')[0];
+		console.log(canvas);
+		let reportDataUrl = canvas.toDataURL();
+		$('#current_report').attr('src', reportDataUrl);
+		$('#current_report').attr('width', '100%');
+		$('#current_report').show();
+		//
+		if(intense_init == false){
+			var intense_elements = document.querySelectorAll( '.intense' );
+			Intense( intense_elements );
+			intense_init = true;
+		}
+		//
+		$('#connectPatient').attr('disabled', false);
+		$('#skipPatient').attr('disabled', false);
+	}, false);
+	//
 }
 
 /**
@@ -497,7 +521,7 @@ async function getUserInfo() {
 function startVideo(){
 	//
 	$('#onenter').hide();
-	$('#live').show();
+	$('#goinglive').show();
 	$('.close-button').hide();
 	let online = false;
 	//
@@ -512,32 +536,38 @@ function startVideo(){
 		let meet_height = body_height - header_height - prediv_height - 25;
 		let meet_width = header_width;
 		//
-		$('#main').css({'maxWidth': meet_width});
-		$('#main').width(meet_width);
+		$('#main').css({'maxWidth': '100%'});
+		$('#main').width('80%');
 		//
 		const domain = 'meet.jit.si';
 		const options = {
 			roomName: 'COVID19-'+window.user.uid,
-			width: meet_width,
-			height: meet_height,
+			width: '100%',
+			height: '86%',
 			parentNode: document.querySelector('#meet'),
 			interfaceConfigOverwrite: {
-				DEFAULT_BACKGROUND: '#111',
-				DEFAULT_REMOTE_DISPLAY_NAME: 'Doctor',
+				DEFAULT_BACKGROUND: '#fff',
+				DEFAULT_REMOTE_DISPLAY_NAME: 'Patient',
+				DEFAULT_LOCAL_DISPLAY_NAME: 'me',
 				SHOW_BRAND_WATERMARK: true,
-				BRAND_WATERMARK_LINK: 'https://telemd.org.in/img/logo.png',
+				BRAND_WATERMARK_LINK: 'https://cdn.jitsi.net/2676/images/watermark.png',
 				SHOW_JITSI_WATERMARK: false,
 				SHOW_WATERMARK_FOR_GUESTS: false,
 				MOBILE_APP_PROMO: false,
 				SHOW_CHROME_EXTENSION_BANNER: false,
 				TOOLBAR_BUTTONS: [
 					'microphone', 'camera', 'desktop', 'fullscreen',
-					'fodeviceselection', 'hangup', 'profile', 'recording',
-					'livestreaming', 'etherpad', 'chat','sharedvideo', 'settings',
-					'videoquality', 'filmstrip', 'stats', 'shortcuts',
-					'tileview', 'help', 'mute-everyone'
-				]
+					'fodeviceselection','filmstrip',  'hangup', 'profile', 'settings',
+					'videoquality', 'stats', 'shortcuts', 'help', 'mute-everyone'
+				],
+				SETTINGS_SECTIONS: [ 'devices', 'moderator']
 			},
+			/*
+			userInfo: {
+				avatar: 'https:/gravatar.com/avatar/abc123',
+				email: 'jdoe@example.com',
+				id: window.user.uid
+			},*/
 			onload: function(){
 				//
 				var modal = document.querySelector('.modal');
@@ -547,16 +577,36 @@ function startVideo(){
 				if(online){
 					// Doctor is now online
 					$('#onenter').hide();
-					$('#live').show();
+					$('#goinglive').show();
 					$('#meet').show();
+					$('#islive').show();
 					//
-					//fetchPatients();
+					// Show pateint report to doctor
+					setTimeout(function(){nextPatientReport();}, 3000);
+					// VIEW
+					$('#viewPatient').click(function(){
+						$('#current_report').trigger('click');
+					});
+					// SKIP
+					$('#skipPatient').click(function(){
+						if(currentPatientView < patientQ.length-1)
+							currentPatientView++;
+						else
+							currentPatientView = 0;
+						//
+						$('#loadingreport').show();
+						$('#viewPatient').hide();
+						$('#current_report').hide();
+						//
+						setTimeout(function(){nextPatientReport();}, 2000);
+					});
 				}else{
 					// Doctor went offline
 					$('#onenter').show();
-					$('#live').hide();
+					$('#goinglive').hide();
 					$('#meet').empty();
 					$('#meet').hide();
+					$('#islive').hide();
 				}
 			}
 		};
@@ -568,6 +618,7 @@ function startVideo(){
 
 
 let patientQ = [];
+let currentPatientView = 0;
 function fetchPatients(){
 	console.log('Fetch patients from database');
 	// Get a reference to the database service
@@ -578,6 +629,7 @@ function fetchPatients(){
 
 	// FIX ME!!! CONSILDER OTHER STATES TOO
 	// Request for recent 10 patients
+	// FIX ME!! Consilder multi-doctor scenario for queing
 	var recentRequestsRef = firebase.database().ref('waitlist/'+serviceLocations[0]+'/patients').limitToLast(10);
 	recentRequestsRef.once('value').then(function(snapshot) {
 		//
@@ -594,25 +646,40 @@ function fetchPatients(){
 		//
 		// Show number of patients waiting
 		console.log('There are ' + patientQ.length + ' patients waiting to be treated...');
+		$('#currentPatient').text(0 + ' / ' + patientQ.length);
 		//
-		// Show pateint report to doctor
-		//
+
 	});
 
 	// Listen for new changes as-well for more recent cases
+}
 
-
-
-	/*
+//
+function nextPatientReport(){
+	console.log('Show patient report: ' + currentPatientView);
+	let report = patientQ[currentPatientView]['covid19-report'];
 	//
-	// Anytime
+	//
 	const p5element = document.getElementById('main-p5-canvas');
-	p5element.patientReportCode = 'M4-0000-100110001';
+	p5element.patientReportCode = report;
 	if(window.reporter.getP() != null){
 		console.log('P5 ready, dispatching now!');
+		$('#loadingreport').show();
+		$('#reports_status').text('Loading next report...');
+		$('#viewPatient').hide();
+		$('#current_report').hide();
+		//
+		$('#connectPatient').attr('disabled', true);
+		//
 		p5element.dispatchEvent(new Event('update-report'));
 	}else{
 		console.log('Not yet ready! Will need to try again...');
 	}
+	//patientQ = [];
+	//currentPatientView = 0;
+
+	/*
+
 	*/
+
 }
