@@ -300,6 +300,7 @@ function initSidemenu(){
  * initModal
  * ------------------------------------------------
  */
+
 function initModal(start_opened){
 	var modal = document.querySelector('.modal');
 	var closeButton = document.querySelector('.close-button');
@@ -328,6 +329,12 @@ function initModal(start_opened){
 	//
 	$('#golive').click(function(){
 		startVideo();
+	});
+
+	$('#share').click(function(){
+		$('#onenter').hide();
+		$('#share-buttons-container').show();
+		$('.close-button').show();
 	});
 }
 

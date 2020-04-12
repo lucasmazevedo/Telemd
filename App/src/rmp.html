@@ -251,6 +251,7 @@
           </div>
           <div class="column-b" style="text-align: center; height: 100%;">
             <div class="main_video_item" id="meet" style="height: 100%;margin-top:60px;">
+            </div>
           </div>
         </div>
       </div>
@@ -258,7 +259,7 @@
 
     <div class="modal">
         <div class="modal-content">
-          <span class="close-button">&times;</span>
+          <span class="close-button" style="display: none;z-index: 1000;">&times;</span>
           <div id="onenter" style="text-align: left;">
             <h2>Hello<span id="doc_name"></span></h2>
             <h3 style="font-weight:normal;text-align: left;">What would you like to do?</h3>
@@ -270,9 +271,42 @@
             <p>We are setting up things for you...</p>
             <div class="sk-spinner sk-spinner-pulse" style="background-color: black;"></div>
           </div>
+          <div id="share-buttons-container" style="display: none; width: 80%;">
+            <p>Please use any of these buttons to recommend this app to a Doctor, Patient or a NGO to get COVID-19 support.</p>
+
+            <div id="share-buttons-block">
+
+            <!-- Whatsapp -->
+            <a href="whatsapp://send?text=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: http://meet.telemd.org.in and, Doctors please register to help us - http://doc.telemd.org.in/rmp.html #covid19 #telemd_india" data-action="share/whatsapp/share" style="text-decoration: none;">
+              <img class="withfilter" style="width: 35px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="images/somacro-simple-share-buttons/whatsapp.png" alt="Email" />
+            </a>
+
+            <!-- Twitter -->
+            <a href="https://twitter.com/share?text=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: http://meet.telemd.org.in and, Doctors please register to help us - http://doc.telemd.org.in/rmp.html #covid19 #telemd_india&url=http://telemd.org.in/" target="_blank" style="text-decoration: none;">
+                <img class="withfilter" style="width: 35px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="images/somacro-simple-share-buttons/twitter.png" alt="Twitter" />
+            </a>
+
+            <!-- Email -->
+            <a href="mailto:?&subject=Join the fight against Covid19 with TeleMD India&body=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: http://meet.telemd.org.in and, Doctors please register to help us - http://doc.telemd.org.in/rmp.html #covid19 #telemd_india" style="text-decoration: none;">
+                <img class="withfilter" style="width: 35px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="images/somacro-simple-share-buttons/email.png" alt="Email" />
+            </a>
+
+            <!-- Facebook -->
+            <a href="https://www.facebook.com/sharer/sharer.php?u=http://telemd.org.in&quote=Join the fight against Covid19 with TeleMD India&body=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: http://meet.telemd.org.in and, Doctors please register to help us - http://doc.telemd.org.in/rmp.html #covid19 #telemd_india" target="_blank" style="text-decoration: none;">
+                <img class="withfilter" style="width: 35px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="images/somacro-simple-share-buttons/facebook.png" alt="Facebook" />
+            </a>
+
+            <!-- LinkedIn >
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://telemd.org.in&title=Join the fight against Covid19 with TeleMD India&summary=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: http://meet.telemd.org.in and, Doctors please register to help us - http://doc.telemd.org.in/rmp.html #covid19 #telemd_india&source=LinkedIn" target="_blank" style="text-decoration: none;">
+                <img class="withfilter" style="width: 35px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="images/somacro-simple-share-buttons/linkedin.png" alt="LinkedIn" />
+            </a>
+            -->
+
+          </div>
         </div>
       </div>
     </div>
+  </div>
 
   <!-- ABOUT -->
   <div id="about" style="display:none;">
@@ -286,8 +320,8 @@
 
   <!-- FOOTER -->
   <footer id="_footer">
-  <!--p>Made by Timeblur®</p-->
-  <p id="disc">DISCLAIMER: TeleMD is a technology platform to connect individuals(COVID19 patients) with participating physicians and other Registered Medical Proffesionals and licensed health care practitioners (“Providers”), for the purpose of engaging in a health care consultation. TeleMD does not provide medical care and does not interfere with the practice of medicine by licensed Providers. Participating Providers are solely responsible for their services and compliance with the latest guidelines from Ministy Of Health (MOH) Government of India on Telemedicice for COVID19. <br>Read more: <a href="https://www.mohfw.gov.in/pdf/Telemedicine.pdf" target="_blank">https://www.mohfw.gov.in/pdf/Telemedicine.pdf</a></p>
+    <!--p>Made by Timeblur®</p-->
+    <p id="disc">DISCLAIMER: TeleMD is a technology platform to connect individuals(COVID19 patients) with participating physicians and other Registered Medical Proffesionals and licensed health care practitioners (“Providers”), for the purpose of engaging in a health care consultation. TeleMD does not provide medical care and does not interfere with the practice of medicine by licensed Providers. Participating Providers are solely responsible for their services and compliance with the latest guidelines from Ministy Of Health (MOH) Government of India on Telemedicice for COVID19. <br>Read more: <a href="https://www.mohfw.gov.in/pdf/Telemedicine.pdf" target="_blank">https://www.mohfw.gov.in/pdf/Telemedicine.pdf</a></p>
   </footer>
  </body>
 </html>
