@@ -224,8 +224,8 @@ function performPatientTasks(){
 			formEl: document.getElementById('basic-form-element'),
 			context: document.getElementById('basic_details'),
 			theme: 'light',
-			userImage: './images/mask-patient.png',
-			robotImage: './images/ria.png',
+			userImage: '../images/mask-patient.png',
+			robotImage: '../images/ria.png',
 			flowStepCallback: function(dto, success, error){
 				//return error();
 				if(dto.tag.id == 'phone'){
@@ -243,7 +243,7 @@ function performPatientTasks(){
 					window.otp_success = success;
 					//
 				}else
-					return error();
+					return success();
 			},
 			submitCallback: function() {
 				//

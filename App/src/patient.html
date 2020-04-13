@@ -1,6 +1,6 @@
 <html>
  <head>
-  <title>TeleMD:WebApp</title>
+  <title>TeleMD:Patient COVID19 TeleMedicine support for India</title>
 
   <!-- Meta -->
   <meta content="content-type" content="text/html; charset=utf-8"/>
@@ -18,14 +18,14 @@
   <meta name="theme-color" content="#FF0000" />
 
   <!-- stylesheet Links -->
-  <link rel="stylesheet" type="text/css" href="css/patient.css">
-  <link rel="stylesheet" type="text/css" href="third_party/spinkit.css">
-  <link rel="stylesheet" type="text/css" href="third_party/please-wait.css">
-  <link rel="stylesheet" type="text/css" href="third_party/firechat.css">
+  <link rel="stylesheet" type="text/css" href="../css/patient.css">
+  <link rel="stylesheet" type="text/css" href="../third_party/spinkit.css">
+  <link rel="stylesheet" type="text/css" href="../third_party/please-wait.css">
+  <link rel="stylesheet" type="text/css" href="../third_party/firechat.css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap" rel="stylesheet">
   <!-- scripts -->
-  <script type="text/javascript" src="third_party/jquery.min.js"></script>
-  <script type="text/javascript" src="third_party/please-wait.min.js"></script>
+  <script type="text/javascript" src="../third_party/jquery.min.js"></script>
+  <script type="text/javascript" src="../third_party/please-wait.min.js"></script>
   <script src='https://meet.jit.si/external_api.js'></script>
   <!-- The core Firebase JS SDK -->
   <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-app.js"></script>
@@ -56,12 +56,12 @@
   </script>
 
   <div id="prelogin" style="color: white;">Loading...</div>
-  <script type="text/javascript" src="js/patientbundle.js"></script>
+  <script type="text/javascript" src="../js/patientbundle.js"></script>
 
   <!-- HEADER -->
   <header>
    <div id="header_content">
-    <img src="images/logo.png" alt="" width="150" height="40">
+    <img src="../images/logo.png" alt="" width="150" height="40">
     <hr>
    </div>
    <button id="ham_button" style="display: none;">&#9776;</button>
@@ -82,18 +82,18 @@
   <!-- MAIN -->
   <div id="main">
     <div id="login_div" class="pre-loggedin-div">
-      <div id="patient_info">
+      <div id="patient_info" style="overflow:hidden;">
         <div id="lang_pref" style="text-align: center;">
           <p style="text-align: center;">Choose a langage</p>
-          <button class="imgButton" id="en"><img src="images/lang/English.png" width="150" height="150"><span><br>English</span></button>
-          <!--button class="imgButton"><img src="images/lang/Hindi.png" width="150" height="150"><span><br>हिन्दी</span></button>
-          <button class="imgButton"><img src="images/lang/Bangla.png" width="150" height="150"><span><br>বাংলা</span></button>
-          <button class="imgButton"><img src="images/lang/Tamil.png" width="150" height="150"><span><br>தமிழ்</span></button>
-          <button class="imgButton"><img src="images/lang/Telugu.png" width="150" height="150"><span><br>తెలుగు</span></button>
-          <button class="imgButton"><img src="images/lang/Kannada.png" width="150" height="150"><span><br>ಕನ್ನಡ</span></button>
-          <button class="imgButton"><img src="images/lang/Malayalam.png" width="150" height="150"><span><br>മലയാളം</span></button>
-          <button class="imgButton"><img src="images/lang/Marathi.png" width="150" height="150"><span><br>मराठी</span></button>
-          <button class="imgButton"><img src="images/lang/Odia.png" width="150" height="150"><span><br>ଓଡିଆ</span></button-->
+          <button class="imgButton" id="en"><img src="../images/lang/English.png" width="150" height="150"><span><br>English</span></button>
+          <!--button class="imgButton"><img src="../images/lang/Hindi.png" width="150" height="150"><span><br>हिन्दी</span></button>
+          <button class="imgButton"><img src="../images/lang/Bangla.png" width="150" height="150"><span><br>বাংলা</span></button>
+          <button class="imgButton"><img src="../images/lang/Tamil.png" width="150" height="150"><span><br>தமிழ்</span></button>
+          <button class="imgButton"><img src="../images/lang/Telugu.png" width="150" height="150"><span><br>తెలుగు</span></button>
+          <button class="imgButton"><img src="../images/lang/Kannada.png" width="150" height="150"><span><br>ಕನ್ನಡ</span></button>
+          <button class="imgButton"><img src="../images/lang/Malayalam.png" width="150" height="150"><span><br>മലയാളം</span></button>
+          <button class="imgButton"><img src="../images/lang/Marathi.png" width="150" height="150"><span><br>मराठी</span></button>
+          <button class="imgButton"><img src="../images/lang/Odia.png" width="150" height="150"><span><br>ଓଡିଆ</span></button-->
         </div>
         <div id="basic_details" style="display: none;height: 80%; text-align: left;" >
           <!-- Add a container for reCaptcha -->

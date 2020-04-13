@@ -236,6 +236,7 @@ gulp.task('index', function()
 {
 	return gulp.src(['./src/index.html'])
 		.pipe(version(versionConfig))
+		.pipe(rename('./root/index.html'))
 		.pipe(gulp.dest('./dist'));
 });
 
@@ -244,6 +245,7 @@ gulp.task('rmp-index', function()
 {
 	return gulp.src(['./src/rmp.html'])
 		.pipe(version(versionConfig))
+		.pipe(rename('./rmp/index.html'))
 		.pipe(gulp.dest('./dist'));
 });
 
@@ -253,6 +255,7 @@ gulp.task('patient-index', function()
 {
 	return gulp.src(['./src/patient.html'])
 		.pipe(version(versionConfig))
+		.pipe(rename('./patient/index.html'))
 		.pipe(gulp.dest('./dist'));
 });
 
@@ -261,6 +264,7 @@ gulp.task('admin-index', function()
 {
 	return gulp.src(['./src/admin.html'])
 		.pipe(version(versionConfig))
+		.pipe(rename('./admin/index.html'))
 		.pipe(gulp.dest('./dist'));
 });
 
@@ -440,7 +444,7 @@ gulp.task('admin-js', gulp.series('admin-js-scripts'));
 
 //This task will run by default - clean, process and start app - Development
 gulp.task('serve:dist', gulp.series('clean', 'assets', 'image-assets', 'lib', 'styles', 'rmp-styles', 'patient-styles', 'admin-styles', 'lint', 'js', 'rmp-js', 'patient-js', 'admin-js', 'index', 'rmp-index', 'patient-index', 'admin-index', 'pwa-mani' , 'watch', 'browser-sync'));
-gulp.task('firebase:host', gulp.series('clean', 'assets', 'image-assets', 'lib', 'styles', 'rmp-styles', 'patient-styles', 'admin-styles', 'lint', 'js', 'rmp-js', 'patient-js', 'admin-js', 'index', 'rmp-index', 'patient-index', 'admin-index', 'pwa-mani', shell.task(['firebase deploy --only hosting:telemd-call'])));
+gulp.task('firebase:host', gulp.series('clean', 'assets', 'image-assets', 'lib', 'styles', 'rmp-styles', 'patient-styles', 'admin-styles', 'lint', 'js', 'rmp-js', 'patient-js', 'admin-js', 'index', 'rmp-index', 'patient-index', 'admin-index', 'pwa-mani', shell.task(['firebase deploy --only hosting'])));
 gulp.task('default', gulp.series('serve:dist'));
 //
 //

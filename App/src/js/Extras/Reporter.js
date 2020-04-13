@@ -42,10 +42,10 @@ tele.NewReporter = class {
 
 
 			p.preload = function() {
-				let json_url = './datasets/symptoms.json';
+				let json_url = '../datasets/symptoms.json';
 				questionnaire = p.loadJSON(json_url);
 				//
-				let font_path = './fonts/Nunito/';
+				let font_path = '../fonts/Nunito/';
 				mainFont = p.loadFont(font_path + 'Nunito-Regular.ttf');
 				responseFont = p.loadFont(font_path + 'Nunito-Bold.ttf');
 			};

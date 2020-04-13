@@ -396,6 +396,7 @@ function submitDoctorDetails(){
 	var address = $('#addfield').val();
 	var city = $('#cityfield').val();
 	var state = $('#state').val();
+	var serviceloc = ['IN-DL'];
 	var phnumber = parseInt($('#ph').val());
 	//
 	// Add a new document in collection "doctors"
@@ -407,6 +408,7 @@ function submitDoctorDetails(){
 		state: state,
 		country: 'IN',
 		phnumber: phnumber,
+		serviceloc: serviceloc,
 		uid: window.user.uid,
 		verified: false,
 		status: 'Pending...'

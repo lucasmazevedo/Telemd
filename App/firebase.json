@@ -11,15 +11,47 @@
       "npm --prefix \"$RESOURCE_DIR\" run lint"
     ]
   },
-  "hosting": {
-    "site": "telemd-call",
-    "public": "dist",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ]
-  },
+  "hosting": [
+    {
+      "site": "telemd-call",
+      "public": "dist",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        { "source": "index.html", "destination": "/patient/index.html","type": 301},
+        { "source": "/", "destination": "/patient/index.html","type": 301}
+      ]
+    },
+    {
+      "site": "telemd-doc",
+      "public": "dist",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        { "source": "index.html", "destination": "/rmp/index.html", "type": 301 },
+        { "source": "/", "destination": "/rmp/index.html", "type": 301 }
+      ]
+    },
+    {
+      "site": "telemd-admin",
+      "public": "dist",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        { "source": "index.html", "destination": "/admin/index.html", "type": 301 },
+        { "source": "/", "destination": "/admin/index.html", "type": 301 }
+      ]
+    }
+  ],
   "storage": {
     "rules": "storage.rules"
   }
