@@ -179,6 +179,7 @@ gulp.task('rmp-js-scripts', function() {
 		.pipe(vinylsource(browserifyjs.out))
 		.pipe(vinylbuffer())
 		.pipe(version(firebaseConfig))
+		.pipe(version(twilioConfig))
 		.pipe(gulp.dest(browserifyjs.outdir));
 });
 
@@ -307,6 +308,14 @@ gulp.task('lib', function()
 	gulp.src(['./node_modules/notyf/*.css'])
 		.pipe(gulp.dest('./dist/third_party/'));
 
+	gulp.src(['./node_modules/@fullcalendar/core/*.css'])
+		.pipe(rename('fccore.css'))
+		.pipe(gulp.dest('./dist/third_party/'));
+
+	gulp.src(['./node_modules/@fullcalendar/daygrid/*.css'])
+		.pipe(rename('fcdaygrid.css'))
+		.pipe(gulp.dest('./dist/third_party/'));
+
 	gulp.src(['./node_modules/firebaseui/dist/*.css'])
 		.pipe(gulp.dest('./dist/third_party/'));
 
@@ -318,6 +327,21 @@ gulp.task('lib', function()
 
 	gulp.src(['./node_modules/intense-images/*.js'])
 		.pipe(gulp.dest('./dist/third_party/'));
+
+	gulp.src(['./node_modules/jquery-datetimepicker/build/jquery.datetimepicker.min.css'])
+		.pipe(gulp.dest('./dist/third_party/'));
+
+	gulp.src(['./node_modules/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js'])
+		.pipe(gulp.dest('./dist/third_party/'));
+
+	gulp.src(['./src/assets/third_party/covid-19-statistics/dist/css/*.css'])
+		.pipe(gulp.dest('./dist/third_party/'));
+
+	gulp.src(['./src/assets/third_party/covid-19-statistics/dist/js/*.js'])
+		.pipe(gulp.dest('./dist/third_party/'));
+
+	gulp.src(['./src/assets/third_party/covid-19-statistics/img/*.png'])
+		.pipe(gulp.dest('./dist/img/'));
 
 	return gulp.src(['./src/third_party/**/*'])
 		.pipe(uglify())

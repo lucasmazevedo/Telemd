@@ -6,7 +6,13 @@ window.user	=	window.user	||	null;
 import firebase from 'firebase';
 import * as firebaseui from 'firebaseui';
 import { Notyf } from 'notyf';
+import { Twilio } from 'twilio';
 import p5 from 'p5';
+import { Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import interactonPlugin from '@fullcalendar/interaction';
 import {} from './Extras/Reporter';
 
 window.onload = function() {
@@ -14,6 +20,7 @@ window.onload = function() {
 	window.firebase = firebase;
 	window.notyf = new Notyf();
 	window.reporter = new window.tele.NewReporter();
+	window.calendar = null;
 
 	//
 	//
@@ -122,12 +129,16 @@ function onFirebaseAuth(){
 							getUserInfo().then(function(value){
 								window.user.info = value;
 								//
-								if(window.user.info.name != null)
+								if(window.user.info.name != null){
 									$('#doc_name').text(' ' + window.user.info.name.split(' ')[0] + ' ' + window.user.info.name.split(' ')[1]);
+									$('#doc_name_main').text(' ' + window.user.info.name.split(' ')[0] + ' ' + window.user.info.name.split(' ')[1]);
+								}
 								//
 								initModal(true);
 								initP5();
+								initTwilio();
 								fetchPatients();
+								initDoctorProfile();
 								//
 							});
 							//
@@ -200,6 +211,24 @@ function onFirebaseAuth(){
 	window.loading_screen.finish();
 	if(document.getElementById('_status') != null)
 		document.getElementById('_status').innerHTML	=	'Connected';
+}
+
+
+/**
+ * ------------------------------------------------
+ * initTwilio
+ * ------------------------------------------------
+ */
+function initTwilio(){
+	const twilioConfig = JSON.parse('#{TWILIO_CONFIG_REPlACE}#');
+	const accountSid = twilioConfig.sid;
+	const authToken = twilioConfig.token;
+	//
+	let twilio_client = new Twilio(accountSid, authToken);
+	window.tc = {
+		client: twilio_client,
+		from: twilioConfig.fromph
+	};
 }
 
 /**
@@ -294,20 +323,61 @@ function initSidemenu(){
 	}
 }
 
+/**
+ * ------------------------------------------------
+ * initDoctorProfile
+ * ------------------------------------------------
+ */
+function initDoctorProfile(){
+	$('#doc_profile').show();
+	//
+	$.covid19stats({
+		element:'#covid-widget',
+		countryCode:'IN',
+		showCases:true,
+		showDeaths:true,
+		showRecovered:true,
+		showRightLabel:false
+	});
+
+	//
+	initCalendar();
+}
+
+
+/**
+ * ------------------------------------------------
+ * initCalendar
+ * ------------------------------------------------
+ */
+function initCalendar(){
+	var calendarEl = document.getElementById('calendar');
+	var calendar = new Calendar(calendarEl, {
+		schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+		plugins: [ dayGridPlugin, timeGridPlugin, listPlugin, interactonPlugin ],
+		themeSystem: 'cosmo',
+		defaultView: 'dayGridMonth',
+		header: {
+			left: 'prev,next today',
+			center: 'title',
+			right: 'dayGridMonth,listDay,timeGridWeek,timeGridDay'
+		}
+	});
+	calendar.render();
+	window.calendar = calendar;
+}
 
 /**
  * ------------------------------------------------
  * initModal
  * ------------------------------------------------
  */
-
 function initModal(start_opened){
 	var modal = document.querySelector('.modal');
 	var closeButton = document.querySelector('.close-button');
+	// FIX-ME!!!!!
+	// ADD RESET modal when the form is closed.
 
-	function toggleModal() {
-		modal.classList.toggle('show-modal');
-	}
 
 	function windowOnClick(event) {
 		if (event.target === modal) {
@@ -331,11 +401,181 @@ function initModal(start_opened){
 		startVideo();
 	});
 
+	$('#schedule').click(function(){
+		$('#schedulenow').show();
+		$('#onenter').hide();
+		$('#patientscheduler').hide();
+	});
+
+	$('#patient').click(function(){
+		$('#schedulenow').hide();
+		$('#onenter').hide();
+		$('#patientscheduler').show();
+	});
+
+
+	$('#patdatetime').datetimepicker({
+		openOnFocus:true,
+		timepicker:true,
+		datepicker:true,
+		weeks:false
+	});
+
+	let free_type = true;
+	$('#free').click(function(){
+		free_type = true;
+		$('#schedulenow').hide();
+		$('#onenter').hide();
+		$('#patientscheduler').hide();
+		$('#patientdetails').show();
+		//
+	});
+
+	$('#paid').click(function(){
+		free_type = false;
+		$('#schedulenow').hide();
+		$('#onenter').hide();
+		$('#patientscheduler').hide();
+		$('#patientdetails').show();
+		$('#conamount').show();
+	});
+
+	function addMinutes(time, minsToAdd) {
+		function D(J){ return (J<10? '0':'') + J; }
+		var piece = time.split(':');
+		var mins = piece[0]*60 + +piece[1] + +minsToAdd;
+		return D(mins%(24*60)/60 | 0) + ':' + D(mins%60);
+	}
+
+	$('#confirmdetails').click(function(){
+		//
+		console.log('Reading input values.');
+		//
+		let patient_name = $('#patname').val();
+		let patient_number = $('#patnumber').val();
+		let at_schedule = $('#patdatetime').val();
+		let add_min = $('#patdur').val();
+		if(add_min > 60)	add_min = 60;
+		//
+		let _from = at_schedule.replace(' ', 'T').replace('/','-') + ':00';
+		let _to = at_schedule.split(' ')[0].replace('/','-') + 'T' + addMinutes(at_schedule.split(' ')[1], add_min)+ ':00';
+		//
+		if(!free_type){
+			let cosultation_amount = $('#conamount').val();
+			//
+			$('#patientdetails').hide();
+			$('#schedulingprogress').show();
+			$('.close-button').hide();
+			//
+			setTimeout(function(){ $('#schedulingstatus').text('Hold tight! Sending a message...'); },1000);
+			//
+			// Send a text to confirm meeting
+			if(window.tc.client != null){
+				//
+				window.tc.client.messages
+					.create({
+						body: 'Hello ' + patient_name + ', a doctor appointment has been scheduled on '+at_schedule.split(' ')[0].replace('/','-').replace('/','-') + ' at ' + at_schedule.split(' ')[1] +'. Doctor has also requested a consultation fee, payment details will be shared shortly.\nPlease login now with the link and register to the confirm details - http://call.telemd.org.in/?doc=drpradeep\nThank you from Team TeleMD.',
+						from: window.tc.from,
+						to: '+91' + patient_number
+					})
+					.then(function(message) {
+						$('#schedulingstatus').text('Message has been sent to the patient!');
+						//
+						// Fix ME!!!!
+						// Update firebase, then add event
+						//
+						window.calendar.addEventSource( [{
+							title  : '[Paid] Meeting pateint ' + patient_name,
+							start  : _from.replace('/','-'),
+							end    : _to.replace('/','-'),
+							allDay : false
+						},] );
+						window.calendar.render();
+						setTimeout(function(){$('#schedulingstatus').text('Your calendar has been updated!');}, 600);
+						//
+						// Fix ME!!!!
+						// Update firebase, then add event
+						window.calendar.addEventSource( [{
+							title  : 'Meeting patient ' + patient_name,
+							start  : '2020-04-14T8:30:00',
+							end    : '2020-04-14T9:00:00',
+							allDay : false // will make the time show
+						},] );
+						//
+						//
+						console.log('Message has been sent!');
+						console.log(message);
+						window.notyf.success('Appointment confimed & Message sent!');
+						setTimeout(function(){toggleModal();}, 1000);
+					});
+			}else
+				console.log('Message Error!!\nTwilio client not available!!');
+			//
+			//
+		}else{
+			//
+			$('#patientdetails').hide();
+			$('#schedulingprogress').show();
+			$('.close-button').hide();
+			//
+			setTimeout(function(){ $('#schedulingstatus').text('Hold tight!'); },1000);
+			//
+			// Send a text to confirm meeting
+			if(window.tc.client != null){
+				//
+				window.tc.client.messages
+					.create({
+						body: 'Hello ' + patient_name + ', a FREE doctor appointment has been scheduled on '+at_schedule.split(' ')[0].replace('/','-').replace('/','-') + ' at ' + at_schedule.split(' ')[1] +'.\nPlease login now with the link and register to the confirm details - http://call.telemd.org.in/?doc=drpradeep\nThank you from Team TeleMD.',
+						from: window.tc.from,
+						to: '+91' + patient_number
+					})
+					.then(function(message) {
+						$('#schedulingstatus').text('Message has been sent to the patient!');
+						//
+						// Fix ME!!!!
+						// Update firebase, then add event
+						//
+						window.calendar.addEventSource( [{
+							title  : '[Free] Meeting patient ' + patient_name,
+							start  : _from.replace('/','-'),
+							end    : _to.replace('/','-'),
+							allDay : false
+						},] );
+						window.calendar.render();
+						setTimeout(function(){$('#schedulingstatus').text('Your calendar has been updated!');}, 600);
+						//
+						// Fix ME!!!!
+						// Update firebase, then add event
+						window.calendar.addEventSource( [{
+							title  : 'Meeting pateint ' + patient_name,
+							start  : '2020-04-14T8:30:00',
+							end    : '2020-04-14T9:00:00',
+							allDay : false // will make the time show
+						},] );
+						//
+						//
+						console.log('Message has been sent!');
+						console.log(message);
+						window.notyf.success('Appointment confimed & Message sent!');
+						setTimeout(function(){toggleModal();}, 1000);
+					});
+			}else
+				console.log('Message Error!!\nTwilio client not available!!');
+
+		}
+	});
+
 	$('#share').click(function(){
 		$('#onenter').hide();
 		$('#share-buttons-container').show();
 		$('.close-button').show();
 	});
+}
+
+
+function toggleModal() {
+	var modal = document.querySelector('.modal');
+	modal.classList.toggle('show-modal');
 }
 
 let intense_init = false;
@@ -589,6 +829,7 @@ function startVideo(){
 					$('#goinglive').show();
 					$('#meet').show();
 					$('#islive').show();
+					$('#doc_profile').hide();
 					//
 					// Show pateint report to doctor
 					setTimeout(function(){nextPatientReport();}, 3000);
@@ -616,6 +857,7 @@ function startVideo(){
 					$('#meet').empty();
 					$('#meet').hide();
 					$('#islive').hide();
+					$('#doc_profile').show();
 				}
 			}
 		};
@@ -655,6 +897,8 @@ function fetchPatients(){
 		//
 		// Show number of patients waiting
 		console.log('There are ' + patientQ.length + ' patients waiting to be treated...');
+		let patients_hint = 'Right now, There are ' + patientQ.length + ' patients waiting to be treated...\nEnter ward and start treating patients.';
+		$('#patients_live').text(patients_hint);
 		$('#currentPatient').text(0 + ' / ' + patientQ.length);
 		//
 

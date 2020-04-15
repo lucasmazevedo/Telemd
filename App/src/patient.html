@@ -169,7 +169,7 @@
 
             <fieldset>
               <label for="phone">Phone number</label>
-              <input cf-questions="Please provide your '10-digit Phone Number' and solve the next question. " type="number" class="form-control" name="phone" id="phone" maxlength="10">
+              <input cf-questions="Please provide your '10-digit Phone Number' and solve the next question. " type="number" class="form-control" name="phone" id="phone" maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
             </fieldset>
 
             <fieldset>
@@ -202,6 +202,7 @@
     </div>
 
     <div id="loggedin_user_div" class="post-loggedin-div" style="display: none;">
+      Logged in, you can start chat with the Doctor at the scheduled time!
       <div class="main_video_item" id="meet" style="display: none;"></div>
     </div>
 

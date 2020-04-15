@@ -238,10 +238,6 @@ function initModal(start_opened){
 	var modal = document.querySelector('.modal');
 	var closeButton = document.querySelector('.close-button');
 
-	function toggleModal() {
-		modal.classList.toggle('show-modal');
-	}
-
 	function windowOnClick(event) {
 		if (event.target === modal) {
 			toggleModal();
@@ -264,6 +260,12 @@ function initModal(start_opened){
 	Intense( intense_elements );
 }
 
+function toggleModal() {
+	var modal = document.querySelector('.modal');
+	modal.classList.toggle('show-modal');
+}
+
+
 
 /**
  * ------------------------------------------------
@@ -275,8 +277,6 @@ function initTwilio(){
 	const accountSid = twilioConfig.sid;
 	const authToken = twilioConfig.token;
 
-	console.log(accountSid);
-	console.log(authToken);
 	//
 	let twilio_client = new Twilio(accountSid, authToken);
 	window.tc = {
@@ -344,7 +344,7 @@ function performAdminTasks(){
 								//
 								window.tc.client.messages
 									.create({
-										body: 'Hello ' + element.name + ', Your application has been approved.\nPlease login now with the link - http://doc.telemd.org.in/rmp.html\nThank you from Team TeleMD.',
+										body: 'Hello ' + element.name + ', Your application has been approved.\nPlease login now with the link - http://doc.telemd.org.in/\nThank you from Team TeleMD.',
 										from: window.tc.from,
 										to: '+91' + element.phnumber
 									})

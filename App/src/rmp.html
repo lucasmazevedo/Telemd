@@ -18,15 +18,20 @@
   <link rel="stylesheet" type="text/css" href="../css/rmp.css">
   <link rel="stylesheet" type="text/css" href="../third_party/spinkit.css">
   <link rel="stylesheet" type="text/css" href="../third_party/please-wait.css">
-  <link rel="stylesheet"  type="text/css" href="../third_party/notyf.min.css">
+  <link rel="stylesheet" type="text/css" href="../third_party/notyf.min.css">
   <link rel="stylesheet" type="text/css" href="../third_party/firebaseui.css">
-  <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap" rel="stylesheet">
-
+  <link rel="stylesheet" type="text/css" href="../third_party/fccore.css">
+  <link rel="stylesheet" type="text/css" href="../third_party/fcdaygrid.css">
+  <link rel="stylesheet" type="text/css" href="../third_party/covid19.css"/>
+  <link rel="stylesheet" type="text/css" href="../third_party/jquery.datetimepicker.min.css"/>
+<link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap" rel="stylesheet">
 
   <!-- scripts -->
   <script type="text/javascript" src="../third_party/jquery.min.js"></script>
   <script type="text/javascript" src="../third_party/please-wait.min.js"></script>
   <script type="text/javascript" src="../third_party/intense.min.js"></script>
+  <script type="text/javascript" src="../third_party/covid19stats.js"></script>
+  <script type="text/javascript" src="../third_party/jquery.datetimepicker.full.min.js"></script>
   <script src='https://meet.jit.si/external_api.js'></script>
   <!-- The core Firebase JS SDK -->
   <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-app.js"></script>
@@ -147,7 +152,7 @@
                   <option value="Uttarakhand">Uttarakhand</option>
                   <option value="West Bengal">West Bengal</option>
                 </select><br>
-                <input class="ss-item-required" type="number" class="form-control" name="ph" maxlength="10" placeholder="Phone number" id="ph" style="width: 90%;">
+                <input class="ss-item-required" type="number" class="form-control" name="ph" maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Phone number" id="ph" style="width: 90%;">
               </div>
               <br>
               <div class="form-group">
@@ -232,6 +237,18 @@
     </div>
 
     <div id="verified_div" style="display: none;">
+      <div id="doc_profile" style="display: none;">
+        <h3 style="text-align: left;">Hello<span id="doc_name_main"></span>!<span style="float: right;font-size:14px;font-weight:normal;"><b><a target="_blank" style="color:blue;">https://call.telemd.org.in/?doc=drpradeep</a></b><br>is your unique virtual hospital room id.</span></h3>
+        <div class="row">
+          <div class="column-a" style="padding:0;margin:0;">
+            <div id="covid-widget" style="padding: 5px;"></div>
+            <iframe style="height:80%; width: 100%;" src="https://rss.app/embed/v1/eDQwoaWyN06meGws" frameBorder="0"></iframe>
+          </div>
+          <div class="column-b" style="text-align: center; height: 100%;">
+            <div id="calendar" style="height: 100%;font-size: 14px;"></div>
+        </div>
+      </div>
+    </div>
       <div id="islive" style="display: none;">
         <div class="row">
           <div class="column-a">
@@ -250,7 +267,7 @@
             </div>
           </div>
           <div class="column-b" style="text-align: center; height: 100%;">
-            <div class="main_video_item" id="meet" style="height: 100%;margin-top:60px;">
+            <div class="main_video_item" id="meet" style="height: 100%;margin-top:58px;">
             </div>
           </div>
         </div>
@@ -259,41 +276,77 @@
 
     <div class="modal">
         <div class="modal-content">
-          <span class="close-button" style="display: none;z-index: 1000;">&times;</span>
+          <span class="close-button" style="z-index: 2000;">&times;</span>
           <div id="onenter" style="text-align: left;">
             <h2>Hello<span id="doc_name"></span></h2>
             <h3 style="font-weight:normal;text-align: left;">What would you like to do?</h3>
-            <button id="golive" type="submit" class="btnSubmit tip">Go Online<span style="color:black; background: none;">Enter ward and start treating patients</span></button> &nbsp
-            <button id="schedule" type="submit" class="btnSubmit tip">Schedule<span style="color:black; background: none;">Schedule a conference call or an awareness campaign</span></button> &nbsp
-            <button id="share" type="submit" class="btnSubmit tip">Share<span style="color:black; background: none;">Recommend this app to any patient or NGO</span></button>
+            <button id="golive" type="submit" class="btnSubmit tip">Go Online<span id="patients_live" style="color:white; background: none;">Enter ward and start treating patients.</span></button> &nbsp
+            <button id="schedule" type="submit" class="btnSubmit tip">Schedule<span style="color:white; background: none;">Schedule a conference call or an awareness campaign</span></button> &nbsp
+            <button id="share" type="submit" class="btnSubmit tip">Share<span style="color:white; background: none;">Recommend this app to any patient or NGO</span></button>
           </div>
           <div id="goinglive" style="display:none;text-align: center;">
             <p>We are setting up things for you...</p>
             <div class="sk-spinner sk-spinner-pulse" style="background-color: black;"></div>
           </div>
-          <div id="share-buttons-container" style="display: none; width: 80%;">
+          <div id="schedulenow" style="display:none;text-align: left;">
+            <h3 style="font-weight:normal;text-align: left;">Please choose what would you like to be scheduled?</h3>
+            <button id="patient" type="submit" class="btnSubmit tip">Patient<span id="patients_live" style="color:white; background: none;">Enter patient details and schedule a time for a call.</span></button> &nbsp
+            <button id="awareness" type="submit" class="btnSubmit tip">Awareness<span style="color:white; background: none;">Schedule an awareness campaign and share it on social media.</span></button> &nbsp
+            <button id="conference" type="submit" class="btnSubmit tip">Conference<span style="color:white; background: none;">Schedule a conference call with certain groups of NGOs.</span></button>
+          </div>
+          <div id="patientscheduler" style="display:none;text-align: left;">
+            <h3 style="font-weight:normal;text-align: left;">Please choose a consultation type</h3>
+            <button id="free" type="submit" class="btnSubmit tip">Free<span style="color:white; background: none;">You'll be asked to enter patient details.</span></button> &nbsp
+            <button id="paid" type="submit" class="btnSubmit tip">Paid<span style="color:white; background: none;">You'll be asked to enter patient details and the consultation fee.</span></button>
+          </div>
+          <div id="patientdetails" style="display:none;text-align: left;">
+            <h3 style="font-weight:normal;text-align: left;">Patient details</h3>
+            <input type="text" placeholder="Patient Name (optional)" id="patname"> &nbsp
+            <input type="number" maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Patient Phone Number (Required)" id="patnumber"> &nbsp
+            <input type="text" placeholder="Schedule date-time" id="patdatetime"/>
+            <input type="number" placeholder="Duration (in minutes)" id="patdur"/>
+            <input type="number" placeholder="Consultation fee (₹)" id="conamount" style="display:none;">
+            <br>
+            <br>
+            <button id="confirmdetails" class="btnSubmit tip" type="submit">Confirm<span style="color:white; background: none;">A SMS will be sent to the patient number with the schedule and consultation fee (if any)</span> </button>
+          </div>
+          <div id="schedulingprogress" style="display:none;text-align: center;">
+            <p>Please wait while we confirm your schedule...</p>
+            <br>
+            <div class="sk-three-bounce"><div class="sk-child sk-bounce1" style="background-color: black"></div><div class="sk-child sk-bounce2" style="background-color: black"></div><div class="sk-child sk-bounce3" style="background-color: black"></div></div>
+            <br>
+            <br>
+            <p style="font-size: 10px;" id="schedulingstatus"></p>
+          </div>
+
+          <div id="share-buttons-container" style="display: none; width: 80%; text-align: left;">
             <p>Please use any of these buttons to recommend this app to a Doctor, Patient or a NGO to get COVID-19 support.</p>
 
             <div id="share-buttons-block">
 
             <!-- Whatsapp -->
             <a href="whatsapp://send?text=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: http://call.telemd.org.in and, Doctors please register to help us - http://doc.telemd.org.in/ #covid19 #telemd_india" data-action="share/whatsapp/share" style="text-decoration: none;">
-              <img class="withfilter" style="width: 35px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="../images/somacro-simple-share-buttons/whatsapp.png" alt="Email" />
+              <img class="withfilter" style="width: 55px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="../images/somacro-simple-share-buttons/whatsapp.png" alt="Whatsapp" />
+            </a>
+
+            <!-- SMS -->
+            <a href="sms:;?&body=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: http://call.telemd.org.in and, Doctors please register to help us - http://doc.telemd.org.in"  style="text-decoration: none;">
+              <img class="withfilter" style="width: 55px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="../images/somacro-simple-share-buttons/sms.png" alt="SMS" />
             </a>
 
             <!-- Twitter -->
-            <a href="https://twitter.com/share?text=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: http://call.telemd.org.in and, Doctors please register to help us - http://doc.telemd.org.in/ #covid19 #telemd_india&url=http://telemd.org.in/" target="_blank" style="text-decoration: none;">
-                <img class="withfilter" style="width: 35px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="../images/somacro-simple-share-buttons/twitter.png" alt="Twitter" />
+            <a href="https://twitter.com/share?text=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: http://call.telemd.org.in and, Doctors please register to help us - http://doc.telemd.org.in #covid19 #telemd_india&url=http://telemd.org.in/" target="_blank" style="text-decoration: none;">
+                <img class="withfilter" style="width: 55px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="../images/somacro-simple-share-buttons/twitter.png" alt="Twitter" />
             </a>
 
             <!-- Email -->
-            <a href="mailto:?&subject=Join the fight against Covid19 with TeleMD India&body=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: http://call.telemd.org.in and, Doctors please register to help us - http://doc.telemd.org.in/ #covid19 #telemd_india" style="text-decoration: none;">
-                <img class="withfilter" style="width: 35px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="../images/somacro-simple-share-buttons/email.png" alt="Email" />
+            <a href="mailto:?&subject=Join the fight against Covid19 with TeleMD India&body=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: http://call.telemd.org.in and, Doctors please register to help us - http://doc.telemd.org.in #covid19 #telemd_india" style="text-decoration: none;">
+                <img class="withfilter" style="width: 55px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="../images/somacro-simple-share-buttons/email.png" alt="Email" />
             </a>
 
             <!-- Facebook -->
-            <a href="https://www.facebook.com/sharer/sharer.php?u=http://telemd.org.in&quote=Join the fight against Covid19 with TeleMD India&body=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: http://call.telemd.org.in and, Doctors please register to help us - http://doc.telemd.org.in/ #covid19 #telemd_india" target="_blank" style="text-decoration: none;">
-                <img class="withfilter" style="width: 35px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="../images/somacro-simple-share-buttons/facebook.png" alt="Facebook" />
+            <a href="https://www.facebook.com/sharer/sharer.php?u=http://telemd.org.in&quote=Join the fight against Covid19 with TeleMD India&body=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: http://call.telemd.org.in and, Doctors please register to help us - http://doc.telemd.org.in #covid19 #telemd_india" target="_blank" style="text-decoration: none;">
+                <img class="withfilter" style="width: 55px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="../images/somacro-simple-share-buttons/facebook.png" alt="Facebook" />
             </a>
 
             <!-- LinkedIn >
@@ -301,7 +354,6 @@
                 <img class="withfilter" style="width: 35px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="../images/somacro-simple-share-buttons/linkedin.png" alt="LinkedIn" />
             </a>
             -->
-
           </div>
         </div>
       </div>
