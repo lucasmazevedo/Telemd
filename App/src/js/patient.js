@@ -5,18 +5,69 @@ window.user = window.user || null;
 
 import firebase from 'firebase';
 import * as firebaseui from 'firebaseui';
+import { Notyf } from 'notyf';
 import { ConversationalForm, EventDispatcher } from 'conversational-form';
+import ipapi from 'ipapi.co';
 
 window.onload = function() {
 	window.$ = $;
 	window.firebase = firebase;
+	window.notyf = new Notyf();
 	//
 	$('#conversational-form').hide();
+	//
+	$('#existing').click(function(){
+		console.log('Existing user');
+		$('#login_div').hide();
+		initFirebaseUI();
+	});
+	$('#new').click(function(){
+		console.log('New user');
+		$('#login_div').hide();
+		$('#new_user_div').show();
+		$('#patient_info').show();
+	});
 	//
 	initFirebase();
 	initSidemenu();
 	performPatientTasks();
 };
+
+
+/**
+ * ------------------------------------------------
+ * initFirebaseUI
+ * ------------------------------------------------
+ */
+function initFirebaseUI(){
+	console.log('initFirebaseUI');
+
+	// FirebaseUI config.
+	var uiConfig = {
+		signInSuccessUrl: location.href,
+		callbacks: {
+			signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+				$('#firebaseui-auth-container').hide();
+				// On success redirect to signInSuccessUrl.
+				return true;
+				// On sucess - get me some info on the user
+				//return false;
+			}
+		},
+		signInFlow: 'popup',
+		signInOptions: [
+			{
+				provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+				defaultCountry: 'IN',
+			}
+		]
+	};
+
+	// Initialize the FirebaseUI Widget using Firebase.
+	var ui = new firebaseui.auth.AuthUI(firebase.auth());
+	// The start method will wait until the DOM is loaded.
+	ui.start('#firebaseui-auth-container', uiConfig);
+}
 
 /**
  * ------------------------------------------------
@@ -32,8 +83,9 @@ function initFirebase(){
 
 	//
 	firebase.auth().onAuthStateChanged(function(user){
-		if (user)
+		if (user){
 			window.user = user;
+		}
 		else{
 			window.user = null;
 		}
@@ -94,11 +146,42 @@ function onFirebaseAuth(){
 
 	if(window.user){
 		console.log('User is logged in');
-
 		//User is signed in.
 		$('#loggedin_user_div').show();
 		$('#ham_button').show();
 		$('#login_div').hide();
+		$('#firebaseui-auth-container').hide();
+		//
+		var db = firebase.firestore();
+		const usersRef = db.collection('patients').doc(window.user.uid);
+		//
+		usersRef.get().then(function(docSnapshot){
+			if (docSnapshot.exists) {
+				let patient = docSnapshot;
+				// Check if the user is verified and if verified create chatroom
+				let db_Status = patient.get('status').toString();
+				console.log('Patient is: ' + db_Status);
+				// Definitely registered
+				console.log('User is registered and onboarded.');
+				window.userDetails = patient.data();
+				console.log(window.userDetails);
+				//
+				if(window.userDetails.name != null){
+					$('#patient_name_main').text(' ' + window.userDetails.name.split(' ')[0]);
+				}
+			}
+		},function (err) {
+			//....
+			console.log('error!');
+			// error loading database
+			console.log('Databse error...');
+			window.notyf.error('Error loading database. Try loggin in again...');
+			setTimeout(function(){
+				window.user = null;
+				firebase.auth().signOut();
+				location.reload(true);
+			}, 4000);
+		});
 		//
 	}else{
 		//No user is signed in.
@@ -183,6 +266,7 @@ function initSidemenu(){
 		//
 		firebase.auth().signOut();
 	}
+	window.logout = logout;
 
 	// deselect sidemenu links
 	function deselectAll(){
@@ -218,7 +302,26 @@ function performPatientTasks(){
 		//
 		$('#lang_pref').hide();
 		$('#basic_details').show();
-
+		//
+		window.userLoc = null;
+		window.userDetails = null;
+		//
+		$.getJSON('https://api.ipify.org?format=json', function(data){
+			console.log(data);
+			//
+			//var geo = geoip.lookup(data.ip);
+			//console.log(geo);
+			//
+			ipapi.location(function(loc){
+				console.log(loc);
+				window.userLoc = loc;
+				//
+				$('#city').val(loc.city);
+				$('#pincode').val(loc.postal);
+				//$('#state').val(loc.region_code);
+			}, data.ip);
+		});
+		//
 		var cfInstance = ConversationalForm.startTheConversation({
 			formEl: document.getElementById('basic-form-element'),
 			context: document.getElementById('basic_details'),
@@ -226,6 +329,9 @@ function performPatientTasks(){
 			userImage: '../images/mask-patient.png',
 			robotImage: '../images/ria.png',
 			flowStepCallback: function(dto, success, error){
+				//
+				$('.conversational-form cf-input input').focus();
+				$('.conversational-form cf-input textarea').focus();
 				//return error();
 				if(dto.tag.id == 'phone'){
 					console.log('Validate me and reply');
@@ -247,9 +353,39 @@ function performPatientTasks(){
 			submitCallback: function() {
 				//
 				// be aware that this prevents default form submit.
-				//var formDataSerialized = cfInstance.getFormData(true);
-				//console.log('Formdata, serialized:', formDataSerialized);
-				//cfInstance.addRobotChatResponse('Please provide the OTP sent to: ' + formDataSerialized.phone);
+				var formDataSerialized = cfInstance.getFormData(true);
+				console.log('Formdata, serialized:', formDataSerialized);
+				window.userDetails = formDataSerialized;
+				//
+				// Upload to firebase
+				//
+				console.log('Now submit values and documents');
+				var db = firebase.firestore();
+				const usersRef = db.collection('patients').doc(window.user.uid);
+				//
+				// Add a new document in collection "patients"
+				usersRef.set({
+					name: window.userDetails.name,
+					gender: window.userDetails.gender[0],
+					age: window.userDetails.age[0],
+					city: window.userDetails.city,
+					state: state_codes[window.userLoc.region_code],
+					country: 'IN',
+					phnumber: window.userDetails.phone,
+					serviceloc: 'IN-'+window.userLoc.region_code,
+					uid: window.user.uid,
+					events: [],
+					status: 'registered',
+					lang: 'en'
+				}).then(function() {
+					console.log('Document successfully written!');
+					//
+					setTimeout(function(){location.reload(true);}, 3000);
+				}).catch(function(error) {
+					console.error('Error writing document: ', error);
+					window.logout();
+				});
+				//
 			}
 		});
 		//
@@ -339,3 +475,41 @@ function getUrlVars()
 }
 
 
+let state_codes = {
+	'AP' : 'Andhra Pradesh',
+	'AN' : 'Andaman and Nicobar Islands',
+	'AR' : 'Arunachal Pradesh',
+	'AS' : 'Assam',
+	'BR' : 'Bihar',
+	'CH' : 'Chandigarh',
+	'CT' : 'Chhattisgarh',
+	'DN' : 'Dadar and Nagar Haveli',
+	'DD' : 'Daman and Diu',
+	'DL' : 'Delhi',
+	'LD' : 'Lakshadweep',
+	'PY' : 'Puducherry',
+	'GA' : 'Goa',
+	'GJ' : 'Gujarat',
+	'HR' : 'Haryana',
+	'HP' : 'Himachal Pradesh',
+	'JK' : 'Jammu and Kashmir',
+	'JH' : 'Jharkhand',
+	'KA' : 'Karnataka',
+	'KL' : 'Kerala',
+	'MP' : 'Madhya Pradesh',
+	'MH' : 'Maharashtra',
+	'MN' : 'Manipur',
+	'ML' : 'Meghalaya',
+	'MZ' : 'Mizoram',
+	'NL' : 'Nagaland',
+	'OR' : 'Odisha',
+	'PB' : 'Punjab',
+	'RJ' : 'Rajasthan',
+	'SK' : 'Sikkim',
+	'TN' : 'Tamil Nadu',
+	'TG' : 'Telangana',
+	'TR' : 'Tripura',
+	'UP' : 'Uttar Pradesh',
+	'UT' : 'Uttarakhand',
+	'WB' : 'West Bengal'
+};

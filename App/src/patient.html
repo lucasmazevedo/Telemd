@@ -22,6 +22,7 @@
   <link rel="stylesheet" type="text/css" href="../third_party/spinkit.css">
   <link rel="stylesheet" type="text/css" href="../third_party/please-wait.css">
   <link rel="stylesheet" type="text/css" href="../third_party/firechat.css">
+  <link rel="stylesheet" type="text/css" href="../third_party/firebaseui.css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap" rel="stylesheet">
   <!-- scripts -->
   <script type="text/javascript" src="../third_party/jquery.min.js"></script>
@@ -74,139 +75,188 @@
          <a href="#" id="about_item"><span>About</span></a>
          <a href="#" id="settings_item"><span>Settings</span></a>
          <a href="#" id="contact_item"><span>Contact</span></a>
-         <a href="https://telemd.org.in" id="logout_button"><span>Logout</span></a>
+         <a href="/patient" id="logout_button"><span>Logout</span></a>
        </div>
      </div>
   </header>
 
   <!-- MAIN -->
   <div id="main">
-    <div id="login_div" class="pre-loggedin-div">
-      <div id="patient_info" style="overflow:hidden;">
-        <div id="lang_pref" style="text-align: center;">
-          <p style="text-align: center;">Choose a langage</p>
-          <button class="imgButton" id="en"><img src="../images/lang/English.png" width="150" height="150"><span><br>English</span></button>
-          <!--button class="imgButton"><img src="../images/lang/Hindi.png" width="150" height="150"><span><br>हिन्दी</span></button>
-          <button class="imgButton"><img src="../images/lang/Bangla.png" width="150" height="150"><span><br>বাংলা</span></button>
-          <button class="imgButton"><img src="../images/lang/Tamil.png" width="150" height="150"><span><br>தமிழ்</span></button>
-          <button class="imgButton"><img src="../images/lang/Telugu.png" width="150" height="150"><span><br>తెలుగు</span></button>
-          <button class="imgButton"><img src="../images/lang/Kannada.png" width="150" height="150"><span><br>ಕನ್ನಡ</span></button>
-          <button class="imgButton"><img src="../images/lang/Malayalam.png" width="150" height="150"><span><br>മലയാളം</span></button>
-          <button class="imgButton"><img src="../images/lang/Marathi.png" width="150" height="150"><span><br>मराठी</span></button>
-          <button class="imgButton"><img src="../images/lang/Odia.png" width="150" height="150"><span><br>ଓଡିଆ</span></button-->
-        </div>
-        <div id="basic_details" style="display: none;height: 80%; text-align: left;" >
-          <!-- Add a container for reCaptcha -->
-          <div id="recaptcha-container" style="display: none;"></div>
-
-          <form id="basic-form-element" cf-form>
-            <cf-robot-message cf-questions="Hello! My name is Ria|Hello! My name is Priya|Hello! My name is Sia"></cf-robot-message>
-            <cf-robot-message cf-questions="I can connect you to a doctor immediately but first, I need some basic details..."></cf-robot-message>
-            <fieldset>
-              <label for="name">What is the patient's name?</label>
-              <input required cf-questions="What is the patient's name?" type="text" class="form-control" name="name" id="name" />
-            </fieldset>
-
-            <fieldset>
-              <label for="gender">Gender</label>
-              <div class="radio">
-                <label>
-                  <input cf-questions="Okay, {previous-answer}! what is your gender?" type="radio" name="gender" id="gender-1" value="male"> Male
-                </label>
-              </div>
-              <div class="radio">
-                <label>
-                  <input type="radio" name="gender" id="gender-2" value="female"> Female
-                </label>
-              </div>
-              <div class="radio">
-                <label>
-                  <input type="radio" name="gender" id="gender-3" value="other"> Other
-                </label>
-              </div>
-            </fieldset>
-
-            <fieldset>
-              <label for="age">Age</label>
-              <div class="radio">
-                <label>
-                  <input cf-questions="Please choose a range for patient's age:" type="radio" name="age" id="age-1" value="0-2"> 0-2
-                </label>
-              </div>
-              <div class="radio">
-                <label>
-                  <input type="radio" name="age" id="age-2" value="3-20"> 3-20
-                </label>
-              </div>
-              <div class="radio">
-                <label>
-                  <input type="radio" name="age" id="age-3" value="21-40"> 21-40
-                </label>
-              </div>
-              <div class="radio">
-                <label>
-                  <input type="radio" name="age" id="age-4" value="41-60"> 41-60
-                </label>
-              </div>
-              <div class="radio">
-                <label>
-                  <input type="radio" name="age" id="age-5" value="60+"> 60+
-                </label>
-              </div>
-            </fieldset>
-
-            <fieldset>
-              <label for="city">City</label>
-              <input cf-questions="Which city are you from?" type="text" class="form-control" name="city" id="city">
-            </fieldset>
-
-            <fieldset>
-              <label for="pincode">Pin code</label>
-              <input cf-questions="What is your area pincode?" type="number" class="form-control" name="pincode" id="pincode">
-            </fieldset>
-
-            <cf-robot-message cf-questions="Thank you for providing the basic details, Let's get you registered now while we update these details."></cf-robot-message>
-
-            <fieldset>
-              <label for="phone">Phone number</label>
-              <input cf-questions="Please provide your '10-digit Phone Number' and solve the next question. " type="number" class="form-control" name="phone" id="phone" maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
-            </fieldset>
-
-            <fieldset>
-              <label for="otp">OTP</label>
-              <input cf-questions="Please provide the OTP sent to +91-{phone}" type="number" class="form-control" name="otp" id="otp">
-            </fieldset>
-
-            <button id="submitted" type="submit" class="btn btn-default">Submit</button>
-
-            <!--cf-robot-message cf-questions="we will now create a COVID-19 report for the pateint."></cf-robot-message>
-
-            <fieldset>
-              <label for="opinion">Is the patient experinceing any symptoms right now?</label>
-              <select cf-questions="Is the patient experinceing any symptoms right now?" name="opinion" id="opinion" class="form-control">
-                <option></option>
-                <option>Yes</option>
-                <option>Maybe</option>
-                <option>No</option>
-              </select>
-            </fieldset-->
-
-          </form>
-        </div>
-        <!--div id="covid_details" style="display: none;">
-          <form id="covid19-form-element" cf-form>
-          Hi
-          </form>
-        </div-->
-      </div>
-    </div>
-
     <div id="loggedin_user_div" class="post-loggedin-div" style="display: none;">
-      Logged in, you can start chat with the Doctor at the scheduled time!
+      <p style="text-align: left;font-size: 16px;padding: 0 4%;">Hello<span id="patient_name_main"></span>!<br>What would you like to do?</p>
+      <button id="covid_request" class="wideImgButton" style="margin-bottom: 12px;">
+        <div style="width: 30%; float:left;">
+           <img src="../images/patient_dash/schedule_call.png" width="100" height="100">
+        </div>
+        <div style="width: 70%; float:right;">
+           <h4 style="margin-top: 10px;margin-bottom: 2px; text-align: center;">REQUEST CONSULTATION FOR COVID19</h4>
+           <span style="font-size: 12px; text-align: left;">Consultaion will be scheduled by a doctor for patients with COVID19 symptoms.</span>
+        </div>
+      </button>
+      <button id="scheduled" class="smallImgButton">
+        <div style="height: 70%;">
+           <img src="../images/patient_dash/scheduled.png" width="60" height="60">
+        </div>
+        <div style="height: 30%;font-size: 12px;text-align: center;">
+           <h4 style="margin: 0;">VIEW SCHEDULED <br> APPOINTMENTS </h4>
+        </div>
+      </button>
+      <button id="wait" class="smallImgButton">
+        <div style="height: 70%;">
+           <img src="../images/patient_dash/wait_online.png" width="60" height="60">
+        </div>
+        <div style="height: 30%;font-size: 12px;text-align: center;">
+           <h4 style="margin: 0;">EMERGENCY <br> WAIT ONLINE</h4>
+        </div>
+      </button>
+      <button id="history" class="smallImgButton">
+        <div style="height: 70%;">
+           <img src="../images/patient_dash/history.png" width="60" height="60">
+        </div>
+        <div style="height: 30%;font-size: 12px;text-align: center;">
+           <h4 style="margin: 0;">VIEW YOUR<br>HISTORY</h4>
+        </div>
+      </button>
+      <button id="read_symptoms" class="smallImgButton">
+        <div style="height: 70%;">
+           <img src="../images/patient_dash/covid_red.png" width="60" height="60">
+        </div>
+        <div style="height: 30%; font-size: 12px;text-align: center;">
+           <h4 style="margin: 0;">READ MORE<br>ON SYMPTOMS</h4>
+        </div>
+      </button>
+
       <div class="main_video_item" id="meet" style="display: none;"></div>
     </div>
-
+    <div id="login_div" class="pre-loggedin-div">
+        <button class="imgButton" id="existing"><img src="../images/existing_users.png" width="120" height="120"><span><br>Existing users</span></button>
+        <button class="imgButton" id="new"><img src="../images/new_users.png" width="120" height="120"><span><br>&nbsp&nbsp&nbspNew Users&nbsp&nbsp&nbsp</span></button>
+    </div>
+    <div id="firebaseui-auth-container"></div>
   </div>
+
+  <div class="main-div">
+    <div id="new_user_div" style="display: none;">
+      <div id="patient_info" style="overflow:hidden;display: none;">
+          <div id="lang_pref" style="text-align: center;">
+            <p style="text-align: center;">Choose a langage</p>
+            <button class="imgButton" id="en"><img src="../images/lang/English.png" width="120" height="120"><span><br>English</span></button>
+            <!--button class="imgButton"><img src="../images/lang/Hindi.png" width="120" height="120"><span><br>हिन्दी</span></button>
+            <button class="imgButton"><img src="../images/lang/Bangla.png" width="120" height="120"><span><br>বাংলা</span></button>
+            <button class="imgButton"><img src="../images/lang/Tamil.png" width="120" height="120"><span><br>தமிழ்</span></button>
+            <button class="imgButton"><img src="../images/lang/Telugu.png" width="120" height="120"><span><br>తెలుగు</span></button>
+            <button class="imgButton"><img src="../images/lang/Kannada.png" width="120" height="120"><span><br>ಕನ್ನಡ</span></button>
+            <button class="imgButton"><img src="../images/lang/Malayalam.png" width="120" height="120"><span><br>മലയാളം</span></button>
+            <button class="imgButton"><img src="../images/lang/Marathi.png" width="120" height="120"><span><br>मराठी</span></button>
+            <button class="imgButton"><img src="../images/lang/Odia.png" width="120" height="120"><span><br>ଓଡିଆ</span></button-->
+          </div>
+          <div id="basic_details" style="display: none;height: 80%; text-align: left;" >
+            <!-- Add a container for reCaptcha -->
+            <div id="recaptcha-container" style="display: none;"></div>
+
+            <form id="basic-form-element" cf-form>
+              <cf-robot-message cf-questions="Hello! My name is Ria|Hello! My name is Priya|Hello! My name is Sia"></cf-robot-message>
+              <cf-robot-message cf-questions="I can connect you to a doctor immediately but first, I need some basic details..."></cf-robot-message>
+              <fieldset>
+                <label for="name">What is the patient's name?</label>
+                <input required cf-questions="What is the patient's name?" type="text" class="form-control" name="name" id="name" />
+              </fieldset>
+
+              <fieldset>
+                <label for="gender">Gender</label>
+                <div class="radio">
+                  <label>
+                    <input cf-questions="Okay, {previous-answer}! what is your gender?" type="radio" name="gender" id="gender-1" value="male"> Male
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="gender" id="gender-2" value="female"> Female
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="gender" id="gender-3" value="other"> Other
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <label for="age">Age</label>
+                <div class="radio">
+                  <label>
+                    <input cf-questions="Please choose a range for patient's age:" type="radio" name="age" id="age-1" value="0-2"> 0-2
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="age" id="age-2" value="3-20"> 3-20
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="age" id="age-3" value="21-40"> 21-40
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="age" id="age-4" value="41-60"> 41-60
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="age" id="age-5" value="60+"> 60+
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <label for="city">City</label>
+                <input cf-questions="Which city are you from?" type="text" class="form-control" name="city" id="city">
+              </fieldset>
+
+              <fieldset>
+                <label for="pincode">Pin code</label>
+                <input cf-questions="What is your area pincode?" type="number" class="form-control" name="pincode" id="pincode">
+              </fieldset>
+
+              <cf-robot-message cf-questions="Thank you for providing the basic details, Let's get you registered now while we update these details."></cf-robot-message>
+
+              <fieldset>
+                <label for="phone">Phone number</label>
+                <input cf-questions="Please provide your '10-digit Phone Number' and solve the next question. " type="number" class="form-control" name="phone" id="phone" maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+              </fieldset>
+
+              <fieldset>
+                <label for="otp">OTP</label>
+                <input cf-questions="Please provide the OTP sent to +91-{phone}" type="number" class="form-control" name="otp" id="otp">
+              </fieldset>
+
+              <button id="submitted" type="submit" class="btn btn-default">Submit</button>
+
+              <!--cf-robot-message cf-questions="we will now create a COVID-19 report for the pateint."></cf-robot-message>
+
+              <fieldset>
+                <label for="opinion">Is the patient experinceing any symptoms right now?</label>
+                <select cf-questions="Is the patient experinceing any symptoms right now?" name="opinion" id="opinion" class="form-control">
+                  <option></option>
+                  <option>Yes</option>
+                  <option>Maybe</option>
+                  <option>No</option>
+                </select>
+              </fieldset-->
+
+            </form>
+          </div>
+          <!--div id="covid_details" style="display: none;">
+            <form id="covid19-form-element" cf-form>
+            Hi
+            </form>
+          </div-->
+        </div>
+    </div>
+  </div>
+
 
   <!-- ABOUT -->
   <div id="about" style="display:none;">

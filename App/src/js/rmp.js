@@ -198,7 +198,6 @@ function onFirebaseAuth(){
 						$('#pin').val(loc.postal);
 						$('#state').val(loc.region_code);
 					}, data.ip);
-
 				});
 			}
 		},function (err) {

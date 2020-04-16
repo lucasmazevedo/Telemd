@@ -48,42 +48,16 @@ input, button {
 }
 
 .main-div {
-  width: 85%;
   margin: auto;
-  padding: 0 20px;
 }
 
-.main-div input {
-  display: block;
-  border: 2px solid #222;
-  border-radius: 30px;
-  background: #fff;
-  padding: 15px;
-  outline: none;
-  width: 100%;
-  margin-bottom: 20px;
-  transition: 0.3s;
-  -webkit-transition: 0.3s;
-  -moz-transition: 0.3s;
-  font-size: 18px;
+.conversational-form-inner {
+  font-size: 14px;
 }
 
-.main-div input:focus {
-  border: 3px solid #000;
-}
-
-.main-div button {
-  color: #000;
-  padding: 15px;
-  display: block;
-  width: 100%;
-  transition: 0.3s;
-  -webkit-transition: 0.3s;
-  -moz-transition: 0.3s;
-  font-size: 24px;
-  cursor: pointer;
-  background: none;
-  border: none;
+.conversational-form cf-input input,
+.conversational-form cf-input textarea {
+  font-size: 16px;
 }
 
 .main-div button:hover {
@@ -121,11 +95,58 @@ header img {
   font-size: 24px;
   font-weight:bold;
   outline: none;
+  padding: 30px;
 }
-
 
 .imgbutton:hover{
   transform: scale(1.08);
+}
+
+#loggedin_user_div {
+  max-width: 300px;
+  display: table;
+  margin: 0 auto;
+}
+
+
+.wideImgButton {
+  margin: 2px;
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  background: white;
+  color: black;
+  border-radius: 0.4em;
+  border: 0.5px solid #888;
+  cursor: pointer;
+  outline: none;
+  padding: 3px;
+  width: 94%;
+  height: 130px;
+}
+
+.smallImgButton {
+  margin: 4%;
+  margin-bottom: 12px;
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  background: white;
+  color: black;
+  border-radius: 0.4em;
+  border: 0.5px solid #888;
+  cursor: pointer;
+  outline: none;
+  padding: 3px;
+  width: 42%;
+  max-width: 48%;
+  height: 125px;
+  min-height: 125px;
+}
+
+
+.smallImgButton img {
+  padding-top: 15px;
 }
 
 .icongen {
