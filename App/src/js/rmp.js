@@ -1,4 +1,4 @@
-/*global tele:true, $:true, firebase:true, JitsiMeetExternalAPI:true, Intense:true*/
+/*global tele:true, $:true, firebase:true, JitsiMeetExternalAPI:true, Intense:true, Tooltip:true*/
 
 window.tele	=	window.tele	||	{};
 window.user	=	window.user	||	null;
@@ -12,7 +12,7 @@ import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
-import interactonPlugin from '@fullcalendar/interaction';
+import ipapi from 'ipapi.co';
 import {} from './Extras/Reporter';
 
 window.onload = function() {
@@ -108,73 +108,70 @@ function onFirebaseAuth(){
 		//
 		usersRef.get().then(function(docSnapshot){
 			if (docSnapshot.exists) {
-				usersRef.onSnapshot(function(doc){
-					// Check if the user is verified and if verified create chatroom
-					let db_Status = doc.get('status').toString();
-					if(doc.get('verified')){
-						if(db_Status === 'Approved'){
-							// Definitely approved
-							// or approved [to be checked]
-							// Verfied user
-							console.log('User is verified and onboarded.');
-							userState = 'approved';
-							$('#user_div').hide();
-							$('pending_div').show();
-							$('#inlogin').hide();
-							$('#verified_div').show();
-							$('#ham_button').show();
-							$('#login_div').hide();
-							$('#disc').hide();
-							//
-							getUserInfo().then(function(value){
-								window.user.info = value;
-								//
-								if(window.user.info.name != null){
-									$('#doc_name').text(' ' + window.user.info.name.split(' ')[0] + ' ' + window.user.info.name.split(' ')[1]);
-									$('#doc_name_main').text(' ' + window.user.info.name.split(' ')[0] + ' ' + window.user.info.name.split(' ')[1]);
-								}
-								//
-								initModal(true);
-								initP5();
-								initTwilio();
-								fetchPatients();
-								initDoctorProfile();
-								//
-							});
-							//
-
-							//
-						}else if(db_Status === 'Rejected'){
-							// Definitely rejected
-							$('#main_applicant_status').text('🛑 APPLICATION REJECTED');
-							$('.rejected_stage').show();
-							// Rejected user
-							userState = 'rejected';
-							console.log('User is rejected.');
-							$('#user_div').hide();
-							$('#inlogin').hide();
-							$('#pending_div').show();
-							$('#ham_button').show();
-							$('#login_div').hide();
-						}else{
-							console.log('error! Not supposed to be here');
+				let doc = docSnapshot;
+				// Check if the user is verified and if verified create chatroom
+				let db_Status = doc.get('status').toString();
+				if(doc.get('verified')){
+					if(db_Status === 'Approved'){
+						// Definitely approved
+						// or approved [to be checked]
+						// Verfied user
+						console.log('User is verified and onboarded.');
+						userState = 'approved';
+						$('#user_div').hide();
+						$('pending_div').show();
+						$('#inlogin').hide();
+						$('#verified_div').show();
+						$('#ham_button').show();
+						$('#login_div').hide();
+						$('#disc').hide();
+						//
+						window.user.info = doc.data();
+						console.log('FIRST');
+						console.log(window.user.info);
+						//
+						if(window.user.info.name != null){
+							$('#doc_name').text(' ' + window.user.info.name.split(' ')[0] + ' ' + window.user.info.name.split(' ')[1]);
+							$('#doc_name_main').text(' ' + window.user.info.name.split(' ')[0] + ' ' + window.user.info.name.split(' ')[1]);
 						}
-					}else{
-						// Submitted user, still pending review
-						userState = 'pending';
-						console.log('Pending stage');
+						//
+						initModal(true);
+						initP5();
+						initTwilio();
+						fetchPatients();
+						initDoctorProfile();
+						//
+
+						//
+
+						//
+					}else if(db_Status === 'Rejected'){
+						// Definitely rejected
+						$('#main_applicant_status').text('🛑 APPLICATION REJECTED');
+						$('.rejected_stage').show();
+						// Rejected user
+						userState = 'rejected';
+						console.log('User is rejected.');
 						$('#user_div').hide();
 						$('#inlogin').hide();
 						$('#pending_div').show();
 						$('#ham_button').show();
 						$('#login_div').hide();
-						//
-						setTimeout(function(){waitTimer(0,10);}, 3000);
+					}else{
+						console.log('error! Not supposed to be here');
 					}
-				},function(serr){
-					//...
-					console.log('error!');
-				});
+				}else{
+					// Submitted user, still pending review
+					userState = 'pending';
+					console.log('Pending stage');
+					$('#user_div').hide();
+					$('#inlogin').hide();
+					$('#pending_div').show();
+					$('#ham_button').show();
+					$('#login_div').hide();
+					//
+					setTimeout(function(){waitTimer(0,10);}, 3000);
+				}
 			} else {
 				userState = 'new';
 				// New user
@@ -183,7 +180,26 @@ function onFirebaseAuth(){
 				$('#inlogin').show();
 				$('#ham_button').show();
 				$('#login_div').hide();
+				$('#disc').hide();
 				// ...
+				console.log(window.user.phoneNumber.replace('+91', ''));
+				let ph = window.user.phoneNumber.replace('+91', '');
+				$('#ph').val(ph);
+				$.getJSON('https://api.ipify.org?format=json', function(data){
+					console.log(data);
+					//
+					//var geo = geoip.lookup(data.ip);
+					//console.log(geo);
+					//
+					ipapi.location(function(loc){
+						console.log(loc);
+						//
+						$('#cityfield').val(loc.city);
+						$('#pin').val(loc.postal);
+						$('#state').val(loc.region_code);
+					}, data.ip);
+
+				});
 			}
 		},function (err) {
 			//....
@@ -351,20 +367,38 @@ function initDoctorProfile(){
  * ------------------------------------------------
  */
 function initCalendar(){
+	//
+	console.log('Do we have doctor info?');
+	console.log(window.user.info);
+	//
+	// Let's add calendar
 	var calendarEl = document.getElementById('calendar');
 	var calendar = new Calendar(calendarEl, {
 		schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-		plugins: [ dayGridPlugin, timeGridPlugin, listPlugin, interactonPlugin ],
+		navLinks: true,
+		eventLimit: 3,
+		plugins: [ dayGridPlugin, timeGridPlugin, listPlugin ],
 		themeSystem: 'cosmo',
 		defaultView: 'dayGridMonth',
 		header: {
 			left: 'prev,next today',
 			center: 'title',
 			right: 'dayGridMonth,listDay,timeGridWeek,timeGridDay'
+		},
+		events: window.user.info.events,
+		eventRender: function(info) {
+			var tooltip = new Tooltip(info.el, {
+				title: info.event.title,
+				placement: 'top',
+				trigger: 'hover',
+				container: 'body'
+			});
 		}
 	});
+	//
 	calendar.render();
 	window.calendar = calendar;
+	//
 }
 
 /**
@@ -457,6 +491,7 @@ function initModal(start_opened){
 		let add_min = $('#patdur').val();
 		if(add_min > 60)	add_min = 60;
 		//
+		let till_schedule = at_schedule.split(' ')[0] + ' ' + addMinutes(at_schedule.split(' ')[1], add_min);
 		let _from = at_schedule.replace(' ', 'T').replace('/','-') + ':00';
 		let _to = at_schedule.split(' ')[0].replace('/','-') + 'T' + addMinutes(at_schedule.split(' ')[1], add_min)+ ':00';
 		//
@@ -474,7 +509,7 @@ function initModal(start_opened){
 				//
 				window.tc.client.messages
 					.create({
-						body: 'Hello ' + patient_name + ', a doctor appointment has been scheduled on '+at_schedule.split(' ')[0].replace('/','-').replace('/','-') + ' at ' + at_schedule.split(' ')[1] +'. Doctor has also requested a consultation fee, payment details will be shared shortly.\nPlease login now with the link and register to the confirm details - http://call.telemd.org.in/?doc=drpradeep\nThank you from Team TeleMD.',
+						body: 'Hello ' + patient_name + ', a doctor appointment has been scheduled on '+at_schedule.split(' ')[0].replace('/','-').replace('/','-') + ' at ' + at_schedule.split(' ')[1] +'. Doctor has also requested a consultation fee, payment details will be shared shortly.\nPlease login now with the link and register to the confirm details - https://call.telemd.org.in/?doc=drpradeep\nThank you from Team TeleMD.',
 						from: window.tc.from,
 						to: '+91' + patient_number
 					})
@@ -483,30 +518,63 @@ function initModal(start_opened){
 						//
 						// Fix ME!!!!
 						// Update firebase, then add event
-						//
-						window.calendar.addEventSource( [{
-							title  : '[Paid] Meeting pateint ' + patient_name,
-							start  : _from.replace('/','-'),
-							end    : _to.replace('/','-'),
-							allDay : false
-						},] );
-						window.calendar.render();
-						setTimeout(function(){$('#schedulingstatus').text('Your calendar has been updated!');}, 600);
-						//
-						// Fix ME!!!!
 						// Update firebase, then add event
-						window.calendar.addEventSource( [{
-							title  : 'Meeting patient ' + patient_name,
-							start  : '2020-04-14T8:30:00',
-							end    : '2020-04-14T9:00:00',
-							allDay : false // will make the time show
-						},] );
+						console.log('Now updating event to firebase');
 						//
+						let newCalEvent = {
+							title  : '[Paid] Meeting pateint ' + patient_name,
+							info: {
+								patient_name: patient_name,
+								patient_number: patient_number,
+								type: 'paid'
+							},
+							start:_from.replace('/','-'),
+							end:_to.replace('/','-'),
+							allDay:false
+						};
+
+						var db = firebase.firestore().collection('doctors').doc(window.user.uid);
 						//
-						console.log('Message has been sent!');
-						console.log(message);
-						window.notyf.success('Appointment confimed & Message sent!');
-						setTimeout(function(){toggleModal();}, 1000);
+						db.update({
+							events: firebase.firestore.FieldValue.arrayUnion(newCalEvent)
+						}).then(function() {
+							console.log('Document successfully written!');
+							//
+							window.calendar.addEventSource( [newCalEvent] );
+							window.calendar.render();
+							setTimeout(function(){$('#schedulingstatus').text('Your schedule has been successfully saved.');}, 600);
+							//
+							console.log('Message has been sent!');
+							console.log(message);
+							window.notyf.success('Appointment confimed & Message sent!');
+							setTimeout(function(){
+								//
+								$('#schedulingprogress').hide();
+								$('#schedulingcomplete').show();
+								//
+								$('#gcyes').click(function(){
+									console.log('Adding to Google calendar...');
+									let base_url = 'https://calendar.google.com/calendar/render';
+									let url = base_url + '?action=TEMPLATE&text='+newCalEvent.title+'&dates='+ at_schedule.replace(' ', 'T').replace('/','').replace('/','').replace(':','')+'00'+'/'+ till_schedule.replace(' ', 'T').replace('/','').replace('/','').replace(':','')+'00'+ '&details=With%20patient&location=Online';
+									console.log(url);
+									window.open(url, '_blank');
+									setTimeout(function(){toggleModal();}, 1500);
+								});
+								//
+								$('#gcno').click(function(){
+									console.log('Skipped adding to Google calendar...');
+									toggleModal();
+								});
+								//
+								//
+							}, 1200);
+							//
+							//
+						}).catch(function(error) {
+							console.error('Error writing document: ', error);
+							throwError('Error writing document:\n'+ toString(error));
+						});
+
 					});
 			}else
 				console.log('Message Error!!\nTwilio client not available!!');
@@ -520,48 +588,81 @@ function initModal(start_opened){
 			//
 			setTimeout(function(){ $('#schedulingstatus').text('Hold tight!'); },1000);
 			//
+
 			// Send a text to confirm meeting
 			if(window.tc.client != null){
 				//
 				window.tc.client.messages
 					.create({
-						body: 'Hello ' + patient_name + ', a FREE doctor appointment has been scheduled on '+at_schedule.split(' ')[0].replace('/','-').replace('/','-') + ' at ' + at_schedule.split(' ')[1] +'.\nPlease login now with the link and register to the confirm details - http://call.telemd.org.in/?doc=drpradeep\nThank you from Team TeleMD.',
+						body: 'Hello ' + patient_name + ', a FREE doctor appointment has been scheduled on '+at_schedule.split(' ')[0].replace('/','-').replace('/','-') + ' at ' + at_schedule.split(' ')[1] +'.\nPlease login now with the link and register to the confirm details - https://call.telemd.org.in/?doc=drpradeep\nThank you from Team TeleMD.',
 						from: window.tc.from,
 						to: '+91' + patient_number
 					})
 					.then(function(message) {
 						$('#schedulingstatus').text('Message has been sent to the patient!');
+
 						//
-						// Fix ME!!!!
 						// Update firebase, then add event
+						console.log('Now updating event to firebase');
 						//
-						window.calendar.addEventSource( [{
-							title  : '[Free] Meeting patient ' + patient_name,
-							start  : _from.replace('/','-'),
-							end    : _to.replace('/','-'),
-							allDay : false
-						},] );
-						window.calendar.render();
-						setTimeout(function(){$('#schedulingstatus').text('Your calendar has been updated!');}, 600);
+						let newCalEvent = {
+							title:'[Free] Meeting patient ' + patient_name,
+							info: {
+								patient_name: patient_name,
+								patient_number: patient_number,
+								type: 'free'
+							},
+							start:_from.replace('/','-'),
+							end:_to.replace('/','-'),
+							allDay:false
+						};
+
+						var db = firebase.firestore().collection('doctors').doc(window.user.uid);
 						//
-						// Fix ME!!!!
-						// Update firebase, then add event
-						window.calendar.addEventSource( [{
-							title  : 'Meeting pateint ' + patient_name,
-							start  : '2020-04-14T8:30:00',
-							end    : '2020-04-14T9:00:00',
-							allDay : false // will make the time show
-						},] );
+						db.update({
+							events: firebase.firestore.FieldValue.arrayUnion(newCalEvent)
+						}).then(function() {
+							console.log('Document successfully written!');
+							//
+							window.calendar.addEventSource( [newCalEvent] );
+							window.calendar.render();
+							setTimeout(function(){$('#schedulingstatus').text('Your schedule has been successfully saved.');}, 600);
+							//
+							console.log('Message has been sent!');
+							console.log(message);
+							window.notyf.success('Appointment confimed & Message sent!');
+							setTimeout(function(){
+								//
+								$('#schedulingprogress').hide();
+								$('#schedulingcomplete').show();
+								//
+								$('#gcyes').click(function(){
+									console.log('Adding to Google calendar...');
+									let base_url = 'https://calendar.google.com/calendar/render';
+									let url = base_url + '?action=TEMPLATE&text='+newCalEvent.title+'&dates='+ at_schedule.replace(' ', 'T').replace('/','').replace('/','').replace(':','')+'00'+'/'+ till_schedule.replace(' ', 'T').replace('/','').replace('/','').replace(':','')+'00'+ '&details=With%20patient&location=Online';
+									console.log(url);
+									window.open(url, '_blank');
+									setTimeout(function(){toggleModal();}, 1500);
+								});
+								//
+								$('#gcno').click(function(){
+									console.log('Skipped adding to Google calendar...');
+									toggleModal();
+								});
+								//
+								//
+							}, 1200);
+							//
+							//
+						}).catch(function(error) {
+							console.error('Error writing document: ', error);
+							throwError('Error writing document:\n'+ toString(error));
+						});
+						///
 						//
-						//
-						console.log('Message has been sent!');
-						console.log(message);
-						window.notyf.success('Appointment confimed & Message sent!');
-						setTimeout(function(){toggleModal();}, 1000);
 					});
 			}else
 				console.log('Message Error!!\nTwilio client not available!!');
-
 		}
 	});
 
@@ -632,17 +733,16 @@ function submitDoctorDetails(){
 	//
 	var first_name = $('#fnfield').val();
 	var last_name = $('#lnfield').val();
-	var age = parseInt($('#age').val());
 	var address = $('#addfield').val();
 	var city = $('#cityfield').val();
 	var state = $('#state').val();
-	var serviceloc = ['IN-DL'];
+	var pin = $('#pin').val();
+	var serviceloc = ['IN-'+state];
 	var phnumber = parseInt($('#ph').val());
 	//
 	// Add a new document in collection "doctors"
 	db.collection('doctors').doc(window.user.uid).set({
 		name: 'Dr. ' + first_name + ' ' + last_name,
-		age: age,
 		address: address,
 		city: city,
 		state: state,
@@ -651,6 +751,7 @@ function submitDoctorDetails(){
 		serviceloc: serviceloc,
 		uid: window.user.uid,
 		verified: false,
+		events: [],
 		status: 'Pending...'
 	}).then(function() {
 		console.log('Document successfully written!');
@@ -667,15 +768,6 @@ function submitDoctorDetails(){
 		throwError('Error writing document:\n'+ toString(error));
 	});
 
-	function throwError(_in){
-		$('#noteSpace').hide();
-		$('#errorSpace').show();
-		$('#message').show();
-		$('#message').text(_in);
-		//
-		window.notyf.error(_in);
-	}
-
 	function validateForm() {
 		var isValid = true;
 		var jfields = $('.ss-item-required');
@@ -689,6 +781,16 @@ function submitDoctorDetails(){
 		});
 		return isValid;
 	}
+}
+
+
+function throwError(_in){
+	$('#noteSpace').hide();
+	$('#errorSpace').show();
+	$('#message').show();
+	$('#message').text(_in);
+	//
+	window.notyf.error(_in);
 }
 
 

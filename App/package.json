@@ -1,6 +1,6 @@
 {
   "name": "telemd-webapp",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Remote diagnosis for India in COVID-19 health crisis",
   "main": "main.js",
   "scripts": {
@@ -37,6 +37,7 @@
     "gulp-uglify": "^3.0.2",
     "gulp-version-number": "^0.2.4",
     "intense-images": "^1.0.0",
+    "ipapi.co": "^0.3.0",
     "jquery": "^3.4.1",
     "jquery-datetimepicker": "^2.5.21",
     "notyf": "^3.5.1",

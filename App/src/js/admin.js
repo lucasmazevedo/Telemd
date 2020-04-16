@@ -344,7 +344,7 @@ function performAdminTasks(){
 								//
 								window.tc.client.messages
 									.create({
-										body: 'Hello ' + element.name + ', Your application has been approved.\nPlease login now with the link - http://doc.telemd.org.in/\nThank you from Team TeleMD.',
+										body: 'Hello ' + element.name + ', Your application has been approved.\nPlease login now with the link - https://doc.telemd.org.in/\nThank you from Team TeleMD.',
 										from: window.tc.from,
 										to: '+91' + element.phnumber
 									})
@@ -382,7 +382,7 @@ function performAdminTasks(){
 								//
 								window.tc.client.messages
 									.create({
-										body: 'Hello, We are really sorry to inform that your application has been rejected.\nPlease reach out to us at telemdin[at]gmail.com if you think this is a mistake.\nThank you, from Team TeleMD(http://telemd.org.in)',
+										body: 'Hello, We are really sorry to inform that your application has been rejected.\nPlease reach out to us at telemdin[at]gmail.com if you think this is a mistake.\nThank you, from Team TeleMD(https://telemd.org.in)',
 										from: window.tc.from,
 										to: '+91' + element.phnumber
 									})

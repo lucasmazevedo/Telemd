@@ -32,7 +32,9 @@
   <script type="text/javascript" src="../third_party/intense.min.js"></script>
   <script type="text/javascript" src="../third_party/covid19stats.js"></script>
   <script type="text/javascript" src="../third_party/jquery.datetimepicker.full.min.js"></script>
-  <script src='https://meet.jit.si/external_api.js'></script>
+  <script type="text/javascript" src='https://meet.jit.si/external_api.js'></script>
+  <script type="text/javascript" src='https://unpkg.com/popper.js/dist/umd/popper.min.js'></script>
+  <script type="text/javascript" src='https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js'></script>
   <!-- The core Firebase JS SDK -->
   <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-analytics.js"></script>
@@ -82,7 +84,7 @@
          <a href="#" id="about_item"><span>About</span></a>
          <a href="#" id="settings_item"><span>Settings</span></a>
          <a href="#" id="contact_item"><span>Contact</span></a>
-         <a href="http://telemd.org.in" id="logout_button"><span>Logout</span></a>
+         <a href="https://telemd.org.in" id="logout_button"><span>Logout</span></a>
        </div>
      </div>
   </header>
@@ -107,87 +109,84 @@
                 <h5>Personal information</h5>
                 <input class="ss-item-required" type="text" class="form-control" name="FN" placeholder="First Name" id="fnfield">
                 <input class="ss-item-required" type="text" class="form-control" name="LN" placeholder="Last Name" id="lnfield">
-                <input class="ss-item-required" type="number" class="form-control" name="Age" placeholder="Age" id="age" style="width: 38px;">
+                <!--input class="ss-item-required" type="number" class="form-control" name="Age" placeholder="Age" id="age" style="width: 38px;"-->
               </div>
               <br>
               <div class="form-group">
                 <h5>Contact information</h5>
-                <input class="ss-item-required" type="text" class="form-control" name="address" placeholder="Address" id="addfield" style="width: 90%;">
+                <input type="text" class="form-control" name="address" placeholder="Address" id="addfield" style="width: 93%;">
                 <br><input class="ss-item-required" type="text" class="form-control" name="city" placeholder="City" id="cityfield">
                 <select name="state" id="state" class="form-control">
-                  <option value="Andhra Pradesh">Andhra Pradesh</option>
-                  <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-                  <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                  <option value="Assam">Assam</option>
-                  <option value="Bihar">Bihar</option>
-                  <option value="Chandigarh">Chandigarh</option>
-                  <option value="Chhattisgarh">Chhattisgarh</option>
-                  <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
-                  <option value="Daman and Diu">Daman and Diu</option>
-                  <option value="Delhi">Delhi</option>
-                  <option value="Lakshadweep">Lakshadweep</option>
-                  <option value="Puducherry">Puducherry</option>
-                  <option value="Goa">Goa</option>
-                  <option value="Gujarat">Gujarat</option>
-                  <option value="Haryana">Haryana</option>
-                  <option value="Himachal Pradesh">Himachal Pradesh</option>
-                  <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                  <option value="Jharkhand">Jharkhand</option>
-                  <option value="Karnataka">Karnataka</option>
-                  <option value="Kerala">Kerala</option>
-                  <option value="Madhya Pradesh">Madhya Pradesh</option>
-                  <option value="Maharashtra">Maharashtra</option>
-                  <option value="Manipur">Manipur</option>
-                  <option value="Meghalaya">Meghalaya</option>
-                  <option value="Mizoram">Mizoram</option>
-                  <option value="Nagaland">Nagaland</option>
-                  <option value="Odisha">Odisha</option>
-                  <option value="Punjab">Punjab</option>
-                  <option value="Rajasthan">Rajasthan</option>
-                  <option value="Sikkim">Sikkim</option>
-                  <option value="Tamil Nadu">Tamil Nadu</option>
-                  <option value="Telangana">Telangana</option>
-                  <option value="Tripura">Tripura</option>
-                  <option value="Uttar Pradesh">Uttar Pradesh</option>
-                  <option value="Uttarakhand">Uttarakhand</option>
-                  <option value="West Bengal">West Bengal</option>
+                  <option value="AP">Andhra Pradesh</option>
+                  <option value="AN">Andaman and Nicobar Islands</option>
+                  <option value="AR">Arunachal Pradesh</option>
+                  <option value="AS">Assam</option>
+                  <option value="BR">Bihar</option>
+                  <option value="CH">Chandigarh</option>
+                  <option value="CT">Chhattisgarh</option>
+                  <option value="DN">Dadar and Nagar Haveli</option>
+                  <option value="DD">Daman and Diu</option>
+                  <option value="DL">Delhi</option>
+                  <option value="LD">Lakshadweep</option>
+                  <option value="PY">Puducherry</option>
+                  <option value="GA">Goa</option>
+                  <option value="GJ">Gujarat</option>
+                  <option value="HR">Haryana</option>
+                  <option value="HP">Himachal Pradesh</option>
+                  <option value="JK">Jammu and Kashmir</option>
+                  <option value="JH">Jharkhand</option>
+                  <option value="KA">Karnataka</option>
+                  <option value="KL">Kerala</option>
+                  <option value="MP">Madhya Pradesh</option>
+                  <option value="MH">Maharashtra</option>
+                  <option value="MN">Manipur</option>
+                  <option value="ML">Meghalaya</option>
+                  <option value="MZ">Mizoram</option>
+                  <option value="NL">Nagaland</option>
+                  <option value="OR">Odisha</option>
+                  <option value="PB">Punjab</option>
+                  <option value="RJ">Rajasthan</option>
+                  <option value="SK">Sikkim</option>
+                  <option value="TN">Tamil Nadu</option>
+                  <option value="TG">Telangana</option>
+                  <option value="TR">Tripura</option>
+                  <option value="UP">Uttar Pradesh</option>
+                  <option value="UT">Uttarakhand</option>
+                  <option value="WB">West Bengal</option>
                 </select><br>
-                <input class="ss-item-required" type="number" class="form-control" name="ph" maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Phone number" id="ph" style="width: 90%;">
+                <input class="ss-item-required" type="number" class="form-control" name="ph" maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Phone number" id="ph">
+                <input class="ss-item-required" type="number" class="form-control" name="pin" maxlength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Pin code" id="pin" >
               </div>
               <br>
-              <div class="form-group">
+              <div class="form-group" style="float: left;width: 100%;margin-bottom: 22px;">
                 <h5>Availability and Work</h5>
-                <input type="checkbox" id="pref1" name="vehicle1" value="Bike">
-                <label for="vehicle1"> I'm a  general physician</label><br>
-                <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
-                <label for="vehicle2"> I'm a specialist</label>
+                <input type="radio"  id="general" name="work" value="GEN">
+                <label for="general"> I'm a  general physician</label><br>
+                <input type="radio"  id="specialist" name="work" value="SPL">
+                <label for="specialist"> I'm a specialist</label> &nbsp&nbsp
+                <input type="text" style="width: 170px;" class="form-control" name="field" placeholder="Mention your specialization" id="spl" >
                 <br>
-                <span>From: <input class="ss-item-required"  type="time" name="from" value="08:00"> To: <input class="ss-item-required"  type="time" name="to" value="22:00"></span>
-                <span>Choose few regions: IN-DL, IN-HR</span>
+                <!--span>From: <input class="ss-item-required"  type="time" name="from" value="08:00"> To: <input class="ss-item-required"  type="time" name="to" value="22:00"></span-->
+                <!--span>Choose few regions: IN-DL, IN-HR</span-->
               </div>
               <br>
               <div class="form-control" style="border:none;">
-                <span>MCI registration.</span><br>
-                <input type="file" id="edufile" style="color:#888888;">
+                <h5>MCI registration</h5>
+                <input type="file" id="edufile" style="color:#888888;border:none;">
               </div>
               <br class="extraSpacing">
-              <div class="form-control" style="border:none;">
-                <span>Degree certificate.</span><br>
-                <input type="file" id="regfile" style="color:#888888;">
-              </div>
-              <br>
-              <input type="checkbox" name="checkbox" value="check" id="agree" /> I have read the disclaimer and agree to be contacted to provide health care services.
+              <input class="ss-item-required" type="checkbox" name="checkbox" value="check" id="agree" style="font-size: 11px;"/> I have read the disclaimer and agree to provide health care services with TeleMD.
               <div>
                 <input id="formsubmit" type="submit" class="btnSubmit" value="Submit">
               </div>
             </form>
-         <br><br>
+         <br>
          </div>
       </div>
       <div class="hint" id="noteSpace">
         <h5>NOTE</h5>
         <hr style="color: #fff;background: #fff;">
-        <p>You need to be a Registed Medical Practitioner(RMP) to provide services on this website. After you click the "Submit" button, the form-data will be sent to create a new account associated to the given details. You'll receive  a confirmation email or a call shortly, after which you can start treating patients online.</p>
+        <p>You need to be a Registed Medical Practitioner(RMP) to provide services on this website. After you click the "Submit" button, the form-data will be sent to create a new account associated to the given details. You'll receive a confirmation SMS or a call shortly, after which you can start treating patients online.</p>
       </div>
       <div class="hint" id="errorSpace" style="display: none;">
         <h5 style="color: #F00;">ERROR!</h5>
@@ -240,11 +239,11 @@
       <div id="doc_profile" style="display: none;">
         <h3 style="text-align: left;">Hello<span id="doc_name_main"></span>!<span style="float: right;font-size:14px;font-weight:normal;"><b><a target="_blank" style="color:blue;">https://call.telemd.org.in/?doc=drpradeep</a></b><br>is your unique virtual hospital room id.</span></h3>
         <div class="row">
-          <div class="column-a" style="padding:0;margin:0;">
-            <div id="covid-widget" style="padding: 5px;"></div>
+          <div class="column-maina" style="padding:0;margin:0;">
+            <div id="covid-widget" style="padding: 15px;"></div>
             <iframe style="height:80%; width: 100%;" src="https://rss.app/embed/v1/eDQwoaWyN06meGws" frameBorder="0"></iframe>
           </div>
-          <div class="column-b" style="text-align: center; height: 100%;">
+          <div class="column-mainb" style="text-align: center; height: 100%;">
             <div id="calendar" style="height: 100%;font-size: 14px;"></div>
         </div>
       </div>
@@ -292,7 +291,7 @@
             <h3 style="font-weight:normal;text-align: left;">Please choose what would you like to be scheduled?</h3>
             <button id="patient" type="submit" class="btnSubmit tip">Patient<span id="patients_live" style="color:white; background: none;">Enter patient details and schedule a time for a call.</span></button> &nbsp
             <button id="awareness" type="submit" class="btnSubmit tip">Awareness<span style="color:white; background: none;">Schedule an awareness campaign and share it on social media.</span></button> &nbsp
-            <button id="conference" type="submit" class="btnSubmit tip">Conference<span style="color:white; background: none;">Schedule a conference call with certain groups of NGOs.</span></button>
+            <button id="conference" type="submit" class="btnSubmit tip">Conference<span style="color:white; background: none;">Schedule a conference call with certain groups (or) NGOs.</span></button>
           </div>
           <div id="patientscheduler" style="display:none;text-align: left;">
             <h3 style="font-weight:normal;text-align: left;">Please choose a consultation type</h3>
@@ -318,6 +317,14 @@
             <br>
             <p style="font-size: 10px;" id="schedulingstatus"></p>
           </div>
+          <div id="schedulingcomplete" style="display:none;text-align: center;">
+            <h3>Meeting scheduled! Would you like to add this to google calendar?</h3>
+            <p style="font-size: 10px;">Google will give you a notification 30 mins before the meeting, also India Timezone +5:30 to be used.</p>
+
+            <button id="gcyes" type="submit" class="btnSubmit tip">Yes<span style="color:white; background: none;">Note: check the time again before saving.</span></button> &nbsp
+            <button id="gcno" type="submit" class="btnSubmit tip">No<span style="color:white; background: none;">You can add this later manually.</span></button>
+            <!--p style="font-size: 10px;">NOTE: Please make sure the timing on Google calendar is correct before saving<br>Time zone in India (GMT+5:30) has to be used.</p-->
+          </div>
 
           <div id="share-buttons-container" style="display: none; width: 80%; text-align: left;">
             <p>Please use any of these buttons to recommend this app to a Doctor, Patient or a NGO to get COVID-19 support.</p>
@@ -325,32 +332,32 @@
             <div id="share-buttons-block">
 
             <!-- Whatsapp -->
-            <a href="whatsapp://send?text=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: http://call.telemd.org.in and, Doctors please register to help us - http://doc.telemd.org.in/ #covid19 #telemd_india" data-action="share/whatsapp/share" style="text-decoration: none;">
+            <a href="whatsapp://send?text=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: https://call.telemd.org.in and, Doctors please register to help us - https://doc.telemd.org.in/ #covid19 #telemd_india" data-action="share/whatsapp/share" style="text-decoration: none;">
               <img class="withfilter" style="width: 55px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="../images/somacro-simple-share-buttons/whatsapp.png" alt="Whatsapp" />
             </a>
 
             <!-- SMS -->
-            <a href="sms:;?&body=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: http://call.telemd.org.in and, Doctors please register to help us - http://doc.telemd.org.in"  style="text-decoration: none;">
+            <a href="sms:;?&body=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: https://call.telemd.org.in and, Doctors please register to help us - https://doc.telemd.org.in"  style="text-decoration: none;">
               <img class="withfilter" style="width: 55px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="../images/somacro-simple-share-buttons/sms.png" alt="SMS" />
             </a>
 
             <!-- Twitter -->
-            <a href="https://twitter.com/share?text=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: http://call.telemd.org.in and, Doctors please register to help us - http://doc.telemd.org.in #covid19 #telemd_india&url=http://telemd.org.in/" target="_blank" style="text-decoration: none;">
+            <a href="https://twitter.com/intent/tweet?text=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: https://call.telemd.org.in and, Doctors please register to help us - https://doc.telemd.org.in #covid19 #telemd_india" target="_blank" style="text-decoration: none;">
                 <img class="withfilter" style="width: 55px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="../images/somacro-simple-share-buttons/twitter.png" alt="Twitter" />
             </a>
 
             <!-- Email -->
-            <a href="mailto:?&subject=Join the fight against Covid19 with TeleMD India&body=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: http://call.telemd.org.in and, Doctors please register to help us - http://doc.telemd.org.in #covid19 #telemd_india" style="text-decoration: none;">
+            <a href="mailto:?&subject=Join the fight against Covid19 with TeleMD India&body=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: https://call.telemd.org.in and, Doctors please register to help us - https://doc.telemd.org.in #covid19 #telemd_india" style="text-decoration: none;">
                 <img class="withfilter" style="width: 55px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="../images/somacro-simple-share-buttons/email.png" alt="Email" />
             </a>
 
             <!-- Facebook -->
-            <a href="https://www.facebook.com/sharer/sharer.php?u=http://telemd.org.in&quote=Join the fight against Covid19 with TeleMD India&body=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: http://call.telemd.org.in and, Doctors please register to help us - http://doc.telemd.org.in #covid19 #telemd_india" target="_blank" style="text-decoration: none;">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://telemd.org.in&quote=Join the fight against Covid19 with TeleMD India&body=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: https://call.telemd.org.in and, Doctors please register to help us - https://doc.telemd.org.in #covid19 #telemd_india" target="_blank" style="text-decoration: none;">
                 <img class="withfilter" style="width: 55px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="../images/somacro-simple-share-buttons/facebook.png" alt="Facebook" />
             </a>
 
             <!-- LinkedIn >
-            <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://telemd.org.in&title=Join the fight against Covid19 with TeleMD India&summary=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: http://meet.telemd.org.in and, Doctors please register to help us - http://doc.telemd.org.in/rmp.html #covid19 #telemd_india&source=LinkedIn" target="_blank" style="text-decoration: none;">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://telemd.org.in&title=Join the fight against Covid19 with TeleMD India&summary=I recommend TeleMD Organisation in India, join me in this fight against Covid19. Patients can use: https://meet.telemd.org.in and, Doctors please register to help us - https://doc.telemd.org.in/rmp.html #covid19 #telemd_india&source=LinkedIn" target="_blank" style="text-decoration: none;">
                 <img class="withfilter" style="width: 35px;padding: 5px;border: 0;box-shadow: 0;display: inline;" src="../images/somacro-simple-share-buttons/linkedin.png" alt="LinkedIn" />
             </a>
             -->
