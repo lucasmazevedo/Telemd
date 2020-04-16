@@ -170,7 +170,7 @@ function onFirebaseAuth(){
 					$('#ham_button').show();
 					$('#login_div').hide();
 					//
-					setTimeout(function(){waitTimer(0,10);}, 3000);
+					setTimeout(function(){waitTimer(0,10,'retry');}, 3000);
 				}
 			} else {
 				userState = 'new';
@@ -387,7 +387,7 @@ function initCalendar(){
 		},
 		events: window.user.info.events,
 		eventRender: function(info) {
-			var tooltip = new Tooltip(info.el, {
+			let tooltip = new Tooltip(info.el, {
 				title: info.event.title,
 				placement: 'top',
 				trigger: 'hover',
@@ -399,6 +399,55 @@ function initCalendar(){
 	calendar.render();
 	window.calendar = calendar;
 	//
+	$.each(window.user.info.events, function( index, value ) {
+		//
+		let timenow =  new Date();
+		let timetarget = new Date(value.start);
+		let timetargetend = new Date(value.end);
+		let beforeOffsetms = 2 * 60 *1000;
+		let offsetmilliseconds = timetarget.getTime() - timenow.getTime() - beforeOffsetms;
+		let withinOffsetmilliseconds = timetargetend.getTime() - timenow.getTime();
+		//
+		if(offsetmilliseconds > 0){
+			setTimeout(function(){
+				// Check for modal
+				resetModal();
+				if(!isModalOpen)
+					toggleModal();
+				$('#nextmeeting').show();
+				$('#currentmeeting').hide();
+				// Notification audio
+				var when_audio = document.getElementById('meeting_stage_a_audio');
+				when_audio.play();
+				// Have a timer runnnig
+				$('#nextmeetingname').text(value.title);
+				$('#meetingclockdiv').show();
+				$('.meeting_stage_a').show();
+				waitTimer(2,0,'meeting');
+				// Show join meeting button
+				$('#startingsoon').show();
+
+			}, offsetmilliseconds);
+		}else if(offsetmilliseconds < 0 && withinOffsetmilliseconds > 0){
+			// Check for modal
+			resetModal();
+			if(!isModalOpen)
+				toggleModal();
+			$('#nextmeeting').hide();
+			$('#currentmeeting').show();
+			//
+			// Notification audio
+			var now_audio = document.getElementById('meeting_stage_ready_audio');
+			now_audio.play();
+			// No timer
+			$('#currentmeetingname').text(value.title);
+			$('#meetingclockdiv').hide();
+			// Show join meeting button
+			$('#startingsoon').show();
+		}
+
+	});
+	//
 }
 
 /**
@@ -406,30 +455,37 @@ function initCalendar(){
  * initModal
  * ------------------------------------------------
  */
+let isModalOpen = false;
 function initModal(start_opened){
 	var modal = document.querySelector('.modal');
 	var closeButton = document.querySelector('.close-button');
 	// FIX-ME!!!!!
 	// ADD RESET modal when the form is closed.
-
-
+	resetModal();
+	//
 	function windowOnClick(event) {
 		if (event.target === modal) {
 			toggleModal();
 		}
 	}
 	//
-	closeButton.addEventListener('click', toggleModal);
+	closeButton.addEventListener('click', function(){
+		resetModal();
+		toggleModal();
+	});
 	window.addEventListener('click', windowOnClick);
 	//
 	$(document).keydown(function(event) {
 		if (event.keyCode == 27) {
+			resetModal();
 			toggleModal();
 		}
 	});
 	//
-	if(start_opened)
+	if(start_opened){
+		$('#onenter').show();
 		toggleModal();
+	}
 	//
 	$('#golive').click(function(){
 		startVideo();
@@ -677,6 +733,21 @@ function initModal(start_opened){
 function toggleModal() {
 	var modal = document.querySelector('.modal');
 	modal.classList.toggle('show-modal');
+	//
+	isModalOpen = !isModalOpen;
+}
+
+function resetModal(){
+	$('#onenter').hide();
+	$('#goinglive').hide();
+	$('#schedulenow').hide();
+	$('#patientscheduler').hide();
+	$('#patientdetails').hide();
+	$('#schedulingprogress').hide();
+	$('#schedulingcomplete').hide();
+	$('#startingsoon').hide();
+	$('#share-buttons-container').hide();
+
 }
 
 let intense_init = false;
@@ -799,15 +870,20 @@ function throwError(_in){
  * waitTimer
  * ------------------------------------------------
  */
-function waitTimer(mm,ss){
-	$('.retry_stage_a').hide();
-	if(mm != 0){
-		$('.retry_stage_b').hide();
-		$('.retry_stage_c').show();
-	}
-	else{
-		$('.retry_stage_b').show();
-		$('.retry_stage_c').hide();
+function waitTimer(mm,ss,fortype){
+	if(fortype == 'retry'){
+		$('.retry_stage_a').hide();
+		if(mm != 0){
+			$('.retry_stage_b').hide();
+			$('.retry_stage_c').show();
+		}
+		else{
+			$('.retry_stage_b').show();
+			$('.retry_stage_c').hide();
+		}
+	}else if(fortype == 'meeting'){
+		$('.meeting_stage_a').show();
+		$('.meeting_stage_a').css('color', 'black');
 	}
 
 	function getTimeRemaining(endtime) {
@@ -837,15 +913,27 @@ function waitTimer(mm,ss){
 			secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
 
 			if (t.total <= 0) {
-				$('#pending_div').trigger('timeisup', [mm,ss]);
-				$('.retry_stage_a').show();
-				$('.retry_stage_b').hide();
-				$('.retry_stage_c').hide();
+				if(fortype == 'retry'){
+					$('#pending_div').trigger('timeisup', [mm,ss]);
+					$('.retry_stage_a').show();
+					$('.retry_stage_b').hide();
+					$('.retry_stage_c').hide();
+					////
+					setTimeout(function(){location.reload(true);}, 2000);
+				}else if(fortype == 'meeting'){
+					console.log('Time\'s up for meeting');
+					//
+					// Notification audio
+					var now_audio = document.getElementById('meeting_stage_ready_audio');
+					now_audio.play();
+					//
+					$('.meeting_stage_a').show();
+					$('.meeting_stage_a').css('color', 'red');
+					$('.meeting_stage_ready').show();
+				}
 				//
 				//
 				clearInterval(timeinterval);
-				//
-				setTimeout(function(){location.reload(true);}, 2000);
 			}
 		}
 
@@ -853,8 +941,12 @@ function waitTimer(mm,ss){
 		var timeinterval = setInterval(updateClock, 1000);
 	}
 
-	var deadline = new Date(Date.parse(new Date()) + mm * ss * 1000 + ss * 1000);
-	initializeClock('clockdiv', deadline);
+	var deadline = new Date(Date.parse(new Date()) + mm * 60 * 1000 + ss * 1000);
+
+	if(fortype == 'retry')
+		initializeClock('clockdiv', deadline);
+	else if(fortype == 'meeting')
+		initializeClock('meetingclockdiv', deadline);
 }
 
 

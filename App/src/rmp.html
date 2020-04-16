@@ -325,7 +325,34 @@
             <button id="gcno" type="submit" class="btnSubmit tip">No<span style="color:white; background: none;">You can add this later manually.</span></button>
             <!--p style="font-size: 10px;">NOTE: Please make sure the timing on Google calendar is correct before saving<br>Time zone in India (GMT+5:30) has to be used.</p-->
           </div>
+          <div id="startingsoon" style="display:none;text-align: center;">
+            <h3 id="nextmeeting">Next Meeting&nbsp:&nbsp<span id="nextmeetingname" style="display: inline;font-size: 16px; font-weight: normal;"></span></h3>
+            <h3 id="currentmeeting" style="display: none;">Current Meeting&nbsp:&nbsp<span id="currentmeetingname" style="display: inline;font-size: 16px; font-weight: normal;"></span></h3>
 
+            <div id="meetingclockdiv">
+              <div class="meeting_stage_a" style="display: none;font-size: 22px;">
+                <audio id="meeting_stage_a_audio">
+                  <source src="../sound/when.ogg" type="audio/ogg">
+                  <source src="../sound/when.mp3" type="audio/mpeg">
+                  Your browser does not support the audio element.
+                </audio>
+                <span class="minutes"></span>
+                <span class="seperator">&nbsp:&nbsp</span>
+                <span class="seconds"></span>
+              </div>
+              <div class="meeting_stage_ready" style="display: none;font-size: 14px;">
+                <audio id="meeting_stage_ready_audio">
+                  <source src="../sound/now.ogg" type="audio/ogg">
+                  <source src="../sound/now.mp3" type="audio/mpeg">
+                  Your browser does not support the audio element.
+                </audio>
+                <span>We are ready for the meeting. Click Start!</span>
+              </div>
+            </div>
+            <br>
+            <button id="joinmeeting" type="submit" class="btnSubmit tip">Start meeting<span style="color:white; background: none;">Click to start the meeting and read patient report.</span></button>
+            <!--p style="font-size: 10px;">NOTE: Please make sure the timing on Google calendar is correct before saving<br>Time zone in India (GMT+5:30) has to be used.</p-->
+          </div>
           <div id="share-buttons-container" style="display: none; width: 80%; text-align: left;">
             <p>Please use any of these buttons to recommend this app to a Doctor, Patient or a NGO to get COVID-19 support.</p>
 
